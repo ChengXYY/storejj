@@ -18,6 +18,7 @@ public enum ErrorCodes {
 
     GROUP_NOT_EMPTY(30001, "群组不为空"),
 
+
     FILE_NOT_EXSIT(70001, "文件不存在"),
     FILE_UPLOAD_FAILED(70002, "文件上传失败"),
     FILE_WRITE_FAILED(70003, "文件写失败"),
@@ -30,6 +31,8 @@ public enum ErrorCodes {
     PASSWORD_NOT_SAME(80005, "两次密码不一致"),
     UN_LOGIN(80006, "用户未登录"),
     SYS_ACCOUNT(80007, "系统管理员账户，密码不能修改"),
+    ACCOUNT_NOT_EMPTY(80008, "账户不能为空"),
+    MOBILE_NOT_EMPTY(80009, "手机号不能为空"),
 
     SERVER_IS_WRONG(90001, "服务端错误"),
     HTTP_IS_WRONG(90002, "http服务错误");
