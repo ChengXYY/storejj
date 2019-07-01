@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/_include::include"></head>
+<body>
+<header th:include="/admin/_header::header">
+    Your Company Name.
+</header>
+<div th:replace="/admin/_topmenu::topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_system_leftmenu::leftmenu"></div>
+    </div>
+    <div class="col-md-10">
+        <div class="toolbar">
+            <div class="col-md-6">
+                <h5 th:text="${groupName}"></h5>
+            </div>
+            <div class="col-md-6 right">
+                <a class="btn btn-danger" id="batch-remove">
+                    <i class="fa fa-trash"></i> 移除
+                </a>
+                <a class="btn btn-default" href="javascript:history.back()">
+                    <i class="fa fa-share"> 返回</i>
+                </a>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>全选<input class="select-all" value="1" type="checkbox"></th>
+                <th>账号</th>
+                <th>添加时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <form id="myForm">
+                <input type="hidden" name="id" th:value="${groupId}">
+            <tr th:each="member:${list}">
+                <td>
+                    <input type="checkbox"
+                           name="members[]"
+                           th:value="${member.id}"
+                          class="select-item"/>
+                </td>
+                <td th:text="${member.account}">account</td>
+                <td th:text="${#dates.format(member.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
+            </tr>
+            </form>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script th:src="@{~/js/common-files.js}"></script>
+<script>
+    $(function () {
+        $("#batch-remove").click(function () {
+            var ids = getSelectedIds();
+            if(ids.length < 1) {
+                layer.msg("请勾选您要删除的记录");
+                return;
+            }
+            var index = layer.load(0, { shade: false });
+            $.ajax({
+                type:"post",
+                data:{
+                    ids:ids
+                },
+                dataType:"json",
+                url:"/system/admingroup/members/remove",
+                success:function (data) {
+                    layer.close(index);
+                    layer.alert(data.retMsg, function () {
+                        location.reload();
+                    })
+                }
+            })
+        });
+
+    })
+</script>
+<footer th:replace="/admin/_footer::footer">
+    Your Company Name.
+</footer>
+</body>
+</html>

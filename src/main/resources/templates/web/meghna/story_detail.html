@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:replace="/web/meghna/_include::include"></head>
+
+<body class="blog-page">
+	    <!--
+	    Start Preloader
+	    ==================================== -->
+        <div th:replace="/web/meghna/_loading::loading"></div>
+        <!--
+        End Preloader
+        ==================================== -->
+        
+        <!-- 
+        Fixed Navigation
+        ==================================== -->
+        <header th:replace="/web/meghna/_topmenu_page::topmenu"></header>
+        <!--
+        End Fixed Navigation
+        ==================================== -->
+        
+        
+        <!-- Start Blog Banner
+        ==================================== -->
+        <section id="blog-banner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+
+                        <div class="blog-icon">
+                            <img src="/getimg?filename=picture_tan1.jpg">
+                        </div>
+                        <div class="blog-title">
+                            <h1>欢迎来到渐渐姑姑的空间</h1>
+                        </div>
+
+                    </div>     <!-- End col-lg-12 -->
+                </div>	    <!-- End row -->
+            </div>       <!-- End container -->
+        </section>
+
+        <!-- Start Blog Post Section
+        ==================================== -->
+        <section id="blog-page">
+            <div class="container">
+                <div class="row">
+                   
+                    <div id="blog-posts" class="col-md-8 col-sm-8">
+                        <div class="post-item">
+                           
+                           <!-- Single Post -->
+                            <article class="entry wow fadeInDown"  data-wow-duration="1000ms" data-wow-delay="300ms">                               
+                                <div class="post-thumb">
+                                    <a href="single-post.html">
+										<img src="/getimg?filename=picture_w1.jpg" alt="CY" class="img-responsive">
+									</a>
+                                </div>
+								<div class="post-excerpt">
+									<h3><a href="single-post.html">Post with featured image</a></h3>
+									
+									<p>Lorem ipsum dolor sit amet, libero turpis non cras ligula, id commodo, aenean est in volutpat amet sodales, porttitor bibendum facilisi suspendisse, aliquam ipsum ante morbi sed ipsum mollis. Sollicitudin viverra, vel varius eget sit mollis. Commodo enim aliquam suspendisse tortor cum diam, commodo facilisis, rutrum et duis nisl porttitor, vel eleifend odio ultricies ut, orci in adipiscing felis velit nibh. Consectetuer porttitor feugiat vestibulum sit feugiat, voluptates dui eros libero. Etiam vestibulum at lectus. Donec vivamus. Vel donec et scelerisque vestibulum. Condimentum aliquam, mollit magna velit nec, tempor cursus vitae sit aliquet neque purus. Ultrices lacus proin conubia dictum tempus,</p>
+								
+									<blockquote>
+										<p>Vulputate mi dui suscipit, molestie vulputate libero fusce iaculis suscipit. Sapien pede libero. Maecenas lacus aliquet et nisl nunc, per sed sed maecenas. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismodiani tincidunt ut laoreet dolore magna aliquam erat volutpat</p>
+									</blockquote>
+									
+									<p>Lorem ipsum dolor sit amet, libero turpis non cras ligula, id commodo, aenean est in volutpat amet sodales, porttitor bibendum facilisi suspendisse, aliquam ipsum ante morbi sed ipsum mollis. Sollicitudin viverra, vel varius eget sit mollis. Commodo enim aliquam suspendisse tortor cum diam, commodo facilisis, rutrum et duis nisl porttitor, vel eleifend odio ultricies ut, orci in adipiscing felis velit nibh. Consectetuer porttitor feugiat vestibulum sit feugiat, voluptates dui eros libero. Etiam vestibulum at lectus. Donec vivamus. Vel donec et scelerisque</p>
+
+								</div>
+
+								<div class="post-meta">
+									<span class="post-date">
+										<i class="fa fa-calendar"></i>30 jun 2014
+									</span>
+									<span class="comments">
+										<i class="fa fa-comments"></i>18 Comments
+									</span>
+									<span class="post-view">
+										<i class="fa fa-eye"></i>265 Views
+									</span>
+									<span class="author">
+										<i class="fa fa-user"></i><a href="#">Admin</a>
+									</span>
+									<span class="post-tags">
+										<i class="fa fa-tags"></i><a href="#">Web Design</a>, <a href="#">Development</a>
+									</span>
+								</div>
+
+                            </article>
+                            <!-- End Single Post -->
+							
+                            <div class="next-prev clearfix">
+                                <a href="" class="prev-post">
+                                    <i class="fa fa-angle-left fa-2x"></i>Previous Post
+                                </a>
+                                <a href="" class="next-post pull-right">
+                                    Next Post<i class="fa fa-angle-right fa-2x"></i>
+                                </a>
+                            </div>
+
+                            <div class="author-about clearfix">
+                                <h4>About Jhon Doe</h4>
+                                <div class="post-author pull-left">
+                                    <i class="fa fa-user-circle-o"></i>
+                                </div>
+                                <div class="author-bio">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae modi quisquam laboriosam, expedita ea natus tempora unde sed sequi velit, quia veniam libero quos sunt.</p>
+                                    <h5>Follow The Author</h5>
+									<div class="social-profile">
+										<ul>
+											<li><a href="#"><i class="fa fa-facebook-square fa-2x"></i></a></li>
+											<li><a href="#"><i class="fa fa-twitter-square fa-2x"></i></a></li>
+											<li><a href="#"><i class="fa fa-linkedin-square fa-2x"></i></a></li>
+										</ul>
+									</div>
+                                </div>
+                            </div>
+                            
+                            <div id="comments" class="comments-section">
+                                <h4>4 Comments</h4>
+                                <ol class="comment-list">
+                                    <li id="comment-1">
+                                        <div class="comment-wrap">
+                                            <div class="author-avatar pull-left">
+                                                <i class="fa fa-user-circle-o"></i>
+                                            </div>
+                                            <div class="author-comment">
+                                                <cite class="pull-left"><a href="#">Smithson</a></cite>
+                                                <a href="" class="replay pull-right">Replay</a>
+                                                <div style="clear:both"></div>
+                                                <div class="comment-meta">
+                                                    <i class="fa fa-calendar"></i> 26 aug 2013 at 07:30 PM 
+                                                </div>
+                                            </div>
+                                            <div class="comment-content">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, repellendus. Culpa nam aut vel. Ab, excepturi minus, quasi debitis quaerat animi, enim quod repellat minima dolores facere veniam quam quo!</p>
+                                            </div>
+                                        </div>
+                                        <ul>
+                                            <li id="comment-2">
+                                                <div class="comment-wrap">
+                                                    <div class="author-avatar pull-left">
+                                                        <i class="fa fa-user-circle-o"></i>
+                                                    </div>
+                                                    <div class="author-comment">
+                                                        <cite class="pull-left"><a href="#">Smithson</a></cite>
+                                                        <a href="" class="replay pull-right">Replay</a>
+                                                        <div style="clear:both"></div>
+                                                        <div class="comment-meta">
+                                                            <i class="fa fa-calendar"></i> 26 aug 2013 at 07:30 PM 
+                                                        </div>
+                                                    </div>
+                                                    <div class="comment-content">
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, repellendus. Culpa nam aut vel. Ab, excepturi minus, quasi debitis quaerat animi, enim quod repellat minima dolores facere veniam quam quo!</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li id="comment-3">
+                                                <div class="comment-wrap">
+                                                    <div class="author-avatar pull-left">
+                                                        <i class="fa fa-user-circle-o"></i>
+                                                    </div>
+                                                    <div class="author-comment">
+                                                        <cite class="pull-left"><a href="#">Smithson</a></cite>
+                                                        <a href="" class="replay pull-right">Replay</a>
+                                                        <div style="clear:both"></div>
+                                                        <div class="comment-meta">
+                                                            <i class="fa fa-calendar"></i> 26 aug 2013 at 07:30 PM 
+                                                        </div>
+                                                    </div>
+                                                    <div class="comment-content">
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, repellendus. Culpa nam aut vel. Ab, excepturi minus, quasi debitis quaerat animi, enim quod repellat minima dolores facere veniam quam quo!</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="comment-wrap">
+                                            <div class="author-avatar pull-left">
+                                                <i class="fa fa-user-circle-o"></i>
+                                            </div>
+                                            <div class="author-comment">
+                                                <cite class="pull-left"><a href="#">Smithson</a></cite>
+                                                <a href="" class="replay pull-right">Replay</a>
+                                                <div style="clear:both"></div>
+                                                <div class="comment-meta">
+                                                    <i class="fa fa-calendar"></i> 26 aug 2013 at 07:30 PM 
+                                                </div>
+                                            </div>
+                                            <div class="comment-content">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, repellendus. Culpa nam aut vel. Ab, excepturi minus, quasi debitis quaerat animi, enim quod repellat minima dolores facere veniam quam quo!</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div class="comment-reply-form">
+                               <h3>Leave a Replay</h3>
+                                <form id="comment-form" method="post" action="#">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Name *" id="name" name="name" required>
+                                    </div>
+                                    <!-- End .form-group -->
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" placeholder="E-mail *" id="email" name="email" required>
+                                    </div>
+                                    <!-- End .form-group -->
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Website" id="website" name="website">
+                                    </div>
+                                    <!-- End .form-group -->
+                                    <div class="form-group">
+                                        <textarea class="form-control" placeholder="Message *" id="message" name="message" rows="5" cols="5" required></textarea>
+                                    </div>
+                                    <!-- End .form-group -->
+                                    <div class="form-group">
+                                        <input type="submit" id="post-comment" value="Post Comment" class="btn btn-transparent">
+                                    </div>
+                                    <!-- End .form-group -->
+                                </form>
+                            </div>
+                            <!-- End Single Post -->
+
+                        </div>
+                    </div>
+
+                    <div th:replace="/web/meghna/_story_right::right"></div>
+
+
+                </div>	    <!-- End row -->
+			</div>       <!-- End container -->
+		</section>    <!-- End Section -->
+
+
+        <!-- footer -->
+        <footer th:replace="/web/meghna/_footer::footer"></footer>
+
+        <a th:replace="/web/meghna/_scrollup::scrollup"></a>
+
+        <div th:replace="/web/meghna/_scripts::scripts"></div>
+
+
+</body>
+</html>

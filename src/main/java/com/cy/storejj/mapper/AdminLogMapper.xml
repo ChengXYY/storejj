@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cy.storejj.mapper.AdminLogMapper" >
+  <resultMap id="BaseResultMap" type="com.cy.storejj.model.AdminLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="admin" property="admin" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, admin, content, create_time, create_by
+  </sql>
+
+  <!-- select -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByFilter" parameterType="map" resultType="map">
+    select <include refid="Base_Column_List" />
+    from admin_log
+    <where>
+      <if test="admin!=null">
+        and admin=#{admin, jdbcType=VARCHAR}
+      </if>
+      <if test="content!=null">
+        and (content like CONCAT('%',#{content},'%') or admin like CONCAT('%',#{content},'%'))
+      </if>
+    </where>
+    <if test="orderby!=null">
+      order by ${orderBy}
+    </if>
+    <if test="orderby == null" >
+      order by create_time desc
+    </if>
+    <if test="pageNum !=null and pageSize !=null">
+      limit #{pageNum}, #{pageSize}
+    </if>
+  </select>
+  <select id="countByFilter" parameterType="map" resultType="java.lang.Integer">
+    select count(id) as ct
+    from admin_log
+    <where>
+      <if test="admin!=null">
+        and admin=#{admin, jdbcType=VARCHAR}
+      </if>
+      <if test="content!=null">
+        and (content like CONCAT('%',#{content},'%') or admin like CONCAT('%',#{content},'%'))
+      </if>
+    </where>
+  </select>
+
+  <!-- delete -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!-- insert -->
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.AdminLog" >
+    insert into admin_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="admin != null" >
+        admin,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="admin != null" >
+        #{admin,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <!-- update -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.cy.storejj.model.AdminLog" >
+    update admin_log
+    <set >
+      <if test="admin != null" >
+        admin = #{admin,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

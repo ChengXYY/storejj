@@ -1,0 +1,14 @@
+.content-block .image{
+    width: 100%;
+}
+
+.center{
+    text-align: center;
+}
+
+.right{
+    text-align: right;
+}
+*[frame-id]{
+    margin-bottom: 1em;
+}

@@ -1,0 +1,23 @@
+.templateux-cover img{
+    width: 100%;
+    height: 800px;
+    position: absolute;
+    z-index: -99;
+}
+.block-thumbnail-1{
+    margin-left: 0px;
+    overflow: hidden;
+}
+
+.block-thumbnail-1 img{
+    /*max-height: 500px;
+    width: 100%;*/
+}
+.templateux-navbar.dark .templateux-logo{
+    max-height:100px;
+    overflow: hidden;
+}
+
+.templateux-navbar.dark .templateux-logo img{
+    max-height: 100px;
+}
