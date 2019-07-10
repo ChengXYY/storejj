@@ -34,7 +34,7 @@ public class LoginController extends AdminConfig {
     @RequestMapping("/login")
     public String index(ModelMap model){
         model.addAttribute("pageTitle","登录 - 后台管理系统");
-        return "/admin/login";
+        return adminHtml +"login";
     }
 
     @ResponseBody

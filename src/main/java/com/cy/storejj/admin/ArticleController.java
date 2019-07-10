@@ -55,7 +55,7 @@ public class ArticleController extends AdminConfig {
         model.addAttribute("pageTitle",listPageTitle+articleModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "resource");
         model.addAttribute("LeftMenuFlag", "article");
-        return "/admin/article_list";
+        return adminHtml +"article_list";
     }
 
     @Permission("2121")
@@ -64,7 +64,7 @@ public class ArticleController extends AdminConfig {
         //获取模板列表
         model.addAttribute("pageTitle",addPageTitle+articleModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "resource");
-        return "/admin/article_add";
+        return adminHtml +"article_add";
     }
 
     @Permission("2121")
@@ -91,7 +91,7 @@ public class ArticleController extends AdminConfig {
             model.addAttribute("pageTitle",editPageTitle+articleModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "resource");
 
-            return "/admin/article_edit";
+            return adminHtml +"article_edit";
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());
             return "/error/common";

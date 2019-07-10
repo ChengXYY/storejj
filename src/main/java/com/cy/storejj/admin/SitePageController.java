@@ -62,7 +62,7 @@ public class SitePageController extends AdminConfig {
         model.addAttribute("pageTitle",listPageTitle+sitepageModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "sitepage");
         model.addAttribute("LeftMenuFlag", "page");
-        return "/admin/site_list";
+        return adminHtml +"site_list";
     }
 
     @Permission("2111")
@@ -73,7 +73,7 @@ public class SitePageController extends AdminConfig {
         model.addAttribute("list", list);
         model.addAttribute("pageTitle",addPageTitle+sitepageModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "sitepage");
-        return "/admin/site_add";
+        return adminHtml +"site_add";
     }
 
     @Permission("2111")
@@ -102,7 +102,7 @@ public class SitePageController extends AdminConfig {
             model.addAttribute("pageTitle",editPageTitle+sitepageModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "sitepage");
 
-            return "/admin/site_edit";
+            return adminHtml +"site_edit";
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());
             return "/error/common";
@@ -131,7 +131,7 @@ public class SitePageController extends AdminConfig {
         try {
             SitePage page = sitepageService.get(pageId);
             model.addAttribute("page", page);
-            return "/admin/site_preview";
+            return adminHtml +"site_preview";
 
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());

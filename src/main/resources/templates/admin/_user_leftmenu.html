@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<ul th:fragment="leftmenu" class="list-group">
+    <li class="list-group-item item-title">
+        <a class="list-group-item-heading">
+            <i class="fa fa-arrow-circle-right"></i>
+            会员管理
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='userinfo'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','2141')}">
+        <a class="list-group-item-heading" href="/user/list">
+            会员信息
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='points'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','2143')}">
+        <a class="list-group-item-heading" href="/user/points">
+            积分查询
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='level'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','2145')}">
+        <a class="list-group-item-heading" href="/user/level">
+            等级查询
+        </a>
+    </li>
+
+</ul>
+</html>

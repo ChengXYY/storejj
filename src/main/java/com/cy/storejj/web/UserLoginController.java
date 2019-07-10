@@ -1,7 +1,7 @@
 package com.cy.storejj.web;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cy.storejj.config.ClientConfig;
+import com.cy.storejj.config.WebConfig;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.service.UserService;
 import com.cy.storejj.utils.CommonOperation;
@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/web")
-public class LoginController extends ClientConfig {
+public class UserLoginController extends WebConfig {
 
     @Autowired
     private UserService userService;

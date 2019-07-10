@@ -6,6 +6,7 @@ import com.cy.storejj.model.SitePage;
 import java.util.List;
 import java.util.Map;
 
+
 public interface SitePageService {
 
     JSONObject add(SitePage sitepage);

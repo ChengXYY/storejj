@@ -56,7 +56,7 @@ public class CategoryController extends AdminConfig {
         model.addAttribute("pageTitle",listPageTitle+categoryModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "product");
         model.addAttribute("LeftMenuFlag", "category");
-        return "/admin/category_list";
+        return adminHtml +"category_list";
     }
 
     @Permission("2132")
@@ -64,7 +64,7 @@ public class CategoryController extends AdminConfig {
     public String add(ModelMap modelMap){
         modelMap.addAttribute("pageTitle",addPageTitle+categoryModuleTitle+systemTitle);
         modelMap.addAttribute("TopMenuFlag", "product");
-        return "/admin/category_add";
+        return adminHtml +"category_add";
     }
 
     @Permission("2132")
@@ -91,7 +91,7 @@ public class CategoryController extends AdminConfig {
             model.addAttribute("pageTitle",editPageTitle+categoryModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "resource");
 
-            return "/admin/category_edit";
+            return adminHtml +"category_edit";
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());
             return "/error/common";

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
+
 public interface UserService {
 
     //add user
@@ -27,7 +28,7 @@ public interface UserService {
 
     JSONObject resetPassword(Integer id);
 
-    void login(String account, String password, String vercode, HttpSession session);
+    JSONObject login(String account, String password, String vercode, HttpSession session);
 
-    void editPassword(String oldpwd, String newpwd, String repwd, HttpSession session); 
+    JSONObject editPassword(String oldpwd, String newpwd, String repwd, HttpSession session);
 }

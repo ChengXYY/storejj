@@ -6,6 +6,7 @@ import com.cy.storejj.model.PageTpl;
 import java.util.List;
 import java.util.Map;
 
+
 public interface PageTplService {
     JSONObject add(PageTpl pagetpl);
 

@@ -6,6 +6,7 @@ import com.cy.storejj.model.Article;
 import java.util.List;
 import java.util.Map;
 
+
 public interface ArticleService {
 
     JSONObject add(Article article);

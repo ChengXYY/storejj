@@ -6,6 +6,7 @@ import com.cy.storejj.model.Picture;
 import java.util.List;
 import java.util.Map;
 
+
 public interface PictureService {
 
     JSONObject add(Picture picture);

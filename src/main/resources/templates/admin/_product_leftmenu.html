@@ -19,6 +19,11 @@
             产品分类
         </a>
     </li>
-
+    <li th:class="${LeftMenuFlag=='shop'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','2133')}">
+        <a class="list-group-item-heading" href="/shop/list">
+            积分商城
+        </a>
+    </li>
 </ul>
 </html>

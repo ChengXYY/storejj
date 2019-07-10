@@ -22,7 +22,7 @@ public class AdminController extends AdminConfig {
 
     @RequestMapping("/editpwd")
     public String editPassword(){
-        return "/admin/editpwd";
+        return adminHtml +"editpwd";
     }
 
     @ResponseBody

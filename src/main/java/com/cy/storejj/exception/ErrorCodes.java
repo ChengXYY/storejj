@@ -35,7 +35,10 @@ public enum ErrorCodes {
     MOBILE_NOT_EMPTY(80009, "手机号不能为空"),
 
     SERVER_IS_WRONG(90001, "服务端错误"),
-    HTTP_IS_WRONG(90002, "http服务错误");
+    HTTP_IS_WRONG(90002, "http服务错误"),
+
+    CUSTOM_ERROR(99999, "自定义错误")
+    ;
 
     private Integer retCode;
     private String retMsg;

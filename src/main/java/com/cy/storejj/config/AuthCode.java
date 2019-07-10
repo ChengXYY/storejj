@@ -26,7 +26,17 @@ public enum AuthCode {
     Rsrc_Picture(2122, "资料管理-图片"),
 
     Prdt_Product(2131, "产品管理-产品"),
-    Prdt_Category(2132, "产品管理-分类")
+    Prdt_Category(2132, "产品管理-分类"),
+    Prdt_Shop(2133, "产品管理-积分商城"),
+
+    User_List(2141, "会员管理-列表"),
+    User_Add(2142, "会员管理-新增"),
+    User_Level_Check(2143, "会员管理-会员等级查看"),
+    User_Level_Op(2144, "会员管理-会员等级操作"),
+    User_Points_Check(2145, "会员管理-会员积分查看"),
+    User_Points_Op(2146, "会员管理-会员积分操作"),
+    User_Info_Check(2147, "会员管理-会员详细信息查看"),
+    User_Edit(2148, "会员管理-会员信息编辑"),
     ;
 
     private Integer code;

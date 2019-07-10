@@ -38,7 +38,7 @@ public class SystemController extends AdminConfig {
 
 
     @Permission("2901")
-    @RequestMapping("/admin/list")
+    @RequestMapping(adminHtml +"list")
     public String adminList(HttpSession session, ModelMap model){
         Map<String, Object>filter = new HashMap<String, Object>();
         //只获取当前用户下及用户
@@ -54,12 +54,12 @@ public class SystemController extends AdminConfig {
 
         model.addAttribute("TopMenuFlag", "system");
         model.addAttribute("LeftMenuFlag", "admin");
-        return "/admin/admin_list";
+        return adminHtml +"admin_list";
     }
 
     @Permission("2901")
     @ResponseBody
-    @RequestMapping(value = "/admin/resetpwd/submit", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = adminHtml +"resetpwd/submit", produces = {"application/json;charset=UTF-8"})
     public JSONObject passwordReset(Integer id){
 
         try{
@@ -70,17 +70,17 @@ public class SystemController extends AdminConfig {
     }
 
     @Permission("2901")
-    @RequestMapping("/admin/add")
+    @RequestMapping(adminHtml +"add")
     public String adminAdd(HttpSession session, ModelMap model){
         List<AdminGroup> list = admingroupService.getListAll(Integer.parseInt(session.getAttribute(adminId).toString()));
         model.addAttribute("list", list);
         model.addAttribute("pageTitle",addPageTitle+adminModuleTitle+systemTitle);
-        return "/admin/admin_add";
+        return adminHtml +"admin_add";
     }
 
     @Permission("2901")
     @ResponseBody
-    @RequestMapping(value = "/admin/add/submit", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = adminHtml +"add/submit", produces = {"application/json;charset=UTF-8"})
     public JSONObject adminAdd(Admin admin, HttpSession session){
         if(admin.getName()==null || admin.getName().isEmpty()){
             admin.setName(admin.getAccount());
@@ -95,7 +95,7 @@ public class SystemController extends AdminConfig {
     }
 
     @Permission("2901")
-    @RequestMapping("/admin/edit/{id}")
+    @RequestMapping(adminHtml +"edit/{id}")
     public String adminEdit(@PathVariable("id") Integer id, HttpSession session, ModelMap model){
         try {
             Admin admin = adminService.get(id);
@@ -104,7 +104,7 @@ public class SystemController extends AdminConfig {
             model.addAttribute("list", list);
             model.addAttribute("admin", admin);
             model.addAttribute("pageTitle",editPageTitle+adminModuleTitle+systemTitle);
-            return "/admin/admin_edit";
+            return adminHtml +"admin_edit";
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());
             return "/error/common";
@@ -115,7 +115,7 @@ public class SystemController extends AdminConfig {
 
     @Permission("2901")
     @ResponseBody
-    @RequestMapping(value = "/admin/edit/submit", method = RequestMethod.POST)
+    @RequestMapping(value = adminHtml +"edit/submit", method = RequestMethod.POST)
     public JSONObject editAdmin(Admin admin ){
 
         try {
@@ -127,7 +127,7 @@ public class SystemController extends AdminConfig {
 
     @Permission("2901")
     @ResponseBody
-    @RequestMapping(value = "/admin/remove", method = RequestMethod.POST)
+    @RequestMapping(value = adminHtml +"remove", method = RequestMethod.POST)
     public JSONObject removeAdmin(@RequestParam(value = "id", required = true)Integer id){
 
         try {
@@ -150,13 +150,13 @@ public class SystemController extends AdminConfig {
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("TopMenuFlag", "system");
         model.addAttribute("LeftMenuFlag", "admingroup");
-        return "/admin/admingroup_list";
+        return adminHtml +"admingroup_list";
     }
 
     @Permission("2902")
     @RequestMapping("/admingroup/add")
     public String admingroupAdd(ModelMap model){
-        return "/admin/admingroup_add";
+        return adminHtml +"admingroup_add";
     }
 
     @Permission("2902")
@@ -177,7 +177,7 @@ public class SystemController extends AdminConfig {
         try {
             AdminGroup admingroup = admingroupService.get(id);
             model.addAttribute("item", admingroup);
-            return "/admin/admingroup_edit";
+            return adminHtml +"admingroup_edit";
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());
             return "/error/common";
@@ -220,7 +220,7 @@ public class SystemController extends AdminConfig {
 
             model.addAttribute("TopMenuFlag", "system");
             model.addAttribute("LeftMenuFlag", "admingroup");
-            return "/admin/admingroup_members";
+            return adminHtml +"admingroup_members";
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());
             return "/error/common";
@@ -267,7 +267,7 @@ public class SystemController extends AdminConfig {
 
             model.addAttribute("TopMenuFlag", "system");
             model.addAttribute("LeftMenuFlag", "admingroup");
-            return "/admin/admingroup_auth";
+            return adminHtml +"admingroup_auth";
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());
             return "/error/common";
@@ -311,6 +311,6 @@ public class SystemController extends AdminConfig {
         model.addAttribute("pageTitle",listPageTitle+adminlogModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "system");
         model.addAttribute("LeftMenuFlag", "adminlog");
-        return "/admin/adminlog_list";
+        return adminHtml +"adminlog_list";
     }
 }

@@ -3,6 +3,7 @@ package com.cy.storejj.config;
 //后台配置
 public class AdminConfig extends CommonConfig{
 
+    protected static String adminHtml = "/admin/";
 
     protected static String adminAccount = "ADMIN_ACCOUNT";
 
@@ -45,7 +46,7 @@ public class AdminConfig extends CommonConfig{
 
     protected static String categoryModuleTitle = "分类-";
 
-    protected static String membershipMenuTitle = "会员管理-";
+    protected static String userMenuTitle = "会员管理-";
 
     protected static String indexModuleTitle = "首页-";
 

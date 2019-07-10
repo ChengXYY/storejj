@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 public class AdminServiceImpl extends AdminConfig implements AdminService {
 
@@ -39,7 +40,7 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
             admin.setName(admin.getAccount());
         }
         String pwd = admin.getPassword();
-        Map<String,Object>pwdArr = CommonOperation.encodeStr(pwd);
+        Map<String, Object> pwdArr = CommonOperation.encodeStr(pwd);
         admin.setSalt(pwdArr.get("salt").toString());
         admin.setPassword(pwdArr.get("newstr").toString());
         int rs = adminMapper.insertSelective(admin);
@@ -103,7 +104,7 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
         if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         Admin admin = get(id);
         if(admin == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
-        Map<String,Object>pwdArr = CommonOperation.encodeStr("123456");
+        Map<String, Object> pwdArr = CommonOperation.encodeStr("123456");
         Admin adminNew = new Admin();
         adminNew.setId(id);
         adminNew.setSalt(pwdArr.get("salt").toString());

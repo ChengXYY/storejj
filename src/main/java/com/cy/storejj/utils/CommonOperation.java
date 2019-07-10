@@ -194,7 +194,7 @@ public class CommonOperation extends AdminConfig {
     }
 
     public static JSONObject fail(String msg){
-        JSONObject rs =  JsonException.newInstance(ErrorCodes.SERVER_IS_WRONG).toJson();
+        JSONObject rs =  JsonException.newInstance(ErrorCodes.CUSTOM_ERROR).toJson();
         rs.put("retMsg", msg);
         return rs;
     }
@@ -240,6 +240,88 @@ public class CommonOperation extends AdminConfig {
         paramStr1 = paramStr1.substring(0, paramStr1.length()-1);
         String newUrl = local+"?"+paramStr1;
         return newUrl;
+    }
+
+    //手机号脱敏 13198765432 --> 131****5432
+    public static String maskMobile(String originMobile){
+        //不能为空
+        if(originMobile == null || originMobile.isEmpty() || originMobile.length() <3){
+            return originMobile;
+        }
+        String newMobile = originMobile;
+        String prefix = "";
+        if(originMobile.indexOf('+')>-1){ //包含 +XX-前缀
+            int preBot = originMobile.indexOf('-')+1;
+            prefix = originMobile.substring(0, preBot);
+            newMobile = originMobile.substring(preBot, originMobile.length());
+        }
+        int length = newMobile.length();
+        if(length < 3){
+            return originMobile;
+        }
+        String start = "";
+        String end = "";
+        int mask = 0;
+        if(length <6){
+            start = newMobile.substring(0,1);
+            end = newMobile.substring(length-1, length);
+            mask = length-2;
+        }else {
+            int maskLen = length -4;
+            int s = maskLen/2;
+            int e = maskLen - s;
+            start = newMobile.substring(0, s);
+            end = newMobile.substring(length-e, length);
+            mask = 4;
+        }
+
+        //拼接
+        newMobile = prefix+start;
+        for (int i=0; i<mask; i++){
+            newMobile += "*";
+        }
+        newMobile += end;
+        return newMobile;
+    }
+
+    // 邮箱脱敏：dailm@126.com-->dai**@126.com
+    public static String maskEmail(String email){
+
+        if (StringUtils.isBlank(email)) {
+            return email;
+        }
+
+        int lastPos = email.lastIndexOf("@");
+        if (lastPos == -1) {
+            return email;
+        }
+
+        if (lastPos > 3) {
+            StringBuilder star = new StringBuilder();
+            for (int i = 3; i < lastPos; i++) {
+                star.append("*");
+            }
+
+            return email.substring(0, 3) + star.toString() + email.substring(lastPos);
+        }
+
+        return email;
+    }
+
+    // 姓名脱敏
+    public static String maskName(String name){
+        if(StringUtils.isBlank(name))
+            return name;
+        int length = name.length();
+        if(length >2){
+            name = name.substring(0,2);
+            for (int i=0; i<length-2;i++){
+                name += "*";
+            }
+        }else {
+            name = name.substring(0,1)+"*";
+        }
+        return name;
     }
 
 }

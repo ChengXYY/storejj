@@ -56,7 +56,7 @@ public class PictureController extends AdminConfig {
         model.addAttribute("pageTitle",listPageTitle+pictureModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "resource");
         model.addAttribute("LeftMenuFlag", "picture");
-        return "/admin/picture_list";
+        return adminHtml +"picture_list";
     }
 
     @Permission("2122")
@@ -65,7 +65,7 @@ public class PictureController extends AdminConfig {
         //获取模板列表       
         model.addAttribute("pageTitle",addPageTitle+pictureModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "resource");
-        return "/admin/picture_add";
+        return adminHtml +"picture_add";
     }
 
     @Permission("2122")
@@ -92,7 +92,7 @@ public class PictureController extends AdminConfig {
             model.addAttribute("pageTitle",editPageTitle+pictureModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "resource");
 
-            return "/admin/picture_edit";
+            return adminHtml +"picture_edit";
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());
             return "/error/common";

@@ -38,13 +38,16 @@ public class IndexController extends AdminConfig {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private UserService userService;
 
 
-    @RequestMapping(value = {"/admin/index", "/admin/", "/admin"})
+
+    @RequestMapping(value = {adminHtml +"index", adminHtml +"", "/admin"})
     public String index(ModelMap model){
         model.addAttribute("TopMenuFlag", "index");
         model.addAttribute("pageTitle",indexModuleTitle+systemTitle);
-        return "/admin/index";
+        return adminHtml +"index";
     }
 
     @Permission("9001")
@@ -61,7 +64,7 @@ public class IndexController extends AdminConfig {
         modelMap.addAttribute("loginCount", loginCount);
         modelMap.addAttribute("TopMenuFlag", "system");
         modelMap.addAttribute("pageTitle",systemMenuTitle+systemTitle);
-        return "/admin/system_index";
+        return adminHtml +"system_index";
     }
 
     @Permission("1001")
@@ -74,7 +77,7 @@ public class IndexController extends AdminConfig {
         modelMap.addAttribute("siteCount", siteCount);
         modelMap.addAttribute("TopMenuFlag", "sitepage");
         modelMap.addAttribute("pageTitle",siteMenuTitle+systemTitle);
-        return "/admin/sitepage_index";
+        return adminHtml +"sitepage_index";
     }
 
     @Permission("1002")
@@ -87,7 +90,7 @@ public class IndexController extends AdminConfig {
         modelMap.addAttribute("articleCount", articleCount);
         modelMap.addAttribute("TopMenuFlag", "resource");
         modelMap.addAttribute("pageTitle",resourceMenuTitle+systemTitle);
-        return "/admin/resource_index";
+        return adminHtml +"resource_index";
     }
 
     @Permission("1003")
@@ -98,14 +101,17 @@ public class IndexController extends AdminConfig {
         modelMap.addAttribute("categoryCount", categoryCount);
         modelMap.addAttribute("TopMenuFlag", "product");
         modelMap.addAttribute("pageTitle",productMenuTitle+systemTitle);
-        return "/admin/product_index";
+        return adminHtml +"product_index";
     }
 
     @Permission("1004")
-    @RequestMapping(value = {"/membership", "/membership/index", "/membership/"})
+    @RequestMapping(value = {"/user", "/user/index", "/user/"})
     public String membership(ModelMap modelMap){
-        modelMap.addAttribute("TopMenuFlag", "membership");
-        modelMap.addAttribute("pageTitle",membershipMenuTitle+systemTitle);
-        return "/admin/membership_index";
+        Map<String, Object> filter = new HashMap<>();
+        int userCount = userService.getCount(filter);
+        modelMap.addAttribute("userCount", userCount);
+        modelMap.addAttribute("TopMenuFlag", "user");
+        modelMap.addAttribute("pageTitle",userMenuTitle+systemTitle);
+        return adminHtml +"user_index";
     }
 }

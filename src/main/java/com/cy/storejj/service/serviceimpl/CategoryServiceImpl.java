@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -52,14 +53,43 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public JSONObject remove(Integer id) {
         if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
-        //判断是否存在
         //删除图片
-        return null;
+        Category c = get(id);
+        CommonOperation.removeFile(c.getPic());
+        int rs = categoryMapper.deleteByPrimaryKey(id);
+
+        if(rs > 0){
+            return CommonOperation.success(id);
+        }else {
+            throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
+        }
     }
 
     @Override
     public JSONObject remove(String ids) {
-        return null;
+        if(ids == null || ids.isEmpty()) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
+        ids = ids.replace(" ", "");
+        String[] idArr = ids.split(",");
+        String msg = "";
+        int success = 0;
+        int count = 0;
+        int fail = 0;
+        for(String id : idArr){
+            count ++;
+            try {
+                remove(Integer.parseInt(id));
+                success++;
+            }catch (JsonException e){
+                msg += "ID"+id+"："+ e.getMsg()+ "。";
+                fail++;
+            }
+        }
+        msg = "成功删除："+success+"，失败："+fail+"。"+msg;
+        if(fail > 0){
+            return CommonOperation.fail(msg);
+        }else {
+            return CommonOperation.success(msg);
+        }
     }
 
     @Override

@@ -21,6 +21,10 @@ public class User {
 
     private Integer level;
 
+    private Integer points;
+
+    private Integer status;
+
     private String createBy;
 
     private Date createTime;
@@ -95,6 +99,22 @@ public class User {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getCreateBy() {

@@ -1,7 +1,7 @@
 package com.cy.storejj.web;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cy.storejj.config.ClientConfig;
+import com.cy.storejj.config.WebConfig;
 import com.cy.storejj.service.SitePageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class PageController extends ClientConfig {
+public class PageController extends WebConfig {
 
     private JSONObject pageData = new JSONObject();
 

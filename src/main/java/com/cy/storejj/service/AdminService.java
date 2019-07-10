@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
+
 public interface AdminService {
     //add user
     JSONObject add(Admin admin);

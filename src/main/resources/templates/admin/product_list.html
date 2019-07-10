@@ -30,6 +30,7 @@
                 <th>名称</th>
                 <th>所属类别</th>
                 <th>说明</th>
+                <th>产品标签</th>
                 <th class="time-column">添加时间</th>
                 <th>操作</th>
             </tr>
@@ -40,7 +41,8 @@
                 <td class="oneline-column" th:text="${product.code}"></td>
                 <td class="oneline-column" th:text="${product.name}"></td>
                 <td th:text="${product.category.name}"></td>
-                <td th:text="${product.intro}"></td>
+                <td th:text="${product.content}"></td>
+                <td th:text="${product.tags}"></td>
                 <td th:text="${#dates.format(product.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td th:attr="data-id=${product.id}" class="center">
                     <a class="btn btn-outline btn-primary btn-xs " title="编辑产品" th:href="@{/products/edit?id={id}(id=${product.id})}"><i class="fa fa-edit"></i></a>
