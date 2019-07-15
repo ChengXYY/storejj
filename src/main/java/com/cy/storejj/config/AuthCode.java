@@ -28,6 +28,7 @@ public enum AuthCode {
     Prdt_Product(2131, "产品管理-产品"),
     Prdt_Category(2132, "产品管理-分类"),
     Prdt_Shop(2133, "产品管理-积分商城"),
+    Prdt_Delete(2134, "产品管理-已删除产品"),
 
     User_List(2141, "会员管理-列表"),
     User_Add(2142, "会员管理-新增"),

@@ -1,11 +1,13 @@
 package com.cy.storejj.mapper;
 
 import com.cy.storejj.model.SysDict;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface SysDictMapper {
     int deleteByPrimaryKey(Integer id);
-
-    int insert(SysDict record);
 
     int insertSelective(SysDict record);
 
@@ -13,5 +15,5 @@ public interface SysDictMapper {
 
     int updateByPrimaryKeySelective(SysDict record);
 
-    int updateByPrimaryKey(SysDict record);
+    List<Map<String, Object>> selectByType(@Param(value = "type")String type);
 }

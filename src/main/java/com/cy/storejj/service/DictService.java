@@ -3,8 +3,6 @@ package com.cy.storejj.service;
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.model.SysDict;
 
-
-import java.util.List;
 import java.util.Map;
 
 public interface DictService {
@@ -15,5 +13,5 @@ public interface DictService {
 
     JSONObject remove(SysDict dict);
 
-    List<Map<String, Object>> getList(Map<String, Object> filter);
+    Map<String, Object> getDict(String type);
 }

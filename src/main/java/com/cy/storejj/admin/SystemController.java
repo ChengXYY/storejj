@@ -11,6 +11,7 @@ import com.cy.storejj.model.AdminLog;
 import com.cy.storejj.service.AdminService;
 import com.cy.storejj.service.AdminGroupService;
 import com.cy.storejj.service.AdminLogService;
+import com.cy.storejj.service.AuthService;
 import com.cy.storejj.utils.CommonOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,12 @@ public class SystemController extends AdminConfig {
     private AdminGroupService admingroupService;
     @Autowired
     private AdminLogService adminlogService;
+    @Autowired
+    private AuthService authService;
 
 
     @Permission("2901")
-    @RequestMapping(adminHtml +"list")
+    @RequestMapping("/admin/list")
     public String adminList(HttpSession session, ModelMap model){
         Map<String, Object>filter = new HashMap<String, Object>();
         //只获取当前用户下及用户
@@ -59,7 +62,7 @@ public class SystemController extends AdminConfig {
 
     @Permission("2901")
     @ResponseBody
-    @RequestMapping(value = adminHtml +"resetpwd/submit", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/admin/resetpwd/submit", produces = {"application/json;charset=UTF-8"})
     public JSONObject passwordReset(Integer id){
 
         try{
@@ -70,7 +73,7 @@ public class SystemController extends AdminConfig {
     }
 
     @Permission("2901")
-    @RequestMapping(adminHtml +"add")
+    @RequestMapping("/admin/add")
     public String adminAdd(HttpSession session, ModelMap model){
         List<AdminGroup> list = admingroupService.getListAll(Integer.parseInt(session.getAttribute(adminId).toString()));
         model.addAttribute("list", list);
@@ -80,7 +83,7 @@ public class SystemController extends AdminConfig {
 
     @Permission("2901")
     @ResponseBody
-    @RequestMapping(value = adminHtml +"add/submit", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/admin/add/submit", produces = {"application/json;charset=UTF-8"})
     public JSONObject adminAdd(Admin admin, HttpSession session){
         if(admin.getName()==null || admin.getName().isEmpty()){
             admin.setName(admin.getAccount());
@@ -95,7 +98,7 @@ public class SystemController extends AdminConfig {
     }
 
     @Permission("2901")
-    @RequestMapping(adminHtml +"edit/{id}")
+    @RequestMapping("/admin/edit/{id}")
     public String adminEdit(@PathVariable("id") Integer id, HttpSession session, ModelMap model){
         try {
             Admin admin = adminService.get(id);
@@ -115,7 +118,7 @@ public class SystemController extends AdminConfig {
 
     @Permission("2901")
     @ResponseBody
-    @RequestMapping(value = adminHtml +"edit/submit", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/edit/submit", method = RequestMethod.POST)
     public JSONObject editAdmin(Admin admin ){
 
         try {
@@ -127,7 +130,7 @@ public class SystemController extends AdminConfig {
 
     @Permission("2901")
     @ResponseBody
-    @RequestMapping(value = adminHtml +"remove", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/remove", method = RequestMethod.POST)
     public JSONObject removeAdmin(@RequestParam(value = "id", required = true)Integer id){
 
         try {
@@ -245,22 +248,11 @@ public class SystemController extends AdminConfig {
                                     HttpSession session,
                                     ModelMap model){
         try {
-            //权限只能是当前用户权限的子集
-            List<Map<String, Object>> list = AuthCode.listAuthCode();
-            List<Map<String, Object>> list1 = list;
-            String currentAuth = session.getAttribute(adminAuth).toString();
-            for(int i=0; i<list.size(); i++){
-                if(!currentAuth.contains(list.get(i).get("code").toString())){
-                    //System.out.println(list.get(i).get("code").toString());
-                    list.remove(i);
-                    i--;
-                }
-            }
+
             AdminGroup admingroup = admingroupService.get(id);
             String authStr = admingroup.getAuth();
             model.addAttribute("authlist", authStr);
 
-            model.addAttribute("list", list);
             model.addAttribute("groupid", id);
             model.addAttribute("groupName", admingroup.getName());
             model.addAttribute("pageTitle",authPageTitle+admingroupModuleTitle+systemTitle);
@@ -273,6 +265,17 @@ public class SystemController extends AdminConfig {
             return "/error/common";
         }
     }
+
+    @Permission("2903")
+    @ResponseBody
+    @RequestMapping("/admingroup/auth/tree")
+    public JSONObject getTree(){
+        List<Map<String, Object>> treeList = authService.getAuthTree();
+        JSONObject res = new JSONObject();
+        res.put("tree", treeList);
+        return res;
+    }
+
 
     @Permission("2903")
     @ResponseBody

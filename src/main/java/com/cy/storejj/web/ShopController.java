@@ -15,4 +15,5 @@ public class ShopController extends WebConfig {
     public String shopList(@RequestParam Map<String, Object> param){
         return webHtml+"shop";
     }
+
 }

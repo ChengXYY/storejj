@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/_include::include"></head>
+<body>
+<header th:include="/admin/_header::header">
+    Your Company Name.
+</header>
+<div th:replace="/admin/_topmenu::topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_product_leftmenu::leftmenu"></div>
+    </div>
+    <div class="col-md-10">
+        <div class="toolbar">
+            <div class="col-md-4"></div>
+            <form class="col-md-8 right form-inline">
+                <input class="form-control" name="code" value="产品编号"/>
+                <input class="form-control" name="title" value="产品标题"/>
+                <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>全选 <input type="checkbox" class="select-all" /></th>
+                <th>编号</th>
+                <th>名称</th>
+                <th>所属类别</th>
+                <th>说明</th>
+                <th>产品标签</th>
+                <th>商城产品</th>
+                <th>价值积分</th>
+                <th class="time-column">添加时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product:${list}">
+                <td class="center"><input type="checkbox" th:value="${product.id}" class="select-item"/></td>
+                <td class="oneline-column" th:text="${product.code}"></td>
+                <td class="oneline-column" th:text="${product.name}"></td>
+                <td th:text="${product.category.name}"></td>
+                <td th:text="${product.content}"></td>
+                <td th:text="${product.tags}"></td>
+
+                <td th:if="${product.isShop==1}" class="text text-success" >是</td>
+                <td th:if="${product.isShop==0}" class="text text-muted" >否</td>
+
+                <td th:text="${product.price}"></td>
+
+                <td th:text="${#dates.format(product.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
+                <td th:attr="data-id=${product.id}" class="center">
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(list)}">
+                <td colspan="8" class="center">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <page th:replace="/admin/_page::page"></page>
+    </div>
+</div>
+<footer th:replace="/admin/_footer::footer">
+    Your Company Name.
+</footer>
+<script>
+    $(function () {
+
+    });
+</script>
+</body>
+</html>

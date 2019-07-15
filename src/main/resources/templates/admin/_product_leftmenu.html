@@ -9,7 +9,7 @@
     </li>
     <li th:class="${LeftMenuFlag=='product'?'list-group-item active':'list-group-item'}"
         th:if="${#strings.contains(session.ADMIN_AUTH+'','2131')}">
-        <a class="list-group-item-heading" href="/products/list">
+        <a class="list-group-item-heading" href="/product/list">
             产品列表
         </a>
     </li>
@@ -23,6 +23,12 @@
         th:if="${#strings.contains(session.ADMIN_AUTH+'','2133')}">
         <a class="list-group-item-heading" href="/shop/list">
             积分商城
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='pdelete'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','2134')}">
+        <a class="list-group-item-heading" href="/product/delete">
+            已删除产品
         </a>
     </li>
 </ul>

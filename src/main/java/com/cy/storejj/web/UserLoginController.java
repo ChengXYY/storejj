@@ -17,21 +17,24 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class UserLoginController extends WebConfig {
 
+    private JSONObject pageData = new JSONObject();
+
     @Autowired
     private UserService userService;
 
     @RequestMapping("/login")
     public String index(ModelMap model){
-        model.addAttribute("pageTitle","登录 - 后台管理系统");
-        return "/admin/login";
+        pageData.put("title", "会员登录");
+        model.addAttribute("page", pageData);
+        return webHtml+"login";
     }
 
     @ResponseBody
     @RequestMapping(value = "/login/submit", method = RequestMethod.POST)
-    public JSONObject login(String account, String password, String vercode, HttpSession session){
+    public JSONObject login(String account, String vercode, HttpSession session){
 
         try {
-            userService.login(account, password, vercode, session);
+            //userService.login(account, password, vercode, session);
             return CommonOperation.success();
         }catch (JsonException e){
             //result.put("code", e.getCode());

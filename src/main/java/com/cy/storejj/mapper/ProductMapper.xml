@@ -7,16 +7,17 @@
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="pic" property="pic" jdbcType="VARCHAR" />
-    <result column="is_shop" property="isShop" jdbcType="BIT" />
+    <result column="is_shop" property="isShop" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="INTEGER" />
     <result column="stock" property="stock" jdbcType="INTEGER" />
     <result column="category_code" property="categoryCode" jdbcType="VARCHAR" />
     <result column="tags" property="tags" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, code, content, pic, is_shop, price, stock, category_code, tags, create_by, 
+    id, name, code, content, pic, is_shop, price, stock, category_code, tags, is_delete, create_by,
     create_time
   </sql>
 
@@ -54,6 +55,12 @@
       <if test="categoryCode!=null">
         and category_code = #{categoryCode}
       </if>
+      <if test="maxPoints!=null">
+        and price <![CDATA[<=]]> #{maxPoints}
+      </if>
+      <if test="minPoints!=null">
+        and price <![CDATA[ >= ]]> #{minPoints}
+      </if>
     </where>
     <if test="orderby!=null">
       order by ${orderby}
@@ -81,6 +88,12 @@
       </if>
       <if test="categoryCode!=null">
         and category_code = #{categoryCode}
+      </if>
+      <if test="maxPoints!=null">
+        and price <![CDATA[<=]]> #{maxPoints}
+      </if>
+      <if test="minPoints!=null">
+        and price <![CDATA[ >= ]]> #{minPoints}
       </if>
     </where>
   </select>
@@ -153,7 +166,7 @@
         #{pic,jdbcType=VARCHAR},
       </if>
       <if test="isShop != null" >
-        #{isShop,jdbcType=BIT},
+        #{isShop,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
         #{price,jdbcType=INTEGER},
@@ -191,7 +204,7 @@
         pic = #{pic,jdbcType=VARCHAR},
       </if>
       <if test="isShop != null" >
-        is_shop = #{isShop,jdbcType=BIT},
+        is_shop = #{isShop,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
         price = #{price,jdbcType=INTEGER},
@@ -205,12 +218,10 @@
       <if test="tags != null" >
         tags = #{tags,jdbcType=VARCHAR},
       </if>
-      <if test="createBy != null" >
-        create_by = #{createBy,jdbcType=VARCHAR},
+      <if test="isDelete != null" >
+      is_delete = #{isDelete,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
+
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -12,10 +12,12 @@ public interface ProductService {
     JSONObject add(Product product);
 
     JSONObject edit(Product product);
-
+    //标记删除
     JSONObject remove(Integer id);
-
+    //标记删除
     JSONObject remove(String ids);
+
+    JSONObject add2Shop(String ids);
 
     List<Product> getList(Map<String, Object> filter);
 

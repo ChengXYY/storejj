@@ -13,7 +13,7 @@ public class Product {
 
     private String pic;
 
-    private Boolean isShop;
+    private Integer isShop;
 
     private Integer price;
 
@@ -24,6 +24,8 @@ public class Product {
     private Category category;
 
     private String tags;
+
+    private Integer isDelete;
 
     private String createBy;
 
@@ -69,11 +71,11 @@ public class Product {
         this.pic = pic == null ? null : pic.trim();
     }
 
-    public Boolean getIsShop() {
+    public Integer getIsShop() {
         return isShop;
     }
 
-    public void setIsShop(Boolean isShop) {
+    public void setIsShop(Integer isShop) {
         this.isShop = isShop;
     }
 
@@ -115,6 +117,14 @@ public class Product {
 
     public void setTags(String tags) {
         this.tags = tags == null ? null : tags.trim();
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public String getCreateBy() {

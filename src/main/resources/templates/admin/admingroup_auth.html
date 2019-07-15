@@ -21,6 +21,7 @@
                 </a>
             </div>
         </div>
+        <!--
         <table class="table">
             <thead>
             <tr>
@@ -46,13 +47,19 @@
             </form>
             </tbody>
         </table>
+        -->
+
+        <div id="authTree"></div>
     </div>
 </div>
 
 <script th:src="@{~/js/common-files.js}"></script>
+<script th:src="@{~/layui/layui.js}"></script>
+<link rel="stylesheet" type="text/css" th:href="@{~/layui/css/layui.css}">
 <script>
     $(function () {
         $("#auth-save").click(function () {
+
             $.ajax({
                 type:"post",
                 data:$("#myForm").serialize(),
@@ -67,6 +74,26 @@
                 }
             })
         });
+
+        $.ajax({
+            type:"post",
+            data:{},
+            url:"/system/admingroup/auth/tree",
+            dataType:"json",
+            async:true,
+            success:function (data) {
+                var treeList = data.tree;
+                layui.use(['tree'], function(){
+                    var tree = layui.tree;
+                    tree.render({
+                        elem: '#authTree',
+                        data: treeList,
+                        showCheckbox: true
+                    });
+                });
+            }
+        });
+
 
     })
 </script>

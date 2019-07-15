@@ -20,18 +20,24 @@
     from sys_dict
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByType" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dict
+    <where>
+      <if test="type!=null">
+        and type = #{type}
+      </if>
+    </where>
+    order by sort asc
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_dict
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.cy.storejj.model.SysDict" >
-    insert into sys_dict (id, type, value, 
-      text, sort, desc, create_by, 
-      create_time)
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
-      #{text,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{desc,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
-  </insert>
+
+
   <insert id="insertSelective" parameterType="com.cy.storejj.model.SysDict" >
     insert into sys_dict
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -114,15 +120,6 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cy.storejj.model.SysDict" >
-    update sys_dict
-    set type = #{type,jdbcType=VARCHAR},
-      value = #{value,jdbcType=VARCHAR},
-      text = #{text,jdbcType=VARCHAR},
-      sort = #{sort,jdbcType=INTEGER},
-      desc = #{desc,jdbcType=VARCHAR},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
+
 </mapper>

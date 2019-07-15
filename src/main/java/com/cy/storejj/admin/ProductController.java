@@ -43,7 +43,8 @@ public class ProductController extends AdminConfig {
             currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
         }
         param.put("currentUrl", currentUrl);
-
+    //    param.put("isShop", 0);
+        param.put("isDelete",0);
         int totalCount = productService.getCount(param);
         param.put("totalCount", totalCount);
         setPagenation(param);
@@ -160,7 +161,7 @@ public class ProductController extends AdminConfig {
     }
 
     //---积分商城相关
-    @Permission("2033")
+    @Permission("2133")
     @RequestMapping("/shop")
     public String shopList(@RequestParam Map<String, Object> param,
                            HttpServletRequest request,
@@ -173,6 +174,7 @@ public class ProductController extends AdminConfig {
             currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
         }
         param.put("currentUrl", currentUrl);
+        param.put("isDelete",0);
         param.put("isShop", 1);
         int totalCount = productService.getCount(param);
         param.put("totalCount", totalCount);
@@ -184,7 +186,49 @@ public class ProductController extends AdminConfig {
 
         model.addAttribute("pageTitle",listPageTitle+productModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "product");
-        model.addAttribute("LeftMenuFlag", "product");
+        model.addAttribute("LeftMenuFlag", "shop");
         return adminHtml +"shop_list";
     }
+
+    @Permission("2133")
+    @RequestMapping("/shop/batchadd")
+    public JSONObject shopAdd(@RequestParam(value = "ids")String ids){
+        try {
+            return productService.add2Shop(ids);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
+    //---已删除产品列表
+    @Permission("2134")
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String deleteList(@RequestParam Map<String, Object> param,
+                       HttpServletRequest request,
+                       ModelMap model){
+        String currentUrl = request.getRequestURI();
+        if(param.get("code")!=null && StringUtils.isNotBlank(param.get("code").toString())){
+            currentUrl = CommonOperation.setUrlParam(currentUrl, "code", param.get("code").toString());
+        }
+        if(param.get("name")!=null && StringUtils.isNotBlank(param.get("name").toString())){
+            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
+        }
+        param.put("currentUrl", currentUrl);
+
+        param.put("isDelete",1);
+        int totalCount = productService.getCount(param);
+        param.put("totalCount", totalCount);
+        setPagenation(param);
+
+        List<Product> list = productService.getList(param);
+        model.addAllAttributes(param);
+        model.addAttribute("list", list);
+
+        model.addAttribute("pageTitle",listPageTitle+productModuleTitle+systemTitle);
+        model.addAttribute("TopMenuFlag", "product");
+        model.addAttribute("LeftMenuFlag", "pdelete");
+        return adminHtml +"product_delete_list";
+    }
+
+
 }

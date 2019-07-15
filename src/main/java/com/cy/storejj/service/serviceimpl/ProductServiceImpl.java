@@ -51,17 +51,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public JSONObject remove(Integer id) {
         if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        /*
         //先删除图片
         Product p = get(id);
         CommonOperation.removeFile(p.getPic());
 
         int rs = productMapper.deleteByPrimaryKey(id);
+        */
+        Product p = new Product();
+        p.setId(id);
+        p.setIsDelete(1);
 
-        if(rs > 0){
-            return CommonOperation.success(id);
-        }else {
-            throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
-        }
+        return edit(p);
     }
 
     @Override
@@ -84,6 +85,38 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         msg = "成功删除："+success+"，失败："+fail+"。"+msg;
+        if(fail > 0){
+            return CommonOperation.fail(msg);
+        }else {
+            return CommonOperation.success(msg);
+        }
+    }
+
+    @Override
+    public JSONObject add2Shop(String ids) {
+        if(ids == null || ids.isEmpty()) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
+        ids = ids.replace(" ", "");
+        String[] idArr = ids.split(",");
+        String msg = "";
+        int success = 0;
+        int count = 0;
+        int fail = 0;
+        for(String id : idArr){
+            count ++;
+            Product p = new Product();
+
+            p.setId(Integer.parseInt(id));
+            p.setIsShop(1);
+
+            try {
+                edit(p);
+                success++;
+            }catch (JsonException e){
+                msg += "ID"+id+"："+ e.getMsg()+ "。";
+                fail++;
+            }
+        }
+        msg = "成功加入："+success+"，失败："+fail+"。"+msg;
         if(fail > 0){
             return CommonOperation.fail(msg);
         }else {

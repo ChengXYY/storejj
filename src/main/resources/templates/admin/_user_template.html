@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="template" >
+<div id="addBox" style="display:none;padding:40px;" >
+    <form class="form-horizontal" id="registerForm">
+        <div class="form-group">
+            <label class="control-label col-md-3">手机号</label>
+            <div class="col-md-9">
+                <input name="mobile" type="text" value="" placeholder="请输入手机号"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-outline btn-warning btn-block">发送验证码</button>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">验证码</label>
+            <div class="col-md-9">
+                <input name="vercode" type="text" value="" placeholder="请输入验证码"/>
+            </div>
+        </div>
+        <div class="form-group center">
+            <button class="btn btn-primary">注 册</button>
+        </div>
+    </form>
+</div>
+</html>

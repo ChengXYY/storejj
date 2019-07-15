@@ -43,7 +43,7 @@ public class IndexController extends AdminConfig {
 
 
 
-    @RequestMapping(value = {adminHtml +"index", adminHtml +"", "/admin"})
+    @RequestMapping(value = {"/admin/index", "/admin/", "/admin"})
     public String index(ModelMap model){
         model.addAttribute("TopMenuFlag", "index");
         model.addAttribute("pageTitle",indexModuleTitle+systemTitle);
