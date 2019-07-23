@@ -20,7 +20,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
-  <select id="selectByFilter" parameterType="map" resultType="map">
+  <select id="selectByFilter" parameterType="map" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" />
     from admin_log
     <where>
@@ -31,12 +31,8 @@
         and (content like CONCAT('%',#{content},'%') or admin like CONCAT('%',#{content},'%'))
       </if>
     </where>
-    <if test="orderby!=null">
-      order by ${orderBy}
-    </if>
-    <if test="orderby == null" >
+
       order by create_time desc
-    </if>
     <if test="pageNum !=null and pageSize !=null">
       limit #{pageNum}, #{pageSize}
     </if>

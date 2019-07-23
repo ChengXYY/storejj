@@ -75,7 +75,7 @@
 
 
   <!-- insert -->
-  <insert id="insertSelective" parameterType="com.cy.storejj.model.Picture" >
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.Picture" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into picture
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

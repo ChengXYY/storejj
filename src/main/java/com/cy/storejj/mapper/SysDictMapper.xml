@@ -38,7 +38,7 @@
   </delete>
 
 
-  <insert id="insertSelective" parameterType="com.cy.storejj.model.SysDict" >
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.SysDict" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into sys_dict
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

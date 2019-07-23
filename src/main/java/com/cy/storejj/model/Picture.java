@@ -1,5 +1,6 @@
 package com.cy.storejj.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Picture {
@@ -21,7 +22,7 @@ public class Picture {
 
     private String createBy;
 
-    private Date createTime;
+    private Timestamp createTime= new Timestamp(System.currentTimeMillis());
 
     public Integer getId() {
         return id;
@@ -95,11 +96,11 @@ public class Picture {
         this.createBy = createBy == null ? null : createBy.trim();
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 }

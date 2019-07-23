@@ -13,16 +13,16 @@
             会员信息
         </a>
     </li>
-    <li th:class="${LeftMenuFlag=='points'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2143')}">
-        <a class="list-group-item-heading" href="/user/points">
-            积分查询
+    <li th:class="${LeftMenuFlag=='check'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','2142')}">
+        <a class="list-group-item-heading" href="/user/check">
+            积分等级查询
         </a>
     </li>
-    <li th:class="${LeftMenuFlag=='level'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2145')}">
-        <a class="list-group-item-heading" href="/user/level">
-            等级查询
+    <li th:class="${LeftMenuFlag=='modify'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','2143')}">
+        <a class="list-group-item-heading" href="/user/modify">
+            积分等级修改
         </a>
     </li>
 

@@ -41,7 +41,7 @@
   </delete>
 
   <!-- insert -->
-  <insert id="insertSelective" parameterType="com.cy.storejj.model.AdminGroup" >
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.AdminGroup" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into admin_group
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

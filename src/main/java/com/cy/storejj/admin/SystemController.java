@@ -157,8 +157,9 @@ public class SystemController extends AdminConfig {
     }
 
     @Permission("2902")
-    @RequestMapping("/admingroup/add")
+    @RequestMapping(value = "/admingroup/add", method = RequestMethod.GET)
     public String admingroupAdd(ModelMap model){
+    //    model.addAttribute("parentId", parentId);
         return adminHtml +"admingroup_add";
     }
 
@@ -243,22 +244,17 @@ public class SystemController extends AdminConfig {
 
     //权限
     @Permission("2903")
-    @RequestMapping("/admingroup/auth/{id}")
-    public String admingrouAuth(@PathVariable("id")Integer id,
-                                    HttpSession session,
+    @RequestMapping("/admingroup/auth")
+    public String admingrouAuth(HttpSession session,
                                     ModelMap model){
         try {
-
-            AdminGroup admingroup = admingroupService.get(id);
-            String authStr = admingroup.getAuth();
-            model.addAttribute("authlist", authStr);
-
-            model.addAttribute("groupid", id);
-            model.addAttribute("groupName", admingroup.getName());
+            //group list
+            List<AdminGroup> groupList = admingroupService.getListAll(0);
+            model.addAttribute("groupList", groupList);
             model.addAttribute("pageTitle",authPageTitle+admingroupModuleTitle+systemTitle);
 
             model.addAttribute("TopMenuFlag", "system");
-            model.addAttribute("LeftMenuFlag", "admingroup");
+            model.addAttribute("LeftMenuFlag", "adminauth");
             return adminHtml +"admingroup_auth";
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());
@@ -268,11 +264,30 @@ public class SystemController extends AdminConfig {
 
     @Permission("2903")
     @ResponseBody
-    @RequestMapping("/admingroup/auth/tree")
+    @RequestMapping(value = "/admingroup/auth/list", method = RequestMethod.POST)
+    public JSONObject getMyAuthList(@RequestParam(value = "groupid")Integer groupId){
+        try {
+            AdminGroup group = admingroupService.get(groupId);
+            String[] auth = group.getAuth().split(",");
+            JSONObject res = new JSONObject();
+            res.put("list", auth);
+
+            return res;
+        }catch (JsonException e){
+            return e.toJson();
+        }
+
+    }
+
+
+    @Permission("2903")
+    @ResponseBody
+    @RequestMapping(value = "/admingroup/auth/tree")
     public JSONObject getTree(){
         List<Map<String, Object>> treeList = authService.getAuthTree();
         JSONObject res = new JSONObject();
         res.put("tree", treeList);
+
         return res;
     }
 
@@ -295,7 +310,6 @@ public class SystemController extends AdminConfig {
                                HttpServletRequest request,
                                ModelMap model){
 
-        param.put("orderby", "id desc");
         String currentUrl = request.getRequestURI();
 
         if(param.get("content")!=null && StringUtils.isNotBlank(param.get("content").toString())){

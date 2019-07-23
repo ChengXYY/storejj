@@ -13,10 +13,13 @@
     <div class="col-md-10">
         <div class="toolbar">
             <div class="col-md-6">
-                <h5 th:text="${groupName}"></h5>
+                <select class="form-control" id="groupSelect">
+                    <option value="0">请选择</option>
+                    <option th:each="group:${groupList}" th:value="${group.id}" th:text="${group.name}"></option>
+                </select>
             </div>
             <div class="col-md-6 right">
-                <a class="btn btn-primary" id="auth-save">
+                <a class="btn btn-primary" id="auth-save" lay-demo="saveAuth">
                     <i class="fa fa-save"></i> 保存权限
                 </a>
             </div>
@@ -54,45 +57,89 @@
 </div>
 
 <script th:src="@{~/js/common-files.js}"></script>
-<script th:src="@{~/layui/layui.js}"></script>
+<script th:src="@{~/layui/layui.all.js}"></script>
 <link rel="stylesheet" type="text/css" th:href="@{~/layui/css/layui.css}">
 <script>
     $(function () {
-        $("#auth-save").click(function () {
-
+        layui.use(['tree'], function(){
+            var tree = layui.tree;
+            var treeList = [];
+            var checkedNodes = [];
             $.ajax({
                 type:"post",
-                data:$("#myForm").serialize(),
+                data:{},
+                url:"/system/admingroup/auth/tree",
                 dataType:"json",
-                url:"/system/admingroup/auth/save",
+                async:false,
                 success:function (data) {
-                    if(data.retCode ==0){
-                        location.reload();
-                    }else{
-                        layer.msg(data.retMsg);
-                    }
+                    treeList = data.tree;
                 }
-            })
+            });
+            $("body").on("change", "#groupSelect",function () {
+                if($(this).val() != "0"){
+                    $.ajax({
+                        type:"post",
+                        data:{
+                            groupid:$("#groupSelect").val()
+                        },
+                        dataType: "json",
+                        url: "/system/admingroup/auth/list",
+                        success: function (data) {
+                            var list = data.list;
+                            var obj = $("#authTree").find("input[name='layuiTreeCheck']");
+                            obj.each(function () {
+                                var code = $(this).val();
+                                if($.inArray(code, list) > -1){
+                                    $(this).next(".layui-form-checkbox").addClass("layui-form-checked")
+                                }
+                            })
+                        }
+                    })
+                }
+            });
+
+            tree.render({
+                elem: '#authTree',
+                data: treeList,
+                id:"authCode",
+                showCheckbox: true
+            });
+
+
+            $("#auth-save").click(function () {
+
+            //    var platform = '';                 //字符串形式
+                var platform_arr = new Array();    //数组形式
+
+                var obj = $("#authTree").find('.layui-form-checked');
+
+                obj.each(function () {
+                //    platform += $(this).prev().val() + ',';
+                    platform_arr.push($(this).prev().val());
+                });
+
+                $.ajax({
+                    type:"post",
+                    data:{
+                        id: $("#groupSelect").val(),
+                        authcodes: platform_arr
+                    },
+                    dataType:"json",
+                    url:"/system/admingroup/auth/save",
+                    success:function (data) {
+                        if(data.retCode ==0){
+                            location.reload();
+                        }else{
+                            layer.msg(data.retMsg);
+                        }
+                    }
+                })
+            });
+
         });
 
-        $.ajax({
-            type:"post",
-            data:{},
-            url:"/system/admingroup/auth/tree",
-            dataType:"json",
-            async:true,
-            success:function (data) {
-                var treeList = data.tree;
-                layui.use(['tree'], function(){
-                    var tree = layui.tree;
-                    tree.render({
-                        elem: '#authTree',
-                        data: treeList,
-                        showCheckbox: true
-                    });
-                });
-            }
-        });
+
+
 
 
     })

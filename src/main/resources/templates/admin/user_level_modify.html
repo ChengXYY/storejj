@@ -47,12 +47,14 @@
                     <i class="fa fa-braille"></i>现有积分：
                 </label>
                 <div class="col-md-8">
-                    <span class="font-weight-bold" id="userPoints"></span>
+                    <span class="font-weight-bold" id="userLevel"></span>
                 </div>
             </div>
-            <div class="form-group" th:if="${#strings.contains(session.ADMIN_AUTH+'','2146')}">
-                <button class="btn btn-success" id="btnIncrease">新增积分</button>
-                <button class="btn btn-warning" id="btnDecrease">消费积分</button>
+            <div class="form-group">
+                <button class="btn btn-success" id="points_increase">新增积分</button>
+                <button class="btn btn-warning" id="points_decrease">消费积分</button>
+                <button class="btn btn-info" id="level_increase">升等级</button>
+                <button class="btn btn-default" id="level_decrease">降等级</button>
             </div>
         </div>
     </div>
@@ -60,12 +62,12 @@
 <footer th:replace="/admin/_footer::footer">
     Your Company Name.
 </footer>
-<div style="display:none;padding:40px;" id="opPoints">
+<div style="display:none;padding:40px;" id="opLevel">
     <h3 id="boxTitle">User</h3>
     <form id="editForm">
         <input type="hidden" name="type" value="0" />
         <input type="hidden" name="account" value="" />
-        <input type="number" name="points" value="0" step="100" class="form-control" />
+        <input type="number" name="level" value="0" step="100" class="form-control" />
         <button class="btn btn-primary" id="btnSave">保 存</button>
     </form>
 
@@ -85,7 +87,7 @@
                         $("#userAccount").val(data.account);
                         $("#userMobile").val(data.mobile);
                         $("#userName").val(data.name);
-                        $("#userPoints").val(data.points);
+                        $("#userLevel").val(data.level);
                         $("#userForm").css("display","block");
                         $("#editForm input[name='account']").val(data.account);
                     }else {
@@ -96,31 +98,31 @@
         });
 
         $("#btnIncrease").click(function () {
-            $("#opPoints input[name='type']").val(1);
-            $("#opPoints input[name='points']").val(0);
+            $("#opLevel input[name='type']").val(1);
+            $("#opLevel input[name='level']").val(0);
             layer.open({
                 type: 1,
-                title: '新增积分',
+                title: '升等级',
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: $("#opPoints"),
+                content: $("#opLevel"),
                 success:function (layero, index) {
                     layer.iframeAuto(index);
                 }
             });
         });
 
-        $("#btnDecrease").click(function () {
-            $("#opPoints input[name='type']").val(0);
-            $("#opPoints input[name='points']").val(0);
+        $("#points_increase").click(function () {
+            $("#opLevel input[name='type']").val(0);
+            $("#opLevel input[name='level']").val(0);
             layer.open({
                 type: 1,
-                title: '消费积分',
+                title: '降等级',
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: $("#opPoints"),
+                content: $("#opLevel"),
                 success:function (layero, index) {
                     layer.iframeAuto(index);
                 }
@@ -133,7 +135,7 @@
                 type:"post",
                 data:$("#editForm").serialize(),
                 dataType:"json",
-                url: "/user/points/submit",
+                url: "/user/level/submit",
                 success: function (data) {
                     layer.close(index);
                     if(data.retCode ==0){

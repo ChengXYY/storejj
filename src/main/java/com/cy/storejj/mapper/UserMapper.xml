@@ -12,14 +12,15 @@
     <result column="salt" property="salt" jdbcType="VARCHAR" />
     <result column="level" property="level" jdbcType="INTEGER" />
     <result column="points" property="points" jdbcType="INTEGER" />
+    <result column="points_sum" property="pointsSum" jdbcType="INTEGER" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, nickname, mobile, email, level, points, create_by, create_time
+    id, name, nickname, mobile, email, level, points, points_sum, create_by, create_time
   </sql>
   <sql id="Full_Column_List">
-    id, name, nickname, mobile, email, account, password, salt, level, points, create_by, create_time
+    id, name, nickname, mobile, email, account, password, salt, level, points, points_sum, create_by, create_time
   </sql>
 
   <!-- select -->
@@ -86,7 +87,7 @@
   </delete>
 
   <!-- insert -->
-  <insert id="insertSelective" parameterType="com.cy.storejj.model.User" >
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.User" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -118,6 +119,9 @@
       </if>
       <if test="points != null" >
         points,
+      </if>
+      <if test="pointsSum != null" >
+        points_sum,
       </if>
       <if test="createBy != null" >
         create_by,
@@ -156,6 +160,9 @@
       </if>
       <if test="points != null" >
         #{points,jdbcType=INTEGER},
+      </if>
+      <if test="pointsSum != null" >
+        #{pointsSum,jdbcType=INTEGER},
       </if>
       <if test="createBy != null" >
         #{createBy,jdbcType=VARCHAR},
@@ -196,6 +203,9 @@
       </if>
       <if test="points != null" >
         points = #{points,jdbcType=INTEGER},
+      </if>
+      <if test="pointsSum != null" >
+        points_sum = #{pointsSum,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

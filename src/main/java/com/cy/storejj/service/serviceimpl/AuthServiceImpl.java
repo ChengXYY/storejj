@@ -31,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
                 map.put("title", r.getName());
                 map.put("id", r.getCode());
                 map.put("spread", "true");
+
                 root.add(map);
             }
         }
@@ -39,6 +40,17 @@ public class AuthServiceImpl implements AuthService {
 
         return root;
     }
+
+    @Override
+    public String getAuthStr() {
+        List<AdminAuth> authList = adminAuthMapper.selectAll();
+        List<String> auth = new ArrayList<>();
+        for(AdminAuth a :authList){
+            auth.add(a.getCode());
+        }
+        return String.join(",", auth);
+    }
+
 
     private void getTree(List<AdminAuth> authList, List<Map<String, Object>> root){
         for (int i = 0; i<root.size(); i++){
@@ -63,6 +75,7 @@ public class AuthServiceImpl implements AuthService {
                 Map<String, Object> map = new HashMap<>();
                 map.put("title", r.getName());
                 map.put("id", r.getCode());
+                map.put("spread", "true");
                 children.add(map);
             }
         }

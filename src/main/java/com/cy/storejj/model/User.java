@@ -1,5 +1,6 @@
 package com.cy.storejj.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class User {
@@ -23,11 +24,13 @@ public class User {
 
     private Integer points;
 
+    private Integer pointsSum;
+
     private Integer status;
 
     private String createBy;
 
-    private Date createTime;
+    private Timestamp createTime= new Timestamp(System.currentTimeMillis());
 
     public Integer getId() {
         return id;
@@ -109,6 +112,14 @@ public class User {
         this.points = points;
     }
 
+    public Integer getPointsSum() {
+        return pointsSum;
+    }
+
+    public void setPointsSum(Integer pointsSum) {
+        this.pointsSum = pointsSum;
+    }
+
     public Integer getStatus() {
         return status;
     }
@@ -125,11 +136,11 @@ public class User {
         this.createBy = createBy == null ? null : createBy.trim();
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 }

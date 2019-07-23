@@ -51,11 +51,11 @@ public class OperationLog extends AdminConfig {
         String methodName = signature.getName();
         switch (methodName){
             case "login": //登录
-                adminlogService.add(session.getAttribute(adminAccount).toString(), "管理员登录");
+                adminlogService.add(session, "管理员登录");
                 break;
             case "logout": //登出
                 if(session.getAttribute(adminAccount)!=null)
-                    adminlogService.add(session.getAttribute(adminAccount).toString(), "管理员退出登录");
+                    adminlogService.add(session, "管理员退出登录");
                 break;
             default:
                 break;
@@ -104,15 +104,15 @@ public class OperationLog extends AdminConfig {
                         param = f.get(args[0]).toString();
                     }
                 }
-                adminlogService.add(session.getAttribute(adminAccount).toString(), "添加【"+className+"】记录("+res.get("id")+")");
+                adminlogService.add(session, "添加【"+className+"】记录("+res.get("id")+")");
                 break;
             case "edit":
                 param = getParamValue("id", args, parameterNames);
-                adminlogService.add(session.getAttribute(adminAccount).toString(), "修改【"+className+"】记录("+res.get("id")+")");
+                adminlogService.add(session, "修改【"+className+"】记录("+res.get("id")+")");
                 break;
             case "remove":
                 param = getParamValue("id", args, parameterNames);
-                adminlogService.add(session.getAttribute(adminAccount).toString(), "删除【"+className+"】记录("+res.get("id")+")");
+                adminlogService.add(session, "删除【"+className+"】记录("+res.get("id")+")");
                 break;
         }
         return result;

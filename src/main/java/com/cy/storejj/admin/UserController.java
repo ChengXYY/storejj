@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -53,14 +54,19 @@ public class UserController extends AdminConfig {
     }
 
     @Permission("2142")
-    @RequestMapping("/add")
+    @RequestMapping("/register")
     public String add(){
-        return adminHtml +"user_add";
+        return adminHtml +"user_register";
     }
 
+    //获取验证码
+
+    //
+
     @Permission("2142")
-    @RequestMapping("/add/submit")
-    public JSONObject add(@RequestParam Map<String, Object> param){
+    @RequestMapping("/register/submit")
+    @ResponseBody
+    public JSONObject register(@RequestParam Map<String, Object> param){
         return null;
     }
 
@@ -89,16 +95,16 @@ public class UserController extends AdminConfig {
         return null;
     }
 
-    @Permission("2143")
-    @RequestMapping("/points")
+    @Permission("2142")
+    @RequestMapping("/check")
     public String getUserPoints(ModelMap model){
-        model.addAttribute("pageTitle",editPageTitle+userMenuTitle+systemTitle);
+        model.addAttribute("pageTitle","会员等级积分查询"+userMenuTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "user");
-        model.addAttribute("LeftMenuFlag", "points");
-        return adminHtml +"user_points";
+        model.addAttribute("LeftMenuFlag", "check");
+        return adminHtml +"user_level_check";
     }
 
-    @Permission("2144")
+    @Permission("2143")
     @RequestMapping(value = "/points/submit", method = RequestMethod.POST)
     public JSONObject editUserPoints(@RequestParam(value = "account")String account,
                                      @RequestParam(value = "points")Integer points,
@@ -131,16 +137,16 @@ public class UserController extends AdminConfig {
         }
     }
 
-    @Permission("2145")
-    @RequestMapping("/level")
+    @Permission("2142")
+    @RequestMapping("/modify")
     public String getUserLevel(ModelMap model){
-        model.addAttribute("pageTitle",editPageTitle+userMenuTitle+systemTitle);
+        model.addAttribute("pageTitle","会员等级积分修改"+userMenuTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "user");
-        model.addAttribute("LeftMenuFlag", "level");
-        return adminHtml +"user_level";
+        model.addAttribute("LeftMenuFlag", "modify");
+        return adminHtml +"user_level_modify";
     }
 
-    @Permission("2146")
+    @Permission("2143")
     @RequestMapping("/level/submit")
     public JSONObject editUserLevel(@RequestParam(value = "account")String account,
                                     @RequestParam(value = "level")Integer level,

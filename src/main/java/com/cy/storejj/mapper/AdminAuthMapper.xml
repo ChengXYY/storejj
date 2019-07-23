@@ -31,7 +31,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
-  <insert id="insertSelective" parameterType="com.cy.storejj.model.AdminAuth" >
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.AdminAuth" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into admin_auth
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

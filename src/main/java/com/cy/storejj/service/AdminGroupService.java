@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.model.AdminGroup;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AdminGroupService {
     //list all
@@ -26,5 +27,8 @@ public interface AdminGroupService {
 
     //auth
     JSONObject changeAuth(Integer id, String[] auths);
+
+    //tree
+    List<Map<String, Object>> getGroupTree();
 
 }

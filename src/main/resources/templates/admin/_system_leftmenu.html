@@ -19,6 +19,12 @@
             管理员组
         </a>
     </li>
+    <li th:class="${LeftMenuFlag=='adminauth'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','2903')}">
+        <a class="list-group-item-heading" href="/system/admingroup/auth">
+            权限配置
+        </a>
+    </li>
     <li th:class="${LeftMenuFlag=='adminlog'?'list-group-item active':'list-group-item'}"
         th:if="${#strings.contains(session.ADMIN_AUTH+'','2904')}">
         <a class="list-group-item-heading" href="/system/adminlog/list">
@@ -32,15 +38,12 @@
             参数配置
         </a>
     </li>
-    <li th:class="${LeftMenuFlag=='email'?'list-group-item active':'list-group-item'}">
-        <a class="list-group-item-heading">
-            邮箱服务器
+    <li th:class="${LeftMenuFlag=='membership'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','2905')}">
+        <a class="list-group-item-heading" href="/membership/list">
+            会员制度配置
         </a>
     </li>
-    <li th:class="${LeftMenuFlag=='theme'?'list-group-item active':'list-group-item'}">
-        <a class="list-group-item-heading">
-            主题设置
-        </a>
-    </li>
+
 </ul>
 </html>

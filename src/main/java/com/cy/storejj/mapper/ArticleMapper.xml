@@ -71,7 +71,7 @@
   </delete>
 
   <!-- insert -->
-  <insert id="insertSelective" parameterType="com.cy.storejj.model.Article" >
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.Article" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into article
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

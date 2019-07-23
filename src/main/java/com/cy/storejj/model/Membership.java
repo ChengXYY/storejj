@@ -3,14 +3,20 @@ package com.cy.storejj.model;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class PageTpl {
+public class Membership {
     private Integer id;
 
-    private String name;
+    private Integer level;
+
+    private String title;
+
+    private Integer minPoints;
+
+    private Integer maxPoints;
 
     private String createBy;
 
-    private Timestamp createTime= new Timestamp(System.currentTimeMillis());
+    private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
     private String content;
 
@@ -22,12 +28,36 @@ public class PageTpl {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getLevel() {
+        return level;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+
+    public Integer getMinPoints() {
+        return minPoints;
+    }
+
+    public void setMinPoints(Integer minPoints) {
+        this.minPoints = minPoints;
+    }
+
+    public Integer getMaxPoints() {
+        return maxPoints;
+    }
+
+    public void setMaxPoints(Integer maxPoints) {
+        this.maxPoints = maxPoints;
     }
 
     public String getCreateBy() {

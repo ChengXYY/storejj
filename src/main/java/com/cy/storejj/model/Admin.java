@@ -22,7 +22,7 @@ public class Admin {
 
     private Integer loginCount;
 
-    private Date createTime = new Timestamp(System.currentTimeMillis());
+    private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
     private Integer parentId;
 
@@ -102,11 +102,11 @@ public class Admin {
         this.loginCount = loginCount;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 

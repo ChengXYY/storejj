@@ -5,17 +5,21 @@
 <div class="container">
     <form class="form-horizontal" id="myForm">
         <div class="form-group form-inline">
-            <label>名称：<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" name="name" value="" />
+            <label>手机号：<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="mobile" />
         </div>
-        <div class="form-group">
-            <label>排序：<span class="text-danger">*</span></label>
-            <input type="number" class="form-control" name="sort" value="99" />
+        <div class="form-group form-inline">
+            <a class="btn btn-primary btn-outline btn-block">发送验证码</a>
         </div>
+        <div class="form-group form-inline">
+            <label>验证码：<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="vercode"/>
+        </div>
+
         <hr/>
         <div class="form-group right">
-            <input type="hidden" name="parentId" th:value="${parentId}"/>
-            <input type="button" id="submit-save" class="btn btn-warning btn-outline" value="确认" />
+
+            <input type="button" id="submit-save" class="btn btn-warning" value="确认" />
         </div>
     </form>
 </div>
@@ -26,7 +30,7 @@
                 type : "post",
                 data : $("#myForm").serialize(),
                 dataType : "json",
-                url : "/system/admingroup/add/submit",
+                url : "/user/register/submit",
                 success : function (data) {
                     if(data.retCode== 0){
                         parent.location.reload();

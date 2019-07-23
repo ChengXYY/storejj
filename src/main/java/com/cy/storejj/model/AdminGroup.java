@@ -1,5 +1,6 @@
 package com.cy.storejj.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class AdminGroup {
@@ -13,7 +14,7 @@ public class AdminGroup {
 
     private Integer parentId;
 
-    private Date createTime;
+    private Timestamp createTime= new Timestamp(System.currentTimeMillis());
 
     private String createBy;
 
@@ -57,11 +58,11 @@ public class AdminGroup {
         this.parentId = parentId;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 

@@ -1,6 +1,6 @@
 package com.cy.storejj.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class AdminAuth {
     private Integer id;
@@ -13,7 +13,7 @@ public class AdminAuth {
 
     private String createBy;
 
-    private Date createTime;
+    private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
     public Integer getId() {
         return id;
@@ -55,11 +55,11 @@ public class AdminAuth {
         this.createBy = createBy == null ? null : createBy.trim();
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 }

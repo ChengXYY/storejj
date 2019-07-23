@@ -41,6 +41,7 @@ public class AdminPermissionCheck extends AdminConfig {
         //获取访问目标方法
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();
 
+
         try {
             final String methodAccess = signature.getMethod().getAnnotation(Permission.class).value();
             if (!StringUtils.isBlank(methodAccess) && !session.getAttribute(adminAuth).toString().contains(methodAccess)){

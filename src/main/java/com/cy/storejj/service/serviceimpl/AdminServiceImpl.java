@@ -8,6 +8,7 @@ import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.AdminMapper;
 import com.cy.storejj.model.Admin;
 import com.cy.storejj.service.AdminService;
+import com.cy.storejj.service.AuthService;
 import com.cy.storejj.utils.CommonOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,6 +29,9 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
 
     @Autowired
     private AdminMapper adminMapper;
+
+    @Autowired
+    private AuthService authService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -141,7 +145,7 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
             String sessionStr = CommonOperation.encodeStr("0", account);
             session.setAttribute(adminSession, sessionStr);
             session.setAttribute(adminAccount, account);
-            String auth = AuthCode.getAuthString();
+            String auth = authService.getAuthStr();
             session.setAttribute(adminAuth, auth);
             session.setAttribute(adminGroup, "0");
             session.setAttribute(adminId, "0");

@@ -31,7 +31,7 @@
   </delete>
 
   <!-- insert -->
-  <insert id="insertSelective" parameterType="com.cy.storejj.model.SitePage" >
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.SitePage" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into site_page
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

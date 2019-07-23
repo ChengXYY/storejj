@@ -29,7 +29,7 @@
   </delete>
 
   <!-- insert -->
-  <insert id="insertSelective" parameterType="com.cy.storejj.model.PageTpl" >
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.PageTpl" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into page_tpl
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -28,6 +28,8 @@ public class AdminConfig extends CommonConfig{
 
     protected static String adminlogModuleTitle = "管理员日志-";
 
+    protected static String membershipModuleTitle = "会员制度-";
+
     protected static String siteMenuTitle = "网页配置-";
 
     protected static String sitepageModuleTitle = "页面管理-";
