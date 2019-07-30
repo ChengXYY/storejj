@@ -11,7 +11,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 23/07/2019 15:44:02
+ Date: 30/07/2019 17:50:08
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `admin_auth`  (
   `create_by` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_time` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of admin_auth
@@ -54,7 +54,10 @@ INSERT INTO `admin_auth` VALUES (17, '2132', '分类', '1003', NULL, NULL);
 INSERT INTO `admin_auth` VALUES (18, '2133', '积分商城', '1003', NULL, NULL);
 INSERT INTO `admin_auth` VALUES (19, '2134', '已删除产品', '1003', NULL, NULL);
 INSERT INTO `admin_auth` VALUES (20, '2141', '会员列表', '1004', NULL, NULL);
-INSERT INTO `admin_auth` VALUES (21, '2142', '会员积分等级查询', '1004', NULL, NULL);
-INSERT INTO `admin_auth` VALUES (22, '2143', '会员积分等级修改', '1004', NULL, NULL);
+INSERT INTO `admin_auth` VALUES (21, '2142', '会员积分等级查询', '2146', NULL, NULL);
+INSERT INTO `admin_auth` VALUES (22, '2143', '会员积分等级修改', '2146', NULL, NULL);
+INSERT INTO `admin_auth` VALUES (23, '2144', '注册会员', '1004', NULL, NULL);
+INSERT INTO `admin_auth` VALUES (24, '2145', '编辑会员', '1004', NULL, NULL);
+INSERT INTO `admin_auth` VALUES (25, '2146', '信息查询', '1004', NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

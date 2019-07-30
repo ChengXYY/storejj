@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="template" >
+<style>
+    #showBox{
+        padding: 2em;
+    }
+
+    #showBox .image-box{
+        width: 10em;
+        height: 15em;
+        margin-right: 3em;
+        margin-bottom: 2em;
+        float: left;
+    }
+    #showBox .image-box .delete-image{
+        font-size: 2em;
+        position: absolute;
+        margin-top: -0.6em;
+        margin-left: 4.6em;
+        z-index: 99;
+        cursor: pointer;
+    }
+    #showBox .image-box .image{
+        width: 10em;
+        height: 15em;
+        overflow: hidden;
+        background: #fff;
+        border: 1px #fff0b1 solid;
+    }
+
+    #showBox .image-box .image img{
+        height: 100%;
+    }
+
+    #showBox .image-box .upload-success{
+        font-size: 2em;
+        position: absolute;
+        margin-left: 0.3em;
+        margin-top: 6em;
+        display: none;
+
+    }
+    #showBox .image-box .upload-failed{
+        font-size: 2em;
+        position: absolute;
+        margin-left: 0.3em;
+        margin-top: 6em;
+        display: none;
+    }
+    #showBox .image-box .upload-ing{
+        font-size: 2em;
+        position: absolute;
+        margin-left: 0.3em;
+        margin-top: 6em;
+        display: none;
+    }
+    #showBox .image-box .upload-wait{
+        font-size: 2em;
+        position: absolute;
+        margin-left: 0.3em;
+        margin-top: 6em;
+    }
+
+</style>
+<div id="uploadBox" >
+    <div class="toolbar">
+        <a class="btn btn-warning" id="btnSelect"><i class="fa fa-folder-open"></i> 选择文件</a>
+        <a class="btn btn-primary" id="btnUpload"><i class="fa fa-upload"></i> 开始上传</a>
+        <input type="file" multiple accept="image/*" id="uploadfile" style="display: none"/>
+    </div>
+    <div id="showBox">
+
+
+    </div>
+</div>
+<template id="imageShow">
+    <div class="image-box">
+        <a class="text text-danger delete-image" data-file="_FILE">
+            <i class="fa fa-times-circle"></i>
+        </a>
+        <span class="text text-success upload-success">
+            <i class="fa fa-check-circle"></i>
+        </span>
+        <span class="text text-warning upload-failed">
+            <i class="fa fa-exclamation-triangle"></i>
+        </span>
+        <span class="text text-primary upload-wait">
+            <i class="fa fa-cloud-upload"></i>
+        </span>
+        <span class="text text-muted upload-ing">
+            <i class="fa fa-spinner fa-pulse"></i>
+        </span>
+        <div class="image">
+            <img src="_IMAGE">
+        </div>
+    </div>
+</template>
+    <form style="display: none" id="uploadForm" enctype="multipart/form-data"></form>
+    <input type="hidden" id="successFiles" value=""/>
+
+<script>
+    $(function () {
+        var uploadFiles = [];
+        var successFiles = [];
+
+        $("#btnSelect").click(function () {
+            $("#uploadfile").val("");
+            $("#uploadfile").click();
+        });
+        
+        $("body").on("change", "#uploadfile", function () {
+            var fileList = $("#uploadfile")[0].files;
+
+            if(fileList.length>0){
+                for (var i = 0; i < fileList.length; i++) {
+                    fileList[i]["id"] = Math.floor(Math.random()*10000000);
+                    uploadFiles.push(fileList[i]);
+                    getImage(fileList[i]);
+                }
+                console.log(uploadFiles);
+            }
+        });
+
+        $("body").on("click", ".delete-image", function () {
+            var obj = $(this);
+            layer.alert("确认删除该图片？",
+                {icon:0},
+                function () {
+                    var file = obj.data("file");
+                    deleteImage(file);
+                    console.log(uploadFiles);
+                    obj.parent().remove();
+                    layer.closeAll();
+                });
+        });
+
+        $("body").on("click", "#btnUpload", function () {
+            for(var o in uploadFiles){
+                uploadImage(uploadFiles[o]);
+            }
+        });
+
+        function getImage(file) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(e){
+                var html = $("#imageShow").html();
+                html = html.replace("_IMAGE", this.result);
+                html = html.replace("_FILE", file.id);
+                $("#showBox").append(html);
+            }
+        }
+
+        function deleteImage(file) {
+            for(var i=0; i<uploadFiles.length; i++){
+                if(uploadFiles[i].id == file){
+                    uploadFiles.splice(i, 1);
+                    return;
+                }
+            }
+            for (var i = 0; i<successFiles.length; i++){
+                if(successFiles[i].id == file){
+                    successFiles.splice(i, 1);
+                    saveSuccess();
+                    return;
+                }
+            }
+        }
+
+        function uploadImage(file) {
+            setUploading(file);
+            var formData = new FormData($("#uploadForm"));
+            formData.append("uploadfile",file);
+            $.ajax({
+                type:"post",
+                data: formData,
+                dataType:"json",
+                processData: false,
+                contentType : false,
+                url:"/upload/image",
+                success:function (res) {
+                    if(res.retCode == 0){
+                        setSuccess(file);
+                        console.log(res);
+                        var f = {
+                            "id":file.id,
+                            "name":res.realname,
+                            "url":res.filename,
+                            "size":res.size,
+                            "ext":res.ext
+                        }
+                        successFiles.push(f);
+                        saveSuccess();
+                    }else{
+                        setFailed(file);
+                    }
+                }
+            });
+
+        }
+
+        function setSuccess(file) {
+            $("#showBox > .image-box").each(function () {
+                if($(this).find(".delete-image").data("file") == file.id){
+                    $(this).find(".upload-ing").css("display", "none");
+                    $(this).find(".upload-success").css("display", "block");
+
+                    return;
+                }
+            });
+        }
+
+        function setFailed(file) {
+            $("#showBox > .image-box").each(function () {
+                if($(this).find(".delete-image").data("file") == file.id){
+                    $(this).find(".upload-ing").css("display", "none");
+                    $(this).find(".upload-failed").css("display", "block");
+                    return;
+                }
+            });
+        }
+
+        function setUploading(file) {
+            $("#showBox > .image-box").each(function () {
+                if($(this).find(".delete-image").data("file") == file.id){
+                    $(this).find(".upload-wait").css("display", "none");
+                    $(this).find(".upload-ing").css("display", "block");
+                    return;
+                }
+            });
+        }
+
+        function saveSuccess() {
+            $("#successFiles").val(JSON.stringify(successFiles));
+            console.log($("#successFiles").val());
+        }
+
+    });
+</script>
+</html>

@@ -56,17 +56,17 @@ public class CommonOperation extends AdminConfig {
     }
 
     //上传文件
-    public static JSONObject uploadFile(MultipartFile file, String type, String myFileName){
+    public static JSONObject uploadFile(MultipartFile file, String myFileName){
         JSONObject rs = new JSONObject();
-        if(file == null || !fileType.contains(type))throw JsonException.newInstance(ErrorCodes.FILE_NOT_EXSIT);
+        if(file == null)throw JsonException.newInstance(ErrorCodes.FILE_NOT_EXSIT);
 
         String fileName = file.getOriginalFilename();
         String newFileName = myFileName;
-        if(myFileName == null || myFileName.isEmpty()){
-            newFileName = System.currentTimeMillis() + "-" +fileName;
+        if(StringUtils.isBlank(myFileName)){
+            newFileName = System.currentTimeMillis()+ "_"+fileName ;
         }
-        newFileName = type + "_" + newFileName;
-        String savePath = baseSavePath+type;
+
+        String savePath = baseSavePath;
 
         String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
         int size = (int)file.getSize();
@@ -92,10 +92,6 @@ public class CommonOperation extends AdminConfig {
             throw JsonException.newInstance(ErrorCodes.FILE_WRITE_FAILED);
         }
         return rs;
-    }
-
-    public static JSONObject uploadFile(MultipartFile file, String type){
-        return uploadFile(file, type, null);
     }
 
     //查看图片

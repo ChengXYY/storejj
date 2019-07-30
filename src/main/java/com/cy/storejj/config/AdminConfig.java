@@ -17,6 +17,8 @@ public class AdminConfig extends CommonConfig{
 
     protected static String verCode = "ADMIN_VERCODE";
 
+    protected static String userVerCode = "USER_VERCODE";
+
     //title
     protected static String systemTitle = "后台管理系统";
 

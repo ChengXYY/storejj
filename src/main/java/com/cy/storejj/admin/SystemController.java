@@ -3,7 +3,6 @@ package com.cy.storejj.admin;
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.aop.Permission;
 import com.cy.storejj.config.AdminConfig;
-import com.cy.storejj.config.AuthCode;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.model.Admin;
 import com.cy.storejj.model.AdminGroup;
@@ -176,8 +175,8 @@ public class SystemController extends AdminConfig {
     }
 
     @Permission("2902")
-    @RequestMapping("/admingroup/edit/{id}")
-    public String admingroupEdit(@PathVariable("id") Integer id, ModelMap model){
+    @RequestMapping(value = "/admingroup/edit", method = RequestMethod.GET)
+    public String admingroupEdit(@RequestParam("id") Integer id, ModelMap model){
         try {
             AdminGroup admingroup = admingroupService.get(id);
             model.addAttribute("item", admingroup);
@@ -268,7 +267,10 @@ public class SystemController extends AdminConfig {
     public JSONObject getMyAuthList(@RequestParam(value = "groupid")Integer groupId){
         try {
             AdminGroup group = admingroupService.get(groupId);
-            String[] auth = group.getAuth().split(",");
+            String[] auth = {};
+            if(StringUtils.isNotBlank(group.getAuth())){
+                auth = group.getAuth().split(",");
+            }
             JSONObject res = new JSONObject();
             res.put("list", auth);
 

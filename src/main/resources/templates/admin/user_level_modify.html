@@ -11,51 +11,11 @@
         <div th:replace="/admin/_user_leftmenu::leftmenu"></div>
     </div>
     <div class="col-md-10">
-        <div class="toolbar">
-            <form class="right form-inline" id="myForm">
-                <input class="form-control" name="account" placeholder="会员账号" th:value="${account==null?'':account}"/>
-                <button type="button" class="btn btn-warning" id="btnSearch"><i class="fa fa-search"></i></button>
-            </form>
-        </div>
-        <div class="form-horizontal box" id="userForm" style="display: none">
-            <div class="form-group">
-                <label class="control-label col-md-4">
-                    <i class="fa fa-user-circle-o"></i>会员姓名：
-                </label>
-                <div class="col-md-8">
-                    <span id="userName"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-4">
-                    <i class="fa fa-envelope"></i>会员账号：
-                </label>
-                <div class="col-md-8">
-                    <span id="userAccount"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-4">
-                    <i class="fa fa-phone"></i>手机号：
-                </label>
-                <div class="col-md-8">
-                    <span id="userMobile"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-4">
-                    <i class="fa fa-braille"></i>现有积分：
-                </label>
-                <div class="col-md-8">
-                    <span class="font-weight-bold" id="userLevel"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-success" id="points_increase">新增积分</button>
-                <button class="btn btn-warning" id="points_decrease">消费积分</button>
-                <button class="btn btn-info" id="level_increase">升等级</button>
-                <button class="btn btn-default" id="level_decrease">降等级</button>
-            </div>
+        <div th:replace="/admin/_user_template::template"></div>
+        <hr/>
+        <div class="center" id="userBtns" style="display: none">
+            <a class="btn btn-success">消费积分</a>
+            <a class="btn btn-warning">累积积分</a>
         </div>
     </div>
 </div>
@@ -74,28 +34,6 @@
 </div>
 <script>
     $(function () {
-        $("#btnSearch").click(function () {
-            layer.load(0, { shade: false });
-           $.ajax({
-               type:"POST",
-               data:$("#myForm").serialize(),
-               url:"/user/get",
-               dataType: "json",
-               success:function (data) {
-                   layer.closeAll();
-                    if(data.retCode==0 && data.account != undefined && data.account!=null){
-                        $("#userAccount").val(data.account);
-                        $("#userMobile").val(data.mobile);
-                        $("#userName").val(data.name);
-                        $("#userLevel").val(data.level);
-                        $("#userForm").css("display","block");
-                        $("#editForm input[name='account']").val(data.account);
-                    }else {
-                        layer.msg(data.retMsg);
-                    }
-               }
-           })
-        });
 
         $("#btnIncrease").click(function () {
             $("#opLevel input[name='type']").val(1);

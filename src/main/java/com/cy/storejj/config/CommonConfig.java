@@ -21,6 +21,9 @@ public class CommonConfig {
         if(param.get("totalCount") == null ) param.put("totalCount", 0);
         int totalCount = Integer.parseInt(param.get("totalCount").toString());
         int pageCount = (int)Math.ceil((double)totalCount/pageSize);
+        if(pageCount <1){
+            pageCount = 1;
+        }
         if(page > pageCount){
             page = pageCount;
         }
@@ -29,10 +32,6 @@ public class CommonConfig {
 
         page = (page-1)*pageSize;
 
-
-        if(pageCount <1){
-            pageCount = 1;
-        }
         param.put("pageCount", pageCount);
 
         param.put("pageNum", page);

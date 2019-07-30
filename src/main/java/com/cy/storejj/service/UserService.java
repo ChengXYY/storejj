@@ -27,7 +27,10 @@ public interface UserService {
 
     JSONObject resetPassword(Integer id);
 
-    JSONObject login(String account, String password, String vercode, HttpSession session);
+    //手机号码、验证码登录
+    JSONObject login(String account,String vercode, HttpSession session);
 
     JSONObject editPassword(String oldpwd, String newpwd, String repwd, HttpSession session);
+
+    JSONObject register(String account, String vercode, HttpSession session, String createBy);
 }

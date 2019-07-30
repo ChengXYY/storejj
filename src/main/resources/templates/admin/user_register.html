@@ -9,7 +9,7 @@
             <input type="text" class="form-control" name="mobile" />
         </div>
         <div class="form-group form-inline">
-            <a class="btn btn-primary btn-outline btn-block">发送验证码</a>
+            <a class="btn btn-primary btn-block" id="btnVerCode">发送验证码</a>
         </div>
         <div class="form-group form-inline">
             <label>验证码：<span class="text-danger">*</span></label>
@@ -40,6 +40,38 @@
                 }
             })
         });
+        
+        $("#btnVerCode").click(function () {
+            getRandomCode();
+            //获取验证码
+            $.ajax({
+                type :"post",
+                data: {},
+                dataType :"json",
+                url: "/user/getcode",
+                success: function (msg) {
+                    if(msg.retCode == 0){
+                        return;
+                    }
+                }
+            })
+        });
+
+        var time = 120;
+        //倒计时
+        function getRandomCode() {
+            if (time === 0) {
+                time = 120;
+                $("#btnVerCode").removeClass("disabled").text("发送验证码");
+                return;
+            } else {
+                time--;
+                $("#btnVerCode").addClass("disabled").text(time+" 秒后请重试");
+            }
+            setTimeout(function() {
+                getRandomCode();
+            },1000);
+        }
     })
 </script>
 </body>

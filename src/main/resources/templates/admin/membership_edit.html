@@ -38,7 +38,7 @@
                 type : "post",
                 data : $("#myForm").serialize(),
                 dataType : "json",
-                url : "/membership/add/submit",
+                url : "/membership/edit/submit",
                 success : function (data) {
                     if(data.retCode== 0){
                         parent.location.reload();

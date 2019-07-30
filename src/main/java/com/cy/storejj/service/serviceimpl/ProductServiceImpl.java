@@ -1,10 +1,12 @@
 package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.ProductMapper;
 import com.cy.storejj.model.Product;
+import com.cy.storejj.model.ProductImages;
 import com.cy.storejj.service.ProductService;
 import com.cy.storejj.utils.CommonOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +18,7 @@ import java.util.Map;
 
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends AdminConfig implements ProductService {
     @Autowired
     private ProductMapper productMapper;
 
@@ -28,6 +30,14 @@ public class ProductServiceImpl implements ProductService {
         if(art!=null) throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
         int rs = productMapper.insertSelective(product);
         if(rs > 0){
+            //插入图片
+            List<ProductImages> images = product.getImages();
+            if(images.size()>0){
+                images.forEach(r->{
+                    r.setProductId(product.getId());
+                    productMapper.insertImages(r);
+                });
+            }
             return CommonOperation.success(product.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
@@ -38,10 +48,13 @@ public class ProductServiceImpl implements ProductService {
     public JSONObject edit(Product product) {
         if(!CommonOperation.checkId(product.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         //判断重复
-        Product art = get(product.getCode());
-        if(art!=null && art.getId()!=product.getId()) throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
+        Product p = get(product.getCode());
+        if(p!=null && p.getId()!=product.getId()) throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
         int rs = productMapper.updateByPrimaryKeySelective(product);
         if(rs > 0){
+            //图片操作
+            List<ProductImages> images = p.getImages();
+
             return CommonOperation.success(product.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
@@ -146,5 +159,60 @@ public class ProductServiceImpl implements ProductService {
         if(code == null || code.isEmpty())throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
 
         return productMapper.selectByCode(code);
+    }
+
+    @Override
+    public JSONObject addImage(ProductImages images) {
+        if(StringUtils.isBlank(images.getUrl()))throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
+        int rs = productMapper.insertImages(images);
+
+        if(rs > 0){
+            return CommonOperation.success(images.getId());
+        }else {
+            throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
+        }
+    }
+
+    @Override
+    public JSONObject deleteImages(Integer id) {
+        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+
+        ProductImages image = productMapper.getImage(id);
+        if(image == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
+        //物理删除图片
+        try {
+            CommonOperation.removeFile(image.getUrl());
+        }catch (JsonException e){
+            System.out.println(e.toJson());
+        }
+
+        int rs = productMapper.deleteImagesByProduct(id);
+        if(rs >= 0){
+            return CommonOperation.success(id);
+        }else {
+            throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
+        }
+    }
+
+    @Override
+    public JSONObject deleteImagesByProduct(Integer productId) {
+        List<ProductImages> images = productMapper.getImages(productId);
+
+        if(images.size() < 1) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
+        images.forEach(r->{
+            //物理删除图片
+            try {
+                CommonOperation.removeFile(r.getUrl());
+            }catch (JsonException e){
+                System.out.println(e.toJson());
+            }
+        });
+
+        int rs = productMapper.deleteImagesByProduct(productId);
+        if(rs >= 0){
+            return CommonOperation.success(productId);
+        }else {
+            throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
+        }
     }
 }

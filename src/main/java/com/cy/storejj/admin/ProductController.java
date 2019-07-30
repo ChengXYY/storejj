@@ -122,20 +122,6 @@ public class ProductController extends AdminConfig {
         }
     }
 
-    @Permission("2131")
-    @ResponseBody
-    @RequestMapping("/upload")
-    public JSONObject uploadIamge(@RequestParam(value = "fileupload")MultipartFile file){
-
-        JSONObject result = new JSONObject();
-        try {
-            result = CommonOperation.uploadFile(file, "product");
-            result.put("path", "/getimg?filename="+result.get("realname"));
-        }catch (JsonException e){
-            result = e.toJson();
-        }
-        return  result;
-    }
 
     @Permission("2131")
     @ResponseBody

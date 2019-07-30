@@ -14,6 +14,7 @@ public enum ErrorCodes {
     CODE_REPEATED(10003, "编码重复"),
     PARAM_NOT_LEGAL(10004, "参数不合法"),
     ITEM_REPEATED(10005, "记录重复"),
+    LEVEL_REPEATED(10006, "等级重复"),
 
     ITEM_NOT_EXIST(20001, "记录不存在"),
     DATA_OP_FAILED(20002, "数据操作失败"),

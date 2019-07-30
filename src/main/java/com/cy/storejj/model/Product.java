@@ -2,6 +2,7 @@ package com.cy.storejj.model;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 public class Product {
     private Integer id;
@@ -16,6 +17,7 @@ public class Product {
 
     private Integer isShop;
 
+    //价值：元  积分：price/100
     private Integer price;
 
     private Integer stock;
@@ -26,11 +28,15 @@ public class Product {
 
     private String tags;
 
+    private Integer status;
+
     private Integer isDelete;
 
     private String createBy;
 
     private Timestamp createTime= new Timestamp(System.currentTimeMillis());
+
+    private List<ProductImages> images;
 
     public Integer getId() {
         return id;
@@ -120,6 +126,14 @@ public class Product {
         this.tags = tags == null ? null : tags.trim();
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Integer getIsDelete() {
         return isDelete;
     }
@@ -142,5 +156,13 @@ public class Product {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public List<ProductImages> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ProductImages> images) {
+        this.images = images;
     }
 }

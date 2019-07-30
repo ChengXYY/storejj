@@ -50,6 +50,11 @@ public class MembershipServiceImpl extends AdminConfig implements MembershipServ
         if(m == null)
             throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
 
+        if(membership.getLevel() != null){
+            Membership m2 = getByLevel(membership.getLevel());
+            if(m2 != null && m2.getId() != membership.getId())
+                throw JsonException.newInstance(ErrorCodes.LEVEL_REPEATED);
+        }
         int rs = membershipMapper.updateByPrimaryKeySelective(membership);
         if(rs > 0){
             return CommonOperation.success(membership.getId());
@@ -80,5 +85,11 @@ public class MembershipServiceImpl extends AdminConfig implements MembershipServ
     @Override
     public List<Membership> getListAll() {
         return membershipMapper.selectAll();
+    }
+
+    @Override
+    public Membership getByLevel(Integer level) {
+        if(level == null) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
+        return membershipMapper.selectByLevel(level);
     }
 }

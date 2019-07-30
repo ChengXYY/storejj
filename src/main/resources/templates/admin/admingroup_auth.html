@@ -90,6 +90,7 @@
                             obj.each(function () {
                                 var code = $(this).val();
                                 if($.inArray(code, list) > -1){
+                                    $(this).prop("checked", true);
                                     $(this).next(".layui-form-checkbox").addClass("layui-form-checked")
                                 }
                             })

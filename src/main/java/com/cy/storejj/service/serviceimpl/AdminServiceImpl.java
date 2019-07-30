@@ -114,7 +114,7 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
         adminNew.setSalt(pwdArr.get("salt").toString());
         adminNew.setPassword(pwdArr.get("newstr").toString());
         JSONObject rs = edit(adminNew);
-        if(rs.get("code").equals("0"))
+        if(rs.get("retCode").equals("0"))
             return CommonOperation.success(id);
         else
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);

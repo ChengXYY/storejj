@@ -1,6 +1,7 @@
 package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.config.WebConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
@@ -69,9 +70,7 @@ public class UserServiceImpl extends WebConfig implements UserService{
     public User get(String account) {
         if(StringUtils.isBlank(account))throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         User user = userMapper.selectByAccount(account);
-        if (user == null){
-            throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
-        }
+
         return user;
     }
 
@@ -79,17 +78,17 @@ public class UserServiceImpl extends WebConfig implements UserService{
     public List<User> getList(Map<String, Object> filter) {
         List<User> userList = userMapper.selectByFilter(filter);
         if(userList.size()>0){
-            userList.forEach(r->{
-                if(StringUtils.isNotBlank(r.getMobile())){
-                    String mobile = CommonOperation.maskMobile(r.getMobile());
-                    r.setMobile(mobile);
+            for(int i=0; i< userList.size(); i++){
+                if(StringUtils.isNotBlank(userList.get(i).getMobile())){
+                    String mobile = CommonOperation.maskMobile(userList.get(i).getMobile());
+                    userList.get(i).setMobile(mobile);
                 }
 
-                if(StringUtils.isNotBlank(r.getEmail())){
-                    String email = CommonOperation.maskEmail(r.getEmail());
-                    r.setEmail(email);
+                if(StringUtils.isNotBlank(userList.get(i).getEmail())){
+                    String email = CommonOperation.maskEmail(userList.get(i).getEmail());
+                    userList.get(i).setEmail(email);
                 }
-            });
+            }
         }
         return userList;
     }
@@ -105,18 +104,15 @@ public class UserServiceImpl extends WebConfig implements UserService{
     }
 
     @Override
-    public JSONObject login(String account, String password, String vercode, HttpSession session) {
+    public JSONObject login(String account, String vercode, HttpSession session) {
         if(session.getAttribute(userSession) != null) return CommonOperation.success("已登录");
-        if(account.isEmpty() || password.isEmpty() || vercode.isEmpty()) throw  JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         //验证码
         if(session.getAttribute(verCode).toString().isEmpty()) throw JsonException.newInstance(ErrorCodes.VERCODE_NOT_EMPTY);
         if(!session.getAttribute(verCode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
 
         User user = get(account);
-        String varifyPwd = CommonOperation.encodeStr(password, user.getSalt());
-        if(!varifyPwd.equals(user.getPassword())) throw JsonException.newInstance(ErrorCodes.PASSWORD_IS_WRONG);
-        String sessionStr = CommonOperation.encodeStr(user.getId().toString(), user.getAccount());
-        session.setAttribute(userSession, sessionStr);
+        if(user == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
+
         session.setAttribute(userAccount, user.getAccount());
         session.setAttribute(userLevel, user.getLevel());
         session.setAttribute(userId, user.getId());
@@ -126,6 +122,38 @@ public class UserServiceImpl extends WebConfig implements UserService{
     @Override
     public JSONObject editPassword(String oldpwd, String newpwd, String repwd, HttpSession session) {
         return null;
+    }
+
+    @Override
+    public JSONObject register(String account, String vercode, HttpSession session, String createBy) {
+
+
+        if(StringUtils.isBlank(account) || StringUtils.isBlank(vercode))throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
+        //验证码
+        if(session.getAttribute(verCode).toString().isEmpty()) throw JsonException.newInstance(ErrorCodes.VERCODE_NOT_EMPTY);
+        if(!session.getAttribute(verCode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
+
+        User u = get(account);
+        if(u != null)
+            throw JsonException.newInstance(ErrorCodes.ITEM_REPEATED);
+
+
+        String userCode = "DP"+System.currentTimeMillis();
+
+        User user = new User();
+        user.setMobile(account);
+        user.setAccount(account);
+        user.setNickname(userCode);
+        user.setName(userCode);
+        user.setUserCode(userCode);
+        user.setCreateBy(createBy);
+
+        int rs = userMapper.insertSelective(user);
+        if(rs > 0){
+            return CommonOperation.success(user.getId());
+        }else {
+            throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
+        }
     }
 
 }

@@ -1,25 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="template" >
-<div id="addBox" style="display:none;padding:40px;" >
-    <form class="form-horizontal" id="registerForm">
-        <div class="form-group">
-            <label class="control-label col-md-3">手机号</label>
-            <div class="col-md-9">
-                <input name="mobile" type="text" value="" placeholder="请输入手机号"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <button class="btn btn-outline btn-warning btn-block">发送验证码</button>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-3">验证码</label>
-            <div class="col-md-9">
-                <input name="vercode" type="text" value="" placeholder="请输入验证码"/>
-            </div>
-        </div>
-        <div class="form-group center">
-            <button class="btn btn-primary">注 册</button>
-        </div>
+<div class="toolbar">
+    <form class="right form-inline" id="searchForm">
+        <input class="form-control" name="account" placeholder="会员账号" th:value="${account==null?'':account}"/>
+        <button type="button" class="btn btn-warning" id="btnSearch"><i class="fa fa-search"></i></button>
     </form>
 </div>
+<div class="form-horizontal box" id="userForm" style="display: none">
+    <div class="form-group">
+        <label class="control-label col-md-4">
+            会员姓名 <i class="fa fa-user-circle-o"></i>：
+        </label>
+        <div class="col-md-8">
+            <label id="userName" class="control-label"></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">
+            会员账号 <i class="fa fa-envelope"></i>：
+        </label>
+        <div class="col-md-8">
+            <label id="userAccount" class="control-label"></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">
+            手机号 <i class="fa fa-phone"></i>：
+        </label>
+        <div class="col-md-8">
+            <label id="userMobile" class="control-label"></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">
+            账号状态 <i class="fa fa-info-circle"></i>：
+        </label>
+        <div class="col-md-8">
+            <label id="userStatus" class="control-label"></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">
+            现有积分 <i class="fa fa-braille"></i>：
+        </label>
+        <div class="col-md-8">
+            <label class="font-weight-bold control-label" id="userPoints"></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">
+            现有等级 <i class="fa fa-cubes"></i>：
+        </label>
+        <div class="col-md-8">
+            <label class="font-weight-bold control-label" id="userLevel"></label>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(function () {
+        $("body").on("click","#btnSearch",function () {
+            layer.load(0, { shade: false });
+            $.ajax({
+                type:"POST",
+                data:$("#searchForm").serialize(),
+                url:"/user/get",
+                dataType: "json",
+                success:function (data) {
+                    layer.closeAll();
+                    if(data.retCode==0 && data.account != undefined && data.account!=null){
+                        $("#userAccount").text(data.account);
+                        $("#userMobile").text(data.mobile);
+                        $("#userName").text(data.name);
+                        $("#userPoints").text(data.points);
+                        $("#userLevel").text(data.level);
+                        $("#userForm").css("display","block");
+                        $("#userBtns").css("display","block");
+                        if(data.status == 1){
+                            $("#userStatus").text("正常");
+                            $("#userStatus").addClass("text-success")
+                        }else {
+                            $("#userStatus").text("异常");
+                            $("#userStatus").addClass("text-danger")
+                        }
+                    }else {
+                        layer.msg(data.retMsg);
+                    }
+                }
+            })
+        });
+
+
+    });
+</script>
 </html>

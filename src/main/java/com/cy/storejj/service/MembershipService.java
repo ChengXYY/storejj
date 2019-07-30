@@ -17,5 +17,7 @@ public interface MembershipService {
 
     List<Membership> getListAll();
 
+    Membership getByLevel(Integer level);
+
 
 }

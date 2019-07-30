@@ -406,3 +406,56 @@ table td a:hover{
 .bs-callout-info h4 {
     color: #1b809e;
 }
+
+/* Radio CheckBox */
+input[type="radio"] + label::before {
+     content: "\a0";
+     display: inline-block;
+     vertical-align: middle;
+     font-size: 18px;
+     width: 1em;
+     height: 1em;
+     margin-right: .4em;
+     border-radius: 50%;
+     border: 1px solid #337ab7;
+     text-indent: .15em;
+     line-height: 1;
+     cursor: pointer;
+ }
+
+input[type="radio"]:checked + label::before {
+    background-color: #337ab7;
+    background-clip: content-box;
+    padding: .2em;
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    opacity: 0;
+}
+
+
+input[type="checkbox"] + label::before {
+    content: "\a0";
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+    width: 1em;
+    height: 1em;
+    margin-right: .4em;
+    border: 1px solid #337ab7;
+    line-height: 1;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label::before {
+    background-color: #337ab7;
+    background-clip: padding-box;
+    color:#fff;
+    content: "\2713";
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    opacity: 0;
+}

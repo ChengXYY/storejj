@@ -2,6 +2,7 @@ package com.cy.storejj.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.model.Product;
+import com.cy.storejj.model.ProductImages;
 
 import java.util.List;
 import java.util.Map;
@@ -26,5 +27,12 @@ public interface ProductService {
     Product get(Integer id);
 
     Product get(String code);
+
+    // Images
+    JSONObject addImage(ProductImages images);
+
+    JSONObject deleteImages(Integer id);
+
+    JSONObject deleteImagesByProduct(Integer productId);
 
 }

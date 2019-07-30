@@ -45,7 +45,7 @@
                 <td th:text="${product.category.name}"></td>
                 <td th:text="${product.content}"></td>
                 <td th:text="${product.tags}"></td>
-                <td th:text="${product.price}"></td>
+                <td th:text="${product.price/100}"></td>
                 <td th:text="${product.stock}"></td>
                 <td th:text="${#dates.format(product.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td th:attr="data-id=${product.id}" class="center">

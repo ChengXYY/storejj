@@ -6,6 +6,8 @@ import java.util.Date;
 public class User {
     private Integer id;
 
+    private String userCode;
+
     private String name;
 
     private String nickname;
@@ -22,8 +24,10 @@ public class User {
 
     private Integer level;
 
+    //消费  展示：积分/100
     private Integer points;
 
+    //消费  展示：积分/100
     private Integer pointsSum;
 
     private Integer status;
@@ -38,6 +42,14 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
+
+    public String getUserCode() {
+        return userCode;
     }
 
     public String getName() {

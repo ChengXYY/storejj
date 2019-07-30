@@ -25,10 +25,15 @@
         <table class="table">
             <thead>
             <tr>
-                <th>全选 <input type="checkbox" class="select-all" /></th>
+                <th>全选
+                    <div class="checkbox-inline">
+                        <input type="checkbox" class="select-all" />
+                        <label></label>
+                    </div>
+                </th>
                 <th>会员账号</th>
                 <th>姓名</th>
-                <th>昵称</th>
+                <th>手机</th>
                 <th>邮箱</th>
                 <th>账号状态</th>
                 <th>创建时间</th>
@@ -37,12 +42,18 @@
             </thead>
             <tbody>
             <tr th:each="user:${list}">
-                <td class="center"><input type="checkbox" th:value="${user.id}" class="select-item"/></td>
+                <td class="center">
+                    <div class="checkbox-inline">
+                        <input type="checkbox" th:value="${user.id}" class="select-item"/>
+                        <label></label>
+                    </div>
+                </td>
                 <td th:text="${user.account}"></td>
                 <td th:text="${user.name}"></td>
-                <td th:text="${user.nickname}"></td>
+                <td th:text="${user.mobile}"></td>
                 <td th:text="${user.email}"></td>
-                <td th:text="${user.status==0?'禁用':'启用'}"></td>
+                <td th:text="${user.status==0?'禁用':'启用'}" th:class="${user.status==0?'text-danger center':'text-success center'}"></td>
+
                 <td th:text="${#dates.format(user.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td th:attr="data-id=${user.id}" class="center">
                     <a class="btn btn-outline btn-primary btn-xs " title="编辑会员" th:href="@{/user/edit?id={id}(id=${user.id})}"><i class="fa fa-edit"></i></a>

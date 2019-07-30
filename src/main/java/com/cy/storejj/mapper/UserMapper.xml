@@ -3,6 +3,7 @@
 <mapper namespace="com.cy.storejj.mapper.UserMapper" >
   <resultMap id="BaseResultMap" type="com.cy.storejj.model.User" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="nickname" property="nickname" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
@@ -17,10 +18,10 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, nickname, mobile, email, level, points, points_sum, create_by, create_time
+    id,user_code, name, nickname, mobile, email,account, level, points, points_sum,status, create_by, create_time
   </sql>
   <sql id="Full_Column_List">
-    id, name, nickname, mobile, email, account, password, salt, level, points, points_sum, create_by, create_time
+    id,user_code, name, nickname, mobile, email, account, password, salt, level, points, points_sum,status, create_by, create_time
   </sql>
 
   <!-- select -->
@@ -93,6 +94,9 @@
       <if test="id != null" >
         id,
       </if>
+      <if test="userCode != null" >
+        user_code,
+      </if>
       <if test="name != null" >
         name,
       </if>
@@ -133,6 +137,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -177,6 +184,7 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.cy.storejj.model.User" >
     update user
     <set >
+
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -189,9 +197,7 @@
       <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="account != null" >
-        account = #{account,jdbcType=VARCHAR},
-      </if>
+
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
       </if>

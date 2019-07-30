@@ -21,6 +21,36 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
+  <select id="selectByFilter" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from page_tpl
+    <where>
+      <if test="name!=null">
+        and name like CONCAT('%',#{name},'%')
+      </if>
+    </where>
+    <if test="orderby!=null">
+      order by ${orderby}
+    </if>
+    <if test="orderby == null" >
+      order by create_time desc
+    </if>
+  </select>
+  <select id="countByFilter" parameterType="map" resultType="java.lang.Integer">
+    select
+    count(id) as ct
+    from page_tpl
+    <where>
+      <if test="name!=null">
+        and name like CONCAT('%',#{name},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="selectListAll" resultType="map">
+    select id, name from page_tpl
+  </select>
 
   <!-- delete -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/_include::include"></head>
+<body>
+<script type="text/javascript" th:src="@{~/js/bootstrap.js}"></script>
+<header th:include="/admin/_header::header">
+    Your Company Name.
+</header>
+<div th:replace="/admin/_topmenu::topmenu"></div>
+<div class="container">
+    <div class="form-horizontal"  style="margin-bottom: 50px">
+        <form id="myForm">
+        <div class="form-group">
+            <h3 class="text text-primary">产品基本信息</h3>
+            <hr/>
+            <div class="form-group col-md-6">
+                <label class="col-md-4 control-label">名称：</label>
+                <div class="col-md-8">
+                    <input class="form-control" type="text" name="name"/>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="col-md-4 control-label">编号：</label>
+                <div class="col-md-8">
+                    <input class="form-control" type="text" name="code"/>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="col-md-4 control-label">所属分类：</label>
+                <div class="col-md-8">
+                    <select class="form-control" name="categoryCode">
+                        <option value="0">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="col-md-4 control-label">标价：<i class="fa fa-question-circle-o" title="积分=标价/100，取整数"></i></label>
+                <div class="col-md-8">
+                    <input class="form-control" type="number" name="price" value="0"/>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="col-md-4 control-label">积分商城：<i class="fa fa-question-circle-o" title="产品是否在积分商城中，可进行兑换"></i></label>
+                <div class="col-md-8">
+                    <div class="radio-inline">
+                        <input type="radio" name="isShop" value="1" />
+                        <label>是</label>
+                    </div>
+                    <div class="radio-inline">
+                        <input type="radio" name="isShop" value="0" checked />
+                        <label>否</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label class="col-md-4 control-label">商品描述：</label>
+                <div class="col-md-8">
+                    <textarea name="content" class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+            <div id="productImageForm" style="display: none">
+
+            </div>
+
+        </div>
+        </form>
+        <div class="form-group">
+            <h3 class="text text-primary">图片</h3>
+            <hr/>
+            <div th:replace="/admin/_file_upload::template"></div>
+        </div>
+
+        <div class="form-group center">
+            <br/>
+            <a class="btn btn-warning" href="javascript:" id="submit-form">保 存</a>
+            <a href="javascript:history.back()" class="btn btn-default">返 回</a>
+
+        </div>
+    </div>
+
+</div>
+
+<footer th:replace="/admin/_footer::footer">
+    Your Company Name.
+</footer>
+
+<script type="text/javascript" th:src="@{~/js/common-files.js}"></script>
+<script>
+    $(function () {
+        $("#submit-form").click(function () {
+            var images = $("#successFiles").val();
+            images = JSON.parse(images);
+            $("#productImageForm").html("");
+            for(var i=0; i<images.length; i++){
+                $("#productImageForm").append('<input name="images['+i+'].name" value="'+images[i].name+'">');
+                $("#productImageForm").append('<input name="images['+i+'].url" value="'+images[i].url+'">');
+            }
+            $.ajax({
+                type : "post",
+                data : $("#myForm").serialize(),
+                dataType : "json",
+                url : "/product/add/submit",
+                success :function (data) {
+                    if(data.retCode == 0){
+                        location.href="/product/list";
+                    }else {
+                        layer.msg(data.retMsg);
+                    }
+                }
+            })
+        });
+
+    })
+</script>
+</body>
+</html>

@@ -15,10 +15,11 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <association property="adminGroup" column="group_id" select="getGroup"></association>
   </resultMap>
 
   <!-- admin group -->
-  <sql id="groupTable">name ,auth, sort, parentid</sql>
+  <sql id="groupTable">name ,auth, sort, parent_id</sql>
   <resultMap id="groupMap" type="com.cy.storejj.model.AdminGroup">
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />

@@ -1,6 +1,7 @@
 package com.cy.storejj.mapper;
 
 import com.cy.storejj.model.Product;
+import com.cy.storejj.model.ProductImages;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,4 +21,17 @@ public interface ProductMapper {
     int countByFilter(Map<String, Object> filter);
 
     Product selectByCode(@Param("code")String code);
+
+    //图片操作
+    int insertImages(ProductImages images);
+
+    int batchInsertImages(@Param("images")List<ProductImages> images);
+
+    int deleteImages(Integer id);
+
+    int deleteImagesByProduct(@Param("productId")Integer productId);
+
+    ProductImages getImage(Integer id);
+
+    List<ProductImages> getImages(@Param("productId")Integer productId);
 }

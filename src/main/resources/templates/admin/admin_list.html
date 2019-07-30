@@ -30,17 +30,17 @@
             <tbody>
             <tr th:each="admin:${list}">
                 <td th:text="${admin.account}">account</td>
-                <td th:text="${admin.groupId==0?'NULL':admin.admingroup.name}">groupId</td>
+                <td th:text="${admin.groupId==0?'NULL':admin.adminGroup.name}">groupId</td>
                 <td th:text="${#dates.format(admin.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td class="center" th:if="${admin.groupId != session.ADMIN_GROUP}">
                     <input type="hidden" class="id" th:value="${admin.id}"/>
-                    <a class="text-success reset" href="javascript:" title="重置密码">
+                    <a class="btn btn-success btn-outline btn-xs reset" href="javascript:" title="重置密码">
                         <i class="fa fa-refresh"></i>
                     </a>
-                    <a class="text-primary edit" href="javascript:" title="编辑管理员信息">
+                    <a class="btn btn-primary btn-outline btn-xs edit" href="javascript:" title="编辑管理员信息">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <a class="text-danger remove" href="javascript:" title="删除管理员">
+                    <a class="btn btn-danger btn-outline btn-xs remove" href="javascript:" title="删除管理员">
                         <i class="fa fa-close"></i>
                     </a>
                 </td>

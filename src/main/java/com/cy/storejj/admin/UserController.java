@@ -3,6 +3,7 @@ package com.cy.storejj.admin;
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.aop.Permission;
 import com.cy.storejj.config.AdminConfig;
+import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.model.User;
 import com.cy.storejj.service.UserService;
@@ -11,12 +12,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -47,30 +46,106 @@ public class UserController extends AdminConfig {
         model.addAllAttributes(param);
         model.addAttribute("list", list);
 
-        model.addAttribute("pageTitle",editPageTitle+userMenuTitle+systemTitle);
+        model.addAttribute("pageTitle",listPageTitle+userMenuTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "user");
         model.addAttribute("LeftMenuFlag", "userinfo");
         return adminHtml +"user_list";
     }
 
-    @Permission("2142")
+    @Permission("2144")
     @RequestMapping("/register")
     public String add(){
         return adminHtml +"user_register";
     }
 
     //获取验证码
-
+    @Permission("2144")
+    @ResponseBody
+    @RequestMapping("/getcode")
+    public JSONObject getCode(HttpSession session){
+        String code = "1234";
+        session.setAttribute(userVerCode, code);
+        return CommonOperation.success();
+    }
     //
 
-    @Permission("2142")
+    @Permission("2144")
     @RequestMapping("/register/submit")
     @ResponseBody
-    public JSONObject register(@RequestParam Map<String, Object> param){
-        return null;
+    public JSONObject register(@RequestParam Map<String, Object> param, HttpSession session){
+
+        try {
+            //参数只有mobile 和 vercode
+            String account = param.get("mobile").toString();
+            String sVercode = param.get("vercode").toString();
+            return userService.register(account, sVercode, session, session.getAttribute(adminAccount).toString());
+        }catch (JsonException e){
+            return e.toJson();
+        }
     }
 
-    @Permission("2147")
+    @Permission("2145")
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String edit(@RequestParam("id")Integer id, ModelMap model){
+        try {
+            User user = userService.get(id);
+            model.addAttribute("user", user);
+            model.addAttribute("pageTitle",editPageTitle+userMenuTitle+systemTitle);
+            model.addAttribute("TopMenuFlag", "user");
+            model.addAttribute("LeftMenuFlag", "userinfo");
+            return adminHtml+"user_edit";
+        }catch (JsonException e){
+            model.addAttribute("error", e.toJson());
+            return "/error/common";
+        }
+    }
+
+
+    @Permission("2145")
+    @ResponseBody
+    @RequestMapping(value = "/edit/{type}", method = RequestMethod.POST)
+    public JSONObject edit(User user, @PathVariable("type")String type, HttpSession session){
+        if(!checkEditParam(type, user)){
+            return CommonOperation.fail("编辑内容不合法");
+        }
+
+        try {
+            user.setCreateBy(session.getAttribute(adminAccount).toString());
+            return userService.edit(user);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
+    private boolean checkEditParam(String type, User user){
+        if(!type.equals("basic") && !type.equals("account")) return false;
+        switch (type){
+            case "basic":
+                if(StringUtils.isNotBlank(user.getAccount())
+                        || StringUtils.isNotBlank(user.getPassword())
+                        || user.getLevel() !=null
+                        || user.getStatus() != null
+                        || user.getPoints() != null
+                        || user.getPointsSum() !=null)
+                return false;
+                break;
+            case "account":
+                if(StringUtils.isNotBlank(user.getAccount())
+                        || StringUtils.isNotBlank(user.getName())
+                        || StringUtils.isNotBlank(user.getEmail())
+                        || StringUtils.isNotBlank(user.getMobile())
+                        || StringUtils.isNotBlank(user.getNickname())
+                        || user.getLevel() !=null
+                        || user.getPoints() != null
+                        || user.getPointsSum() !=null)
+                    return false;
+                break;
+        }
+        return true;
+    }
+
+    @Permission("2146")
+    @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     public JSONObject getUserInfo(@RequestParam(value = "account")String account){
         try {
@@ -89,22 +164,27 @@ public class UserController extends AdminConfig {
         }
     }
 
-    @Permission("2148")
-    @RequestMapping(value = "/edit/submit", method = RequestMethod.POST)
-    public JSONObject edit(@RequestParam Map<String, Object> param){
-        return null;
-    }
-
     @Permission("2142")
     @RequestMapping("/check")
     public String getUserPoints(ModelMap model){
-        model.addAttribute("pageTitle","会员等级积分查询"+userMenuTitle+systemTitle);
+        model.addAttribute("pageTitle","会员等级积分查询-"+userMenuTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "user");
         model.addAttribute("LeftMenuFlag", "check");
         return adminHtml +"user_level_check";
     }
 
+
     @Permission("2143")
+    @RequestMapping("/modify")
+    public String getUserLevel(ModelMap model){
+        model.addAttribute("pageTitle","会员等级积分修改-"+userMenuTitle+systemTitle);
+        model.addAttribute("TopMenuFlag", "user");
+        model.addAttribute("LeftMenuFlag", "modify");
+        return adminHtml +"user_level_modify";
+    }
+
+    @Permission("2143")
+    @ResponseBody
     @RequestMapping(value = "/points/submit", method = RequestMethod.POST)
     public JSONObject editUserPoints(@RequestParam(value = "account")String account,
                                      @RequestParam(value = "points")Integer points,
@@ -137,16 +217,9 @@ public class UserController extends AdminConfig {
         }
     }
 
-    @Permission("2142")
-    @RequestMapping("/modify")
-    public String getUserLevel(ModelMap model){
-        model.addAttribute("pageTitle","会员等级积分修改"+userMenuTitle+systemTitle);
-        model.addAttribute("TopMenuFlag", "user");
-        model.addAttribute("LeftMenuFlag", "modify");
-        return adminHtml +"user_level_modify";
-    }
 
     @Permission("2143")
+    @ResponseBody
     @RequestMapping("/level/submit")
     public JSONObject editUserLevel(@RequestParam(value = "account")String account,
                                     @RequestParam(value = "level")Integer level,
