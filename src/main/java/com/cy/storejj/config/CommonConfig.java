@@ -4,9 +4,6 @@ import java.util.Map;
 
 public class CommonConfig {
 
-
-    protected static String fileType = "picture|article|product|category";
-
     protected static String baseSavePath = "C:/www/upload/";
 
     protected static Integer pageSize = 15;

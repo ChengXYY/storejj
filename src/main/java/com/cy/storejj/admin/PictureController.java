@@ -128,7 +128,7 @@ public class PictureController extends AdminConfig {
     public JSONObject uploadIamge(@RequestParam(value = "fileupload")MultipartFile file){
 
         try {
-            JSONObject result = CommonOperation.uploadFile(file, "picture");
+            JSONObject result = CommonOperation.uploadFile(file);
             result.put("url", result.get("realname"));
             result.put("name", result.get("filename"));
             result.remove("realname");

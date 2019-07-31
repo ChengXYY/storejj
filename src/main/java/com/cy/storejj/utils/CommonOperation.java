@@ -94,6 +94,10 @@ public class CommonOperation extends AdminConfig {
         return rs;
     }
 
+    public static JSONObject uploadFile(MultipartFile file){
+        return uploadFile(file, null);
+    }
+
     //查看图片
     public static void getImage(String filename,
                                 HttpServletRequest request,
@@ -101,14 +105,8 @@ public class CommonOperation extends AdminConfig {
 
         if (filename != null || filename.isEmpty()) {
             FileInputStream is = null;
-            String path = baseSavePath;
-            if(filename.indexOf('_')> -1){
-                String type = filename.substring(0, filename.indexOf('_'));
-                if(!fileType.contains(type))return;
-                path += type+"/"+filename;
-            }else {
-                path += filename;
-            }
+            String path = baseSavePath+filename;
+
 
             File file = new File(path);
             try {
@@ -131,9 +129,7 @@ public class CommonOperation extends AdminConfig {
         JSONObject rs = new JSONObject();
         if(fileName == null || fileName.isEmpty()) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
 
-        String type = fileName.substring(0, fileName.indexOf('-')+1);
-        if(!fileType.contains(type))throw JsonException.newInstance(ErrorCodes.PATH_IS_WRONG);
-        String path = baseSavePath+type+"/"+fileName;
+        String path = baseSavePath+fileName;
 
         File file = new File(path);
         if(file.exists() && file.isFile()){
