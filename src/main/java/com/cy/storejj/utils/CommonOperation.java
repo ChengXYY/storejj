@@ -38,7 +38,7 @@ public class CommonOperation extends AdminConfig {
     public static boolean checkId(Integer id){
         if(id == null) return false;
         if(id.toString().isEmpty()) return false;
-        if(id.intValue() < 1)return false;
+        if(id < 1)return false;
         return true;
     }
 
@@ -103,7 +103,7 @@ public class CommonOperation extends AdminConfig {
                                 HttpServletRequest request,
                                 HttpServletResponse response)throws IOException {
 
-        if (filename != null || filename.isEmpty()) {
+        if (StringUtils.isNotBlank(filename)) {
             FileInputStream is = null;
             String path = baseSavePath+filename;
 
@@ -204,7 +204,7 @@ public class CommonOperation extends AdminConfig {
         if (!StringUtils.isNotBlank(url) && !StringUtils.isNotBlank(key)) return url;
         String local = url;
         String paramStr = "";
-        if(url.indexOf("?") > -1){
+        if(url.contains("?")){
             paramStr = url.substring(url.indexOf("?")+1);
             local = url.substring(0, url.indexOf("?"));
         }

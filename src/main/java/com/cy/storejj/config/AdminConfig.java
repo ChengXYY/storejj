@@ -64,7 +64,7 @@ public class AdminConfig extends CommonConfig{
 
     protected static String sysAccount = "System";
 
-    protected static String sysPassword = "123456";
+    protected static String sysPassword = "123";
 
 
 }

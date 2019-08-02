@@ -39,7 +39,12 @@ public class UserServiceImpl extends WebConfig implements UserService{
 
     @Override
     public JSONObject edit(User user) {
-        if(CommonOperation.checkId(user.getId()))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!CommonOperation.checkId(user.getId()))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(StringUtils.isNotBlank(user.getPassword())){
+            Map<String, Object> pass = CommonOperation.encodeStr(user.getPassword());
+            user.setPassword(pass.get("newstr").toString());
+            user.setSalt(pass.get("salt").toString());
+        }
         int rs = userMapper.updateByPrimaryKeySelective(user);
         if(rs >= 0){
             return CommonOperation.success(user.getId());
@@ -87,6 +92,11 @@ public class UserServiceImpl extends WebConfig implements UserService{
                 if(StringUtils.isNotBlank(userList.get(i).getEmail())){
                     String email = CommonOperation.maskEmail(userList.get(i).getEmail());
                     userList.get(i).setEmail(email);
+                }
+
+                if(StringUtils.isNotBlank(userList.get(i).getName())){
+                    String name = CommonOperation.maskName(userList.get(i).getName());
+                    userList.get(i).setName(name);
                 }
             }
         }

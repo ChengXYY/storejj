@@ -76,6 +76,44 @@
 <div th:include="/admin/_user_template::template"></div>
 <script>
     $(function () {
+        $(".enable").click(function () {
+            var id = $(this).parent().data("id");
+            $.ajax({
+               type:"post",
+               data:{
+                   id:id
+               },
+               dataType:"json",
+               url:"/user/enable",
+               success:function (msg) {
+                   if(msg.retCode == 0){
+                       location.reload();
+                   }else {
+                       layer.msg(msg.retMsg);
+                   }
+               }
+            });
+        });
+
+        $(".disable").click(function () {
+            var id = $(this).parent().data("id");
+            $.ajax({
+                type:"post",
+                data:{
+                    id:id
+                },
+                dataType:"json",
+                url:"/user/diable",
+                success:function (msg) {
+                    if(msg.retCode == 0){
+                        location.reload();
+                    }else {
+                        layer.msg(msg.retMsg);
+                    }
+                }
+            });
+        });
+
         $("#userAdd").click(function () {
             layer.open({
                 type: 2,

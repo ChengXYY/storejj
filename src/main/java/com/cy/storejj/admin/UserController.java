@@ -144,6 +144,35 @@ public class UserController extends AdminConfig {
         return true;
     }
 
+    @Permission("2145")
+    @ResponseBody
+    @RequestMapping(value = "/enable", method = RequestMethod.POST)
+    public JSONObject enableUser(@RequestParam(value = "id")Integer id){
+        try{
+            User user = new User();
+            user.setId(id);
+            user.setStatus(1);
+            return userService.edit(user);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
+    @Permission("2145")
+    @ResponseBody
+    @RequestMapping(value = "/disable", method = RequestMethod.POST)
+    public JSONObject disableUser(@RequestParam(value = "id")Integer id){
+        try{
+            User user = new User();
+            user.setId(id);
+            user.setStatus(0);
+            return userService.edit(user);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
+
     @Permission("2146")
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.POST)
