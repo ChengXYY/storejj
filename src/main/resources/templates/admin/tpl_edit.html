@@ -8,17 +8,19 @@
     Your Company Name.
 </header>
 <div th:replace="/admin/_topmenu::topmenu"></div>
-<div class="container">
-    <form class="form-horizontal" id="myForm" style="margin-bottom: 50px">
-
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_sitepage_leftmenu::leftmenu"></div>
+    </div>
+    <form class="form-horizontal col-md-10" id="myForm" style="margin-bottom: 50px">
         <div class="form-group">
-            <h3 class="text text-primary">模板名称</h3>
+            <h3 class="text text-primary center">模板名称</h3>
             <hr/>
             <input type="hidden" name="id" th:value="${tpl.id}"/>
             <input class="form-control" placeholder="输入模板名称" type="text" name="name" th:value="${tpl.name}"/>
         </div>
         <div class="form-group">
-            <h3 class="text text-primary">布局</h3>
+            <h3 class="text text-primary center">布局</h3>
             <hr/>
             <div class="toolbar">
                 <div class="btn btn-danger" id="btnRm" title="清空布局"><i class="fa fa-trash"></i></div>

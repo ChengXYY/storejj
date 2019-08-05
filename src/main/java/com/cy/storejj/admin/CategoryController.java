@@ -64,6 +64,7 @@ public class CategoryController extends AdminConfig {
     public String add(ModelMap modelMap){
         modelMap.addAttribute("pageTitle",addPageTitle+categoryModuleTitle+systemTitle);
         modelMap.addAttribute("TopMenuFlag", "product");
+        modelMap.addAttribute("LeftMenuFlag", "category");
         return adminHtml +"category_add";
     }
 
@@ -90,6 +91,7 @@ public class CategoryController extends AdminConfig {
             model.addAttribute("category", category);
             model.addAttribute("pageTitle",editPageTitle+categoryModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "resource");
+            model.addAttribute("LeftMenuFlag", "category");
 
             return adminHtml +"category_edit";
         }catch (JsonException e){

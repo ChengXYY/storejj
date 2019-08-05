@@ -8,34 +8,43 @@
     Your Company Name.
 </header>
 <div th:replace="/admin/_topmenu::topmenu"></div>
-<div class="container">
-    <form class="form-horizontal" id="myForm" style="margin-bottom: 50px">
-        <div class="form-group">
-            <h3 class="text text-primary">页面编码(英文字母与数字)</h3>
-            <hr/>
-            <input type="hidden" name="id" th:value="${page.id}"/>
-            <input class="form-control" placeholder="输入页面编码" type="text" name="code" th:value="${page.code}"/>
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_sitepage_leftmenu::leftmenu"></div>
+    </div>
+    <form class="form-horizontal col-md-10" id="myForm" style="margin-bottom: 50px">
+        <h3 class="text-primary">基础信息</h3>
+        <hr/>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-4">页面编码(英文字母与数字)</label>
+            <div class="col-md-8">
+                <input type="hidden" name="id" th:value="${page.id}"/>
+                <input class="form-control" placeholder="输入页面编码" type="text" name="code" th:value="${page.code}"/>
+            </div>
         </div>
-        <div class="form-group">
-            <h3 class="text text-primary">页面标题</h3>
-            <hr/>
-            <input class="form-control" placeholder="输入页面标题" type="text" name="title" th:value="${page.title}"/>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-4">页面标题</label>
+            <div class="col-md-8">
+                <input class="form-control" placeholder="输入页面标题" type="text" name="title" th:value="${page.title}"/>
+            </div>
         </div>
-        <div class="form-group">
-            <h3 class="text text-primary">自定义页面样式</h3>
-            <hr/>
-            <textarea class="form-control" name="css" th:text="${page.css}"></textarea>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-4">自定义页面样式</label>
+            <div class="col-md-8">
+                <textarea class="form-control" name="css" th:text="${page.css}"></textarea>
+            </div>
         </div>
-        <div class="form-group">
-            <h3 class="text text-primary">页面模板</h3>
-            <hr/>
-            <select class="form-control" name="tplId" id="pageTPL">
-                <option value="0">选择模板</option>
-                <option th:each="tpl:${list}" th:value="${tpl.id}" th:text="${tpl.name}" th:selected="${tpl.id == page.tplId}"></option>
-            </select>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-4">页面模板</label>
+            <div class="col-md-8">
+                <select class="form-control" name="tplId" id="pageTPL">
+                    <option value="0">选择模板</option>
+                    <option th:each="tpl:${list}" th:value="${tpl.id}" th:text="${tpl.name}" th:selected="${tpl.id == page.tplId}"></option>
+                </select>
+            </div>
         </div>
-        <div class="form-group">
-            <h3 class="text text-primary">页面布局</h3>
+        <div class="form-group col-md-12">
+            <h3 class="text-primary">页面布局</h3>
             <hr/>
             <div class="toolbar">
                 <div class="text text-primary blocks" title="文字" data-type="text" code=""><i class="fa fa-list"></i></div>
@@ -50,7 +59,7 @@
         </div>
 
 
-        <div class="form-group center">
+        <div class="form-group center  col-md-12">
             <br/>
             <a class="btn btn-warning" href="javascript:" id="submit-form">保 存</a>
             <a href="javascript:history.back()" class="btn btn-default">返 回</a>
@@ -124,7 +133,7 @@
                     if(data.retCode == 0){
                         obj.html(data.content);
                     }  else {
-                        obj.html("<h3 class='text text-muted center'>"+data.retMsg+"</h3>");
+                        obj.html("<label class='text text-muted center'>"+data.retMsg+"</label>");
                     }
                 }
             });
@@ -144,7 +153,7 @@
                     if(data.retCode == 0){
                         obj.html("<img class='image' src='"+data.url+"' title='"+data.intro+"' style='width:100%'/>");
                     }  else {
-                        obj.html("<h3 class='text text-muted center'>"+data.retMsg+"</h3>");
+                        obj.html("<label class='text text-muted center'>"+data.retMsg+"</label>");
                     }
                 }
             });

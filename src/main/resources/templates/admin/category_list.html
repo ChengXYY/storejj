@@ -25,7 +25,12 @@
         <table class="table">
             <thead>
             <tr>
-                <th>全选 <input type="checkbox" class="select-all" /></th>
+                <th>
+                    <div class="checkbox-inline">
+                        <input type="checkbox" class="select-all" />
+                        <label>全选</label>
+                    </div>
+                </th>
                 <th>编号</th>
                 <th>名称</th>
                 <th>简介</th>
@@ -36,7 +41,12 @@
             </thead>
             <tbody>
             <tr th:each="category:${list}">
-                <td class="center"><input type="checkbox" th:value="${category.id}" class="select-item"/></td>
+                <td class="center">
+                    <div class="checkbox-inline">
+                        <input type="checkbox" th:value="${category.id}" class="select-item"/>
+                        <label></label>
+                    </div>
+                </td>
                 <td class="oneline-column" th:text="${category.code}"></td>
                 <td class="oneline-column" th:text="${category.name}"></td>
                 <td th:text="${category.intro}"></td>
@@ -58,7 +68,6 @@
 <footer th:replace="/admin/_footer::footer">
     Your Company Name.
 </footer>
-<script type="text/javascript" th:src="@{~/js/common-files.js}"></script>
 <script>
     $(function () {
         $(".delete").click(function () {

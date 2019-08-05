@@ -26,7 +26,12 @@
         <table class="table">
             <thead>
             <tr>
-                <th>全选 <input type="checkbox" class="select-all" /></th>
+                <th>
+                    <div class="checkbox-inline">
+                        <input type="checkbox" class="select-all" />
+                        <label>全选</label>
+                    </div>
+                </th>
                 <th>图片编号</th>
                 <th>描述</th>
                 <th>预览</th>
@@ -36,10 +41,15 @@
             </thead>
             <tbody>
             <tr th:each="picture:${list}">
-                <td class="center"><input class="select-item" type="checkbox" th:value="${picture.id}"/></td>
+                <td class="center">
+                    <div class="checkbox-inline">
+                        <input class="select-item" type="checkbox" th:value="${picture.id}"/>
+                        <label></label>
+                    </div>
+                </td>
                 <td th:text="${picture.code}"></td>
                 <td th:text="${picture.intro}"></td>
-                <td class="center show-image"><img th:src="${picture.url}"></td>
+                <td class="center show-image"><img th:src="${'/getimg?filename='+picture.url}"></td>
                 <td th:text="${#dates.format(picture.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td th:attr="data-id=${picture.id}" class="center">
                     <a class="btn btn-outline btn-primary btn-xs edit" title="编辑图片" ><i class="fa fa-edit"></i></a>
@@ -57,7 +67,6 @@
 <footer th:replace="/admin/_footer::footer">
     Your Company Name.
 </footer>
-<script type="text/javascript" th:src="@{~/js/common-files.js}"></script>
 <script>
     $(function () {
 

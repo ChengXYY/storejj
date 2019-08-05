@@ -7,25 +7,33 @@
     Your Company Name.
 </header>
 <div th:replace="/admin/_topmenu::topmenu"></div>
-<div class="container">
-    <form class="form-horizontal" id="myForm" style="margin-bottom: 50px">
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_product_leftmenu::leftmenu"></div>
+    </div>
+    <form class="form-horizontal col-md-10" id="myForm" style="margin-bottom: 50px">
+        <h3 class="text-primary">基本信息</h3>
+        <hr/>
         <input type="hidden" name="id" th:value="${category.id}"/>
-        <div class="form-group">
-            <h3 class="text text-primary">分类编号</h3>
-            <hr/>
-            <input th:value="${category.code}" class="form-control" placeholder="英文字母、数字、符号" type="text" name="code"/>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-4">分类编号</label>
+            <div class="col-md-8">
+                <input th:value="${category.code}" class="form-control" placeholder="英文字母、数字、符号" type="text" name="code"/>
+            </div>
         </div>
-        <div class="form-group">
-            <h3 class="text text-primary">分类名称</h3>
-            <hr/>
-            <input th:value="${category.name}" class="form-control" placeholder="" type="text" name="name"/>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-4">分类名称</label>
+            <div class="col-md-8">
+                <input th:value="${category.name}" class="form-control" placeholder="" type="text" name="name"/>
+            </div>
         </div>
-        <div class="form-group">
-            <h3 class="text text-primary">分类描述</h3>
-            <hr/>
-            <textarea class="form-control" name="intro" th:text="${category.intro}"></textarea>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-4">分类描述</label>
+            <div class="col-md-8">
+                <textarea class="form-control center" name="intro" th:text="${category.intro}"></textarea>
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-12">
             <h3 class="text text-primary">上传图片</h3>
             <hr/>
             <div class="btn btn-outline btn-success" id="select-file"><i class="fa fa-folder-open"></i> 选择文件</div>
@@ -33,14 +41,14 @@
 
             <h5 class="text text-primary" id="file-name"></h5>
         </div>
-        <div class="form-group" id="uploadShow">
+        <div class="form-group col-md-12" id="uploadShow">
             <h5 class="text-danger" id="upload-finished">请上传文件</h5>
             <input type="hidden" name="pic" th:value="${category.pic}"/>
             <div class="image" id="show-image">
                 <img th:src="@{/getimg(filename=${category.pic})}" width="200px"/>
             </div>
         </div>
-        <div class="form-group center">
+        <div class="form-group center col-md-12">
             <br/>
             <a class="btn btn-warning" href="javascript:" id="submit-form">保 存</a>
             <a href="javascript:history.back()" class="btn btn-default">返 回</a>

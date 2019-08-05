@@ -65,6 +65,7 @@ public class ProductController extends AdminConfig {
         //获取模板列表
         model.addAttribute("pageTitle",addPageTitle+productModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "product");
+        model.addAttribute("LeftMenuFlag", "product");
         return adminHtml +"product_add";
     }
 
@@ -91,6 +92,7 @@ public class ProductController extends AdminConfig {
             model.addAttribute("product", product);
             model.addAttribute("pageTitle",editPageTitle+productModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "product");
+            model.addAttribute("LeftMenuFlag", "product");
 
             return adminHtml +"product_edit";
         }catch (JsonException e){

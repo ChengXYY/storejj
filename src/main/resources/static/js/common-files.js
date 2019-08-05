@@ -1,8 +1,5 @@
 $(function () {
-    if($(".select-item").prop("checked") == true){
-        $(".select-all").prop("checked",true);
-    }
-    $("input[class='select-all']").click(function(){ //全选框勾选
+    $("body").on("change", ".select-all", function () {
         if($(this).prop("checked")==true){
             $("input[class='select-item']").prop("checked",true);
         }else{
@@ -10,7 +7,7 @@ $(function () {
         }
     });
 
-    $("input[class='select-item']").click(function(){
+    $("body").on("change", ".select-item", function () {
         if($(this).prop("checked")==true){
             var allChecked = true; //是否勾上全选按钮
             $("input[class='select-item']").each(function(){
@@ -27,6 +24,7 @@ $(function () {
             $("input[class='select-all']").prop("checked",false); //全选按钮不能勾选
         }
     });
+
 
     /* Radio CheckBox */
     $(".radio-inline > label").click(function () {

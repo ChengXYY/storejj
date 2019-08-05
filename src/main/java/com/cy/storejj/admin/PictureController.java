@@ -65,6 +65,7 @@ public class PictureController extends AdminConfig {
         //获取模板列表       
         model.addAttribute("pageTitle",addPageTitle+pictureModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "resource");
+        model.addAttribute("LeftMenuFlag", "picture");
         return adminHtml +"picture_add";
     }
 
@@ -91,6 +92,7 @@ public class PictureController extends AdminConfig {
             model.addAttribute("picture", picture);
             model.addAttribute("pageTitle",editPageTitle+pictureModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "resource");
+            model.addAttribute("LeftMenuFlag", "picture");
 
             return adminHtml +"picture_edit";
         }catch (JsonException e){

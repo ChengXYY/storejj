@@ -64,6 +64,7 @@ public class ArticleController extends AdminConfig {
         //获取模板列表
         model.addAttribute("pageTitle",addPageTitle+articleModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "resource");
+        model.addAttribute("LeftMenuFlag", "article");
         return adminHtml +"article_add";
     }
 
@@ -90,6 +91,7 @@ public class ArticleController extends AdminConfig {
             model.addAttribute("article", article);
             model.addAttribute("pageTitle",editPageTitle+articleModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "resource");
+            model.addAttribute("LeftMenuFlag", "article");
 
             return adminHtml +"article_edit";
         }catch (JsonException e){

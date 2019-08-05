@@ -25,7 +25,12 @@
         <table class="table">
             <thead>
             <tr>
-                <th>全选 <input type="checkbox" class="select-all" /></th>
+                <th>
+                    <div class="checkbox-inline">
+                        <input type="checkbox" class="select-all" />
+                        <label>全选</label>
+                    </div>
+                </th>
                 <th>页面编号</th>
                 <th>页面标题</th>
                 <th>创建时间</th>
@@ -34,7 +39,12 @@
             </thead>
             <tbody>
             <tr th:each="page:${list}">
-                <td class="center"><input type="checkbox" th:value="${page.id}" class="select-item"/></td>
+                <td class="center">
+                    <div class="checkbox-inline">
+                        <input type="checkbox" th:value="${page.id}" class="select-item"/>
+                        <label></label>
+                    </div>
+                </td>
                 <td th:text="${page.code}"></td>
                 <td th:text="${page.title}"></td>
                 <td th:text="${#dates.format(page.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
@@ -55,7 +65,6 @@
 <footer th:replace="/admin/_footer::footer">
     Your Company Name.
 </footer>
-<script type="text/javascript" th:src="@{~/js/common-files.js}"></script>
 <script>
     $(function () {
         $(".delete").click(function () {

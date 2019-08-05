@@ -13,7 +13,7 @@
     <div class="col-md-10">
         <div class="toolbar">
             <div class="col-md-4">
-                <a class="btn btn-primary" href="/products/add"><i class="fa fa-plus"></i> 创建商品</a>
+                <a class="btn btn-primary" href="/product/add"><i class="fa fa-plus"></i> 创建商品</a>
                 <a class="btn btn-danger batch-delete" href="javascript:" ><i class="fa fa-trash-o"></i> 批量删除</a>
             </div>
             <form class="col-md-8 right form-inline">
@@ -25,7 +25,12 @@
         <table class="table">
             <thead>
             <tr>
-                <th>全选 <input type="checkbox" class="select-all" /></th>
+                <th>
+                    <div class="checkbox-inline">
+                        <input type="checkbox" class="select-all" />
+                        <label>全选</label>
+                    </div>
+                </th>
                 <th>编号</th>
                 <th>名称</th>
                 <th>所属类别</th>
@@ -39,7 +44,12 @@
             </thead>
             <tbody>
             <tr th:each="product:${list}">
-                <td class="center"><input type="checkbox" th:value="${product.id}" class="select-item"/></td>
+                <td class="center">
+                    <div class="checkbox-inline">
+                        <input type="checkbox" th:value="${product.id}" class="select-item"/>
+                        <label></label>
+                    </div>
+                </td>
                 <td class="oneline-column" th:text="${product.code}"></td>
                 <td class="oneline-column" th:text="${product.name}"></td>
                 <td th:text="${product.category.name}"></td>
@@ -54,7 +64,7 @@
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(list)}">
-                <td colspan="9" class="center">暂无数据</td>
+                <td colspan="10" class="center">暂无数据</td>
             </tr>
             </tbody>
         </table>
@@ -79,7 +89,7 @@
                             id:id
                         },
                         dataType:"json",
-                        url:"/products/remove",
+                        url:"/product/remove",
                         success:function (data) {
                             layer.close(index);
                             if(data.retCode == 0){
@@ -105,7 +115,7 @@
                     ids:ids
                 },
                 dataType:"json",
-                url:"/products/batchremove",
+                url:"/product/batchremove",
                 success:function (data) {
                     layer.close(index);
                     layer.alert(data.retMsg, function () {

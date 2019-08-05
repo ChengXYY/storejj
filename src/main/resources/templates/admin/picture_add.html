@@ -7,21 +7,24 @@
     Your Company Name.
 </header>
 <div th:replace="/admin/_topmenu::topmenu"></div>
-<div class="container">
-    <form class="form-horizontal" id="myForm" style="margin-bottom: 50px">
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_resource_leftmenu::leftmenu"></div>
+    </div>
+    <form class="form-horizontal col-md-10" id="myForm" style="margin-bottom: 50px">
 
         <div class="form-group">
-            <h3 class="text text-primary">图片编号</h3>
+            <h3 class="text text-primary center">图片编号</h3>
             <hr/>
             <input class="form-control" placeholder="英文字母、数字、符号" type="text" name="code"/>
         </div>
         <div class="form-group">
-            <h3 class="text text-primary">图片描述</h3>
+            <h3 class="text text-primary center">图片描述</h3>
             <hr/>
             <textarea class="form-control" name="intro"></textarea>
         </div>
         <div class="form-group">
-            <h3 class="text text-primary">图片上传</h3>
+            <h3 class="text text-primary center">图片上传</h3>
             <hr/>
             <div class="btn btn-outline btn-success" id="select-file"><i class="fa fa-folder-open"></i> 选择文件</div>
             <div class="btn btn-primary" id="upload-file"><i class="fa fa-upload"></i> 上传</div>

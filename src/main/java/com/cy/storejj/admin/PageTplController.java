@@ -63,6 +63,7 @@ public class PageTplController extends AdminConfig {
     public String add(ModelMap model){
         model.addAttribute("pageTitle",addPageTitle+pagetplModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "sitepage");
+        model.addAttribute("LeftMenuFlag", "tpl");
         return adminHtml +"tpl_add";
     }
 
@@ -86,6 +87,7 @@ public class PageTplController extends AdminConfig {
             model.addAttribute("tpl", tpl);
             model.addAttribute("pageTitle",addPageTitle+pagetplModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "sitepage");
+            model.addAttribute("LeftMenuFlag", "tpl");
             return adminHtml +"tpl_edit";
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());

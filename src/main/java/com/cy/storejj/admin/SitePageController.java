@@ -73,6 +73,7 @@ public class SitePageController extends AdminConfig {
         model.addAttribute("list", list);
         model.addAttribute("pageTitle",addPageTitle+sitepageModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "sitepage");
+        model.addAttribute("LeftMenuFlag", "page");
         return adminHtml +"site_add";
     }
 
@@ -101,6 +102,7 @@ public class SitePageController extends AdminConfig {
             model.addAttribute("page", sitepage);
             model.addAttribute("pageTitle",editPageTitle+sitepageModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "sitepage");
+            model.addAttribute("LeftMenuFlag", "page");
 
             return adminHtml +"site_edit";
         }catch (JsonException e){
