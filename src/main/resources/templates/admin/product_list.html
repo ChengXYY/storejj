@@ -35,7 +35,7 @@
                 <th>编号</th>
                 <th>名称</th>
                 <th>所属类别</th>
-                <th>产品标签</th>
+                <th>产品原图</th>
                 <th>商城</th>
                 <th>状态</th>
                 <th class="time-column">添加时间</th>
@@ -53,7 +53,11 @@
                 <td class="oneline-column" th:text="${product.code}"></td>
                 <td class="oneline-column" th:text="${product.name}"></td>
                 <td th:text="${product.category.name}"></td>
-                <td th:text="${product.tags}"></td>
+                <td class="center">
+                    <a class="btn btn-warning btn-outline product-image" th:attr="data-id=${product.id}" >
+                        <i class="fa fa-image"></i>
+                    </a>
+                </td>
 
                 <td th:if="${product.isShop==1}" class="text text-success" >是</td>
                 <td th:if="${product.isShop==0}" class="text text-danger" >否</td>
@@ -82,6 +86,32 @@
 </footer>
 <script>
     $(function () {
+
+        $(".product-image").click(function () {
+            var id = $(this).data("id");
+            $.ajax({
+                type:"post",
+                data:{
+                    id:id
+                },
+                dataType:"json",
+                url:"/product/getimages",
+                success:function (data) {
+                    if(data.retCode == 0){
+                        layer.photos({
+                            photos: data ,
+                            anim: 5,
+                            shade: 0,
+                            closeBtn:1,
+                            area:['600px']
+                        });
+                    }else {
+                        layer.msg(data.retMsg);
+                    }
+                }
+            })
+
+        });
         $(".delete").click(function () {
             var id = $(this).parent().data("id");
 

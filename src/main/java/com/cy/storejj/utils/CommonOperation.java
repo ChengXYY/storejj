@@ -72,7 +72,7 @@ public class CommonOperation extends AdminConfig {
         int size = (int)file.getSize();
         size = (int)Math.ceil(size/1024);
         if(size <= 0)throw JsonException.newInstance(ErrorCodes.FILE_UPLOAD_FAILED);
-        String destDir = savePath + "/" + newFileName;
+        String destDir = savePath + newFileName;
         File dest  = new File(destDir);
         if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
             dest.getParentFile().mkdir();
@@ -305,14 +305,15 @@ public class CommonOperation extends AdminConfig {
         if(StringUtils.isBlank(name))
             return name;
         int length = name.length();
-        if(length >2){
-            name = name.substring(0,2);
-            for (int i=0; i<length-2;i++){
-                name += "*";
-            }
-        }else {
-            name = name.substring(0,1)+"*";
+        int show = 1;
+        if(length>3){
+            show = 2;
         }
+        name = name.substring(0,show);
+        for (int i=0; i<length-show;i++){
+            name += "*";
+        }
+
         return name;
     }
 

@@ -16,16 +16,9 @@
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <association property="category" column="category_code" select="getCategory"></association>
 
-    <collection property="images" ofType="com.cy.storejj.model.ProductImages" column="product_id">
-      <id property="id" column="id" jdbcType="INTEGER"/>
-      <result column="name" property="name" jdbcType="VARCHAR" />
-      <result column="url" property="url" jdbcType="VARCHAR" />
-      <result column="size" property="name" jdbcType="INTEGER" />
-      <result column="ext" property="name" jdbcType="VARCHAR" />
-      <result column="create_by" property="createBy" jdbcType="VARCHAR" />
-      <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    </collection>
+    <collection property="images" ofType="com.cy.storejj.model.ProductImages" column="id" select="getProductImages"></collection>
   </resultMap>
 
 
@@ -40,8 +33,21 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="getCategory" resultMap="categoryMap" parameterType="java.lang.Integer">
-    select <include refid="categoryTable" /> from category g where g.code=#{categoryCode,jdbcType=INTEGER}
+  <select id="getCategory" resultMap="categoryMap" parameterType="java.lang.String">
+    select <include refid="categoryTable" /> from category g where g.code=#{categoryCode,jdbcType=VARCHAR}
+  </select>
+
+  <!-- images -->
+  <sql id="imagesTable">id, name, url, size, ext</sql>
+  <resultMap id="imagesMap" type="com.cy.storejj.model.ProductImages">
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="ext" property="ext" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getProductImages" resultMap="imagesMap" parameterType="java.lang.Integer">
+    select <include refid="imagesTable" /> from product_images pi where pi.product_id=#{id, jdbcType=INTEGER}
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -267,7 +273,7 @@
 
   <!-- images -->
   <insert id="insertImages" parameterType="com.cy.storejj.model.ProductImages" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-    insert into product
+    insert into product_images
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -340,7 +346,7 @@
   </select>
   <select id="getImages" parameterType="java.lang.Integer" resultType="com.cy.storejj.model.ProductImages">
     select * from product_images
-    where product_id = #{productId}
+    where product_id = #{productId,jdbcType=INTEGER}
   </select>
 
   <insert id="batchInsertImages" parameterType="com.cy.storejj.model.ProductImages">

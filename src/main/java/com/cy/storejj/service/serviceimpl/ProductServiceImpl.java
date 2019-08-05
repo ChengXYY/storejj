@@ -215,4 +215,11 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
     }
+
+    @Override
+    public List<ProductImages> getImages(Integer productId) {
+        Product product = get(productId);
+        if(product == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
+        return productMapper.getImages(productId);
+    }
 }

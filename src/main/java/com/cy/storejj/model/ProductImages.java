@@ -20,6 +20,8 @@ public class ProductImages {
 
     private Timestamp createTime;
 
+    private Product product;
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -82,5 +84,13 @@ public class ProductImages {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

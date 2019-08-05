@@ -1,10 +1,14 @@
 package com.cy.storejj.admin;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.aop.Permission;
 import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.exception.JsonException;
+import com.cy.storejj.model.Category;
 import com.cy.storejj.model.Product;
+import com.cy.storejj.model.ProductImages;
+import com.cy.storejj.service.CategoryService;
 import com.cy.storejj.service.ProductService;
 import com.cy.storejj.utils.CommonOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +35,9 @@ public class ProductController extends AdminConfig {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Permission("2131")
     @RequestMapping(value = {"", "/index", "/list"}, method = RequestMethod.GET)
@@ -58,11 +67,36 @@ public class ProductController extends AdminConfig {
         model.addAttribute("LeftMenuFlag", "product");
         return adminHtml +"product_list";
     }
+    @Permission("2131")
+    @ResponseBody
+    @RequestMapping(value = "/getimages",method = RequestMethod.POST)
+    public JSONObject getImages(@RequestParam("id")Integer id){
+        try {
+            List<ProductImages> images = productService.getImages(id);
+            if(images.size() <1 ){
+                return CommonOperation.fail("暂无图片");
+            }
+            List<Map<String, Object>> data = new ArrayList<>();
+            images.forEach(r->{
+                Map<String, Object> map = new HashMap<>();
+                map.put("alt", r.getName());
+                map.put("src", r.getUrl());
+                map.put("pid", r.getId());
+            });
+            JSONObject rs = CommonOperation.success();
+            rs.put("data", data);
+            return rs;
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
 
     @Permission("2131")
     @RequestMapping("/add")
     public String add(ModelMap model){
         //获取模板列表
+        List<Category> categories = categoryService.getList(null);
+        model.addAttribute("categoryList", categories);
         model.addAttribute("pageTitle",addPageTitle+productModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "product");
         model.addAttribute("LeftMenuFlag", "product");

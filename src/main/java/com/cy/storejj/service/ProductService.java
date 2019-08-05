@@ -3,6 +3,7 @@ package com.cy.storejj.service;
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.model.Product;
 import com.cy.storejj.model.ProductImages;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -34,5 +35,7 @@ public interface ProductService {
     JSONObject deleteImages(Integer id);
 
     JSONObject deleteImagesByProduct(Integer productId);
+
+    List<ProductImages> getImages(Integer productId);
 
 }

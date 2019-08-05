@@ -34,6 +34,7 @@
                 <div class="col-md-8">
                     <select class="form-control" name="categoryCode">
                         <option value="0">请选择</option>
+                        <option th:each="cat:${categoryList}" th:value="${cat.code}" th:text="${cat.name}"></option>
                     </select>
                 </div>
             </div>
