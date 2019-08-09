@@ -6,7 +6,7 @@
     }
 
     #showBox .image-box{
-        width: 10em;
+        width: 15em;
         height: 15em;
         margin-right: 3em;
         margin-bottom: 2em;
@@ -16,12 +16,12 @@
         font-size: 2em;
         position: absolute;
         margin-top: -0.6em;
-        margin-left: 4.6em;
+        margin-left: 7em;
         z-index: 99;
         cursor: pointer;
     }
     #showBox .image-box .image{
-        width: 10em;
+        width: 15em;
         height: 15em;
         overflow: hidden;
         background: #fff;
@@ -69,7 +69,17 @@
         <input type="file" multiple accept="image/*" id="uploadfile" style="display: none"/>
     </div>
     <div id="showBox">
-
+        <div class="image-box" th:if="${images!=null}" th:each="image:${images}">
+            <a class="text text-danger delete-image" th:attr="data-file=${image.url}">
+                <i class="fa fa-times-circle"></i>
+            </a>
+            <span class="text text-success upload-success" style="display: block">
+                <i class="fa fa-check-circle"></i>
+            </span>
+            <div class="image">
+                <img th:src="${'/getimg?filename='+image.url}">
+            </div>
+        </div>
 
     </div>
 </div>
@@ -97,11 +107,13 @@
 </template>
     <form style="display: none" id="uploadForm" enctype="multipart/form-data"></form>
     <input type="hidden" id="successFiles" value=""/>
+    <input type="hidden" id="deleteFiles" value=""/>
 
 <script>
     $(function () {
         var uploadFiles = [];
         var successFiles = [];
+        var deleteFiles = [];
 
         $("#btnSelect").click(function () {
             $("#uploadfile").val("");
@@ -152,6 +164,24 @@
         }
 
         function deleteImage(file) {
+            var loading = layer.load(0, { shade: false });
+            $.ajax({
+                type:"post",
+                data:{
+                    filename:file
+                },
+                dataType:"json",
+                url:"/file/remove",
+                success:function (msg) {
+                    layer.close(loading);
+                    if(msg.retCode == 0){
+                        deleteFiles.push(file);
+                        $("#deleteFiles").val(JSON.stringify(deleteFiles));
+                    }else {
+                        layer.msg(msg.retMsg);
+                    }
+                }
+            });
             for(var i=0; i<uploadFiles.length; i++){
                 if(uploadFiles[i].id == file){
                     uploadFiles.splice(i, 1);

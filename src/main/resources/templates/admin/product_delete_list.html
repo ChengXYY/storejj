@@ -12,7 +12,10 @@
     </div>
     <div class="col-md-10">
         <div class="toolbar">
-            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <a class="btn btn-warning batch-upper" href="javascript:"><i class="fa fa-upload"></i> 批量上架</a>
+
+            </div>
             <form class="col-md-8 right form-inline">
                 <input class="form-control" name="code" value="产品编号"/>
                 <input class="form-control" name="title" value="产品标题"/>
@@ -31,12 +34,11 @@
                 <th>编号</th>
                 <th>名称</th>
                 <th>所属类别</th>
+                <th>标价/积分</th>
+                <th>库存</th>
+                <th>商城</th>
                 <th>说明</th>
-                <th>产品标签</th>
-                <th>商城产品</th>
-                <th>价值积分</th>
-                <th class="time-column">添加时间</th>
-                <th>操作</th>
+                <th>产品图</th>
             </tr>
             </thead>
             <tbody>
@@ -50,17 +52,19 @@
                 <td class="oneline-column" th:text="${product.code}"></td>
                 <td class="oneline-column" th:text="${product.name}"></td>
                 <td th:text="${product.category.name}"></td>
-                <td th:text="${product.content}"></td>
-                <td th:text="${product.tags}"></td>
+                <td th:text="${product.price}"></td>
+                <td th:text="${product.stock}"></td>
 
                 <td th:if="${product.isShop==1}" class="text text-success" >是</td>
                 <td th:if="${product.isShop==0}" class="text text-muted" >否</td>
 
-                <td th:text="${product.price}"></td>
-
-                <td th:text="${#dates.format(product.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
-                <td th:attr="data-id=${product.id}" class="center">
+                <td th:text="${product.content}"></td>
+                <td class="center">
+                    <a class="btn btn-info btn-outline btn-xs product-image" title="产品原图" th:attr="data-id=${product.id}" >
+                        <i class="fa fa-image"></i>
+                    </a>
                 </td>
+
             </tr>
             <tr th:if="${#lists.isEmpty(list)}">
                 <td colspan="10" class="center">暂无数据</td>
@@ -75,7 +79,56 @@
 </footer>
 <script>
     $(function () {
+        $(".product-image").click(function () {
+            var id = $(this).data("id");
+            $.ajax({
+                type:"post",
+                data:{
+                    id:id
+                },
+                dataType:"json",
+                url:"/product/getimages",
+                success:function (data) {
+                    if(data.retCode == 0){
+                        layer.photos({
+                            photos: data ,
+                            anim: 5,
+                            shade: 0,
+                            closeBtn:1,
+                            area:['600px']
+                        });
+                    }else {
+                        layer.msg(data.retMsg);
+                    }
+                }
+            })
 
+        });
+
+        $(".batch-upper").click(function () {
+            var ids = getSelectedIds();
+            if(ids.length < 1){
+                layer.msg("请勾选您要下架的记录");
+                return;
+            }
+            var index = layer.load(0, { shade: false });
+            $.ajax({
+                type :"post",
+                data :{
+                    ids: ids
+                },
+                dataType:"json",
+                url: "/product/upper",
+                success:function (msg) {
+                    layer.close(index);
+                    if(msg.retCode == 0){
+                        location.reload();
+                    }else {
+                        layer.msg(msg.retMsg);
+                    }
+                }
+            })
+        });
     });
 </script>
 </body>

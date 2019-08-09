@@ -20,13 +20,13 @@
             <div class="form-group col-md-6">
                 <label class="col-md-4 control-label">名称：</label>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" name="name"/>
+                    <input class="form-control" type="text" name="name" th:value="${product.name}"/>
                 </div>
             </div>
             <div class="form-group col-md-6">
                 <label class="col-md-4 control-label">编号：</label>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" name="code"/>
+                    <input class="form-control" type="text" name="code" th:value="${product.code}"/>
                 </div>
             </div>
             <div class="form-group col-md-6">
@@ -34,31 +34,34 @@
                 <div class="col-md-8">
                     <select class="form-control" name="categoryCode">
                         <option value="0">请选择</option>
-                        <option th:each="cat:${categoryList}" th:value="${cat.code}" th:text="${cat.name}"></option>
+                        <option th:each="cat:${categoryList}"
+                                th:value="${cat.code}"
+                                th:text="${cat.name}"
+                                th:selected="${cat.code==product.categoryCode}"></option>
                     </select>
                 </div>
             </div>
             <div class="form-group col-md-6">
                 <label class="col-md-4 control-label">标价：<i class="fa fa-question-circle-o" title="积分=标价/100，取整数"></i></label>
                 <div class="col-md-8">
-                    <input class="form-control" type="number" name="price" value="0"/>
+                    <input class="form-control" type="number" name="price" th:value="${product.price}"/>
                 </div>
             </div>
             <div class="form-group col-md-6">
                 <label class="col-md-4 control-label">库存：</label>
                 <div class="col-md-8">
-                    <input class="form-control" type="number" name="stock" value="0"/>
+                    <input class="form-control" type="number" name="stock" th:value="${product.stock}"/>
                 </div>
             </div>
             <div class="form-group col-md-6">
                 <label class="col-md-4 control-label">积分商城：<i class="fa fa-question-circle-o" title="产品是否在积分商城中，可进行兑换"></i></label>
                 <div class="col-md-8">
                     <div class="radio-inline">
-                        <input type="radio" name="isShop" value="1" />
+                        <input type="radio" name="isShop" value="1" th:checked="${product.isShop==1}"/>
                         <label>是</label>
                     </div>
                     <div class="radio-inline">
-                        <input type="radio" name="isShop" value="0" checked />
+                        <input type="radio" name="isShop" value="0"  th:checked="${product.isShop==0}" />
                         <label>否</label>
                     </div>
                 </div>
@@ -67,7 +70,7 @@
             <div class="form-group col-md-6">
                 <label class="col-md-4 control-label">商品描述：</label>
                 <div class="col-md-8">
-                    <textarea name="content" class="form-control" rows="5"></textarea>
+                    <textarea name="content" class="form-control" rows="5" th:value="${product.content}"></textarea>
                 </div>
             </div>
             <div id="productImageForm" style="display: none">
@@ -111,7 +114,7 @@
                 type : "post",
                 data : $("#myForm").serialize(),
                 dataType : "json",
-                url : "/product/add/submit",
+                url : "/product/edit/submit",
                 success :function (data) {
                     if(data.retCode == 0){
                         location.href="/product/list";

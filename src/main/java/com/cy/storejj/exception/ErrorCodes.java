@@ -21,6 +21,9 @@ public enum ErrorCodes {
 
     GROUP_NOT_EMPTY(30001, "群组不为空"),
 
+    //会员制度
+    POINTS_CROSS_HIGN(40001, "积分交叉：最高积分>等级高的最低积分"),
+    POINTS_CROSS_LOW(40002, "积分交叉：最低积分<等级低的最高积分"),
 
     FILE_NOT_EXSIT(70001, "文件不存在"),
     FILE_UPLOAD_FAILED(70002, "文件上传失败"),

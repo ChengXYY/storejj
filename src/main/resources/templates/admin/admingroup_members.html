@@ -27,7 +27,12 @@
         <table class="table">
             <thead>
             <tr>
-                <th>全选<input class="select-all" value="1" type="checkbox"></th>
+                <th>
+                    <div class="checkbox-inline">
+                        <input type="checkbox" class="select-all" />
+                        <label>全选</label>
+                    </div>
+                </th>
                 <th>账号</th>
                 <th>添加时间</th>
             </tr>
@@ -36,22 +41,25 @@
             <form id="myForm">
                 <input type="hidden" name="id" th:value="${groupId}">
             <tr th:each="member:${list}">
-                <td>
-                    <input type="checkbox"
-                           name="members[]"
-                           th:value="${member.id}"
-                          class="select-item"/>
+                <td class="center">
+                    <div class="checkbox-inline">
+                        <input type="checkbox"
+                               th:value="${member.id}"
+                              class="select-item"/>
+                        <label></label>
+                    </div>
                 </td>
                 <td th:text="${member.account}">account</td>
                 <td th:text="${#dates.format(member.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
             </tr>
             </form>
+            <tr th:if="${#lists.isEmpty(list)}">
+                <td colspan="3" class="center">暂无数据</td>
+            </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-<script th:src="@{~/js/common-files.js}"></script>
 <script>
     $(function () {
         $("#batch-remove").click(function () {

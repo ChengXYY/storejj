@@ -48,8 +48,14 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
     public JSONObject edit(Product product) {
         if(!CommonOperation.checkId(product.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         //判断重复
-        Product p = get(product.getCode());
-        if(p!=null && p.getId()!=product.getId()) throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
+        Product p = new Product();
+        if(StringUtils.isNotBlank(product.getCode())){
+            p = get(product.getCode());
+            if(p!=null && p.getId()!=product.getId()) throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
+        }else {
+            if(product.getId() == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
+            p = get(product.getId());
+        }
         int rs = productMapper.updateByPrimaryKeySelective(product);
         if(rs > 0){
             //图片操作
@@ -90,7 +96,40 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
         for(String id : idArr){
             count ++;
             try {
-                remove(Integer.parseInt(id));
+                Product p = new Product();
+                p.setId(Integer.parseInt(id));
+                p.setIsDelete(1);
+                edit(p);
+                success++;
+            }catch (JsonException e){
+                msg += "ID"+id+"："+ e.getMsg()+ "。";
+                fail++;
+            }
+        }
+        msg = "成功删除："+success+"，失败："+fail+"。"+msg;
+        if(fail > 0){
+            return CommonOperation.fail(msg);
+        }else {
+            return CommonOperation.success(msg);
+        }
+    }
+
+    @Override
+    public JSONObject restart(String ids) {
+        if(ids == null || ids.isEmpty()) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
+        ids = ids.replace(" ", "");
+        String[] idArr = ids.split(",");
+        String msg = "";
+        int success = 0;
+        int count = 0;
+        int fail = 0;
+        for(String id : idArr){
+            count ++;
+            try {
+                Product p = new Product();
+                p.setId(Integer.parseInt(id));
+                p.setIsDelete(0);
+                edit(p);
                 success++;
             }catch (JsonException e){
                 msg += "ID"+id+"："+ e.getMsg()+ "。";
@@ -125,7 +164,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
                 edit(p);
                 success++;
             }catch (JsonException e){
-                msg += "ID"+id+"："+ e.getMsg()+ "。";
+                msg += "ID["+id+"]："+ e.getMsg()+ "。";
                 fail++;
             }
         }
@@ -220,6 +259,6 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
     public List<ProductImages> getImages(Integer productId) {
         Product product = get(productId);
         if(product == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
-        return productMapper.getImages(productId);
+        return product.getImages();
     }
 }

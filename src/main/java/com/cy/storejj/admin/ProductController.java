@@ -80,8 +80,9 @@ public class ProductController extends AdminConfig {
             images.forEach(r->{
                 Map<String, Object> map = new HashMap<>();
                 map.put("alt", r.getName());
-                map.put("src", r.getUrl());
+                map.put("src", "/getimg?filename="+r.getUrl());
                 map.put("pid", r.getId());
+                data.add(map);
             });
             JSONObject rs = CommonOperation.success();
             rs.put("data", data);
@@ -90,6 +91,32 @@ public class ProductController extends AdminConfig {
             return e.toJson();
         }
     }
+
+    //销售
+    @Permission("2131")
+    @RequestMapping(value = "/sell", method = RequestMethod.GET)
+    public String sell(@RequestParam("id")Integer id, ModelMap model){
+        //获取产品
+        try{
+            Product product = productService.get(id);
+
+            model.addAttribute("product", product);
+            model.addAttribute("pageTitle",addPageTitle+productModuleTitle+systemTitle);
+            model.addAttribute("TopMenuFlag", "product");
+            model.addAttribute("LeftMenuFlag", "product");
+            return adminHtml +"product_sell";
+        }catch (JsonException e){
+            model.addAttribute("error", e.toJson());
+            return "/error/common";
+        }
+    }
+    @Permission("2131")
+    @ResponseBody
+    @RequestMapping(value = "/sell/submit", method = RequestMethod.POST)
+    public JSONObject sell(Map<String, Object> param){
+        return null;
+    }
+
 
     @Permission("2131")
     @RequestMapping("/add")
@@ -123,7 +150,11 @@ public class ProductController extends AdminConfig {
         try {
 
             Product product = productService.get(id);
+            //获取模板列表
+            List<Category> categories = categoryService.getList(null);
+            model.addAttribute("categoryList", categories);
             model.addAttribute("product", product);
+            model.addAttribute("images", product.getImages());
             model.addAttribute("pageTitle",editPageTitle+productModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "product");
             model.addAttribute("LeftMenuFlag", "product");
@@ -213,6 +244,7 @@ public class ProductController extends AdminConfig {
     }
 
     @Permission("2133")
+    @ResponseBody
     @RequestMapping("/shop/batchadd")
     public JSONObject shopAdd(@RequestParam(value = "ids")String ids){
         try {
@@ -221,6 +253,7 @@ public class ProductController extends AdminConfig {
             return e.toJson();
         }
     }
+
 
     //---已删除产品列表
     @Permission("2134")
@@ -252,5 +285,16 @@ public class ProductController extends AdminConfig {
         return adminHtml +"product_delete_list";
     }
 
+    //批量上架
+    @Permission("2134")
+    @ResponseBody
+    @RequestMapping(value = "/upper", method = RequestMethod.POST)
+    public JSONObject upper(@RequestParam("ids")String ids){
+        try {
+            return productService.restart(ids);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
 
 }

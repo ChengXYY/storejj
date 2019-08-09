@@ -27,11 +27,24 @@ public class MembershipServiceImpl extends AdminConfig implements MembershipServ
                 || membership.getMaxPoints()==null
                 || membership.getLevel() == null)
             throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
-        if(membership.getMinPoints()>membership.getMaxPoints() || membership.getLevel()<0)
+        if(membership.getMinPoints() == -1 || (membership.getMaxPoints()!=-1 && membership.getMinPoints()>membership.getMaxPoints()) || membership.getLevel()<0)
             throw JsonException.newInstance(ErrorCodes.PARAM_NOT_LEGAL);
-        Membership m = membershipMapper.selectByLevel(membership.getLevel());
-        if(m !=null)
-            throw JsonException.newInstance(ErrorCodes.ITEM_REPEATED);
+        List<Membership> mList = membershipMapper.selectAll();
+        for (int i=0; i<mList.size(); i++){
+            //等级重复
+            if(membership.getLevel() == mList.get(i).getLevel()){
+                throw JsonException.newInstance(ErrorCodes.ITEM_REPEATED);
+            }
+            //积分交叉
+            //最高积分>等级高的最低积分
+            if(membership.getLevel() < mList.get(i).getLevel() && membership.getMaxPoints() > mList.get(i).getMinPoints()){
+                throw JsonException.newInstance(ErrorCodes.POINTS_CROSS_HIGN);
+            }
+            //最低积分<等级低的最高积分
+            if(membership.getLevel() > mList.get(i).getLevel() && membership.getMinPoints() < mList.get(i).getMaxPoints()){
+                throw JsonException.newInstance(ErrorCodes.POINTS_CROSS_LOW);
+            }
+        }
 
         int rs = membershipMapper.insertSelective(membership);
         if(rs > 0){
@@ -46,15 +59,27 @@ public class MembershipServiceImpl extends AdminConfig implements MembershipServ
     public JSONObject edit(Membership membership) {
         if(!CommonOperation.checkId(membership.getId()))
             throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
-        Membership m = get(membership.getId());
-        if(m == null)
-            throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
+        List<Membership> mList = membershipMapper.selectAll();
 
-        if(membership.getLevel() != null){
-            Membership m2 = getByLevel(membership.getLevel());
-            if(m2 != null && m2.getId() != membership.getId())
-                throw JsonException.newInstance(ErrorCodes.LEVEL_REPEATED);
+        for (int i=0; i<mList.size(); i++){
+            if(membership.getLevel()!=null){
+                //等级重复
+                if(membership.getLevel() == mList.get(i).getLevel() && mList.get(i).getId()!=membership.getId()){
+                    throw JsonException.newInstance(ErrorCodes.LEVEL_REPEATED);
+                }
+
+            }
+            //积分交叉
+            //最高积分>等级高的最低积分
+            if(membership.getLevel() < mList.get(i).getLevel() && membership.getMaxPoints() > mList.get(i).getMinPoints()){
+                throw JsonException.newInstance(ErrorCodes.POINTS_CROSS_HIGN);
+            }
+            //最低积分<等级低的最高积分
+            if(membership.getLevel() > mList.get(i).getLevel() && membership.getMinPoints() < mList.get(i).getMaxPoints()){
+                throw JsonException.newInstance(ErrorCodes.POINTS_CROSS_LOW);
+            }
         }
+
         int rs = membershipMapper.updateByPrimaryKeySelective(membership);
         if(rs > 0){
             return CommonOperation.success(membership.getId());

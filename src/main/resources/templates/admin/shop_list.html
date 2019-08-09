@@ -13,7 +13,7 @@
     <div class="col-md-10">
         <div class="toolbar">
             <div class="col-md-4">
-                <a class="btn btn-primary" href="/product/add"><i class="fa fa-plus"></i> 创建商品</a>
+                <a class="btn btn-primary" href="/product/add"><i class="fa fa-plus"></i> 新增商品</a>
                 <a class="btn btn-danger batch-delete" href="javascript:" ><i class="fa fa-trash-o"></i> 批量删除</a>
             </div>
             <form class="col-md-8 right form-inline">
@@ -36,7 +36,7 @@
                 <th>所属类别</th>
                 <th>说明</th>
                 <th>产品标签</th>
-                <th>定价(积分)</th>
+                <th>所需积分</th>
                 <th>现库存</th>
                 <th class="time-column">添加时间</th>
                 <th>操作</th>
@@ -55,7 +55,7 @@
                 <td th:text="${product.category.name}"></td>
                 <td th:text="${product.content}"></td>
                 <td th:text="${product.tags}"></td>
-                <td th:text="${product.price/100}"></td>
+                <td th:text="${product.price}"></td>
                 <td th:text="${product.stock}"></td>
                 <td th:text="${#dates.format(product.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td th:attr="data-id=${product.id}" class="center">

@@ -216,7 +216,7 @@ public class SystemController extends AdminConfig {
     public String admingroupMembers(@RequestParam(value = "id") Integer id, ModelMap model){
         try {
             Map<String, Object> filter = new HashMap<>();
-            filter.put("groupid", id);
+            filter.put("groupId", id);
             List<Admin> members = adminService.getList(filter);
             model.addAttribute("list", members);
             model.addAttribute("pageTitle",listPageTitle+admingroupModuleTitle+systemTitle);
