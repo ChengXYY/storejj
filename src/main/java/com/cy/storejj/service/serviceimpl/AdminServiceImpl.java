@@ -60,7 +60,7 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
         if(admin.getId()==null || admin.getId()<1 )throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
 
         int rs =  adminMapper.updateByPrimaryKeySelective(admin);
-        if(rs > 0){
+        if(rs >= 0){
             return CommonOperation.success(admin.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
