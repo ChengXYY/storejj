@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.util.DigestUtils;
@@ -318,5 +319,17 @@ public class CommonOperation extends AdminConfig {
         return name;
     }
 
+    //生成随机字符串
+    public static String getRandomStr(int length, String pre){
+        if(StringUtils.isBlank(pre)){
+            pre = "";
+        }
+        length = length - pre.length();
+        return pre + RandomStringUtils.randomAlphanumeric(length);
+    }
+
+    public static String getRandomStr(int length){
+        return getRandomStr(length, null);
+    }
 
 }

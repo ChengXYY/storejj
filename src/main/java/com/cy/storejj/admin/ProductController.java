@@ -99,24 +99,28 @@ public class ProductController extends AdminConfig {
         //获取产品
         try{
             Product product = productService.get(id);
-
             model.addAttribute("product", product);
-            model.addAttribute("pageTitle",addPageTitle+productModuleTitle+systemTitle);
-            model.addAttribute("TopMenuFlag", "product");
-            model.addAttribute("LeftMenuFlag", "product");
             return adminHtml +"product_sell";
         }catch (JsonException e){
             model.addAttribute("error", e.toJson());
             return "/error/common";
         }
     }
-    @Permission("2131")
-    @ResponseBody
-    @RequestMapping(value = "/sell/submit", method = RequestMethod.POST)
-    public JSONObject sell(Map<String, Object> param){
-        return null;
-    }
 
+    //兑换
+    @Permission("2131")
+    @RequestMapping(value = "/exchange", method = RequestMethod.GET)
+    public String exchange(@RequestParam("id")Integer id, ModelMap model){
+        //获取产品
+        try{
+            Product product = productService.get(id);
+            model.addAttribute("product", product);
+            return adminHtml +"product_exchange";
+        }catch (JsonException e){
+            model.addAttribute("error", e.toJson());
+            return "/error/common";
+        }
+    }
 
     @Permission("2131")
     @RequestMapping("/add")

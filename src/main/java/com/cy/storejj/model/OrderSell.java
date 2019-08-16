@@ -2,7 +2,7 @@ package com.cy.storejj.model;
 
 import java.util.Date;
 
-public class OrderSell {
+public class ProductOrder {
     private Integer id;
 
     private String code;
@@ -22,6 +22,8 @@ public class OrderSell {
     private User user;
 
     private Integer status;
+
+    private String remark;
 
     private String createBy;
 
@@ -105,6 +107,14 @@ public class OrderSell {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getCreateBy() {

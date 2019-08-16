@@ -11,27 +11,19 @@
             <label>产品名称：<span class="text-primary" th:text="${product.name}"></span></label>
         </div>
         <div class="form-group">
-            <label>标价：<span class="text-primary" th:text="${product.price}"></span> 元</label>
+            <label>所需积分：<span class="text-primary" th:text="${product.price}"></span></label>
         </div>
         <div class="form-group">
             <label>库存：<span class="text-primary" th:text="${product.stock}"></span> 件</label>
         </div>
         <hr/>
         <div class="form-group ">
-            <label>售出件数：</label>
+            <label>兑换件数：</label>
             <input type="number" class="form-control" name="count" value="1" min="1"/>
         </div>
         <div class="form-group">
-            <label>单件成交价：</label>
-            <input type="number" class="form-control" name="price" value="0" min="0"/>
-        </div>
-        <div class="form-group">
-            <label>总价：</label>
-            <input type="text" class="form-control" name="amount" value="0" readonly/>
-        </div>
-        <div class="form-group">
             <label>会员账号：</label>
-            <input type="number" class="form-control" name="userAccount" value=""/>
+            <input type="text" class="form-control" name="userAccount" value=""/>
         </div>
         <div class="form-group">
             <label>备注：</label>
