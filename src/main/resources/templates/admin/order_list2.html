@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/_include::include"></head>
+<body>
+<header th:include="/admin/_header::header">
+    Your Company Name.
+</header>
+<div th:replace="/admin/_topmenu::topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_order_leftmenu::leftmenu"></div>
+    </div>
+    <div class="col-md-10">
+        <div class="toolbar">
+            <div class="col-md-4"></div>
+            <form th:if="${#strings.contains(session.ADMIN_AUTH+'','5101')}" class="col-md-8 right form-inline">
+                <input class="form-control" name="code" placeholder="订单编号" th:value="${code==null?'':code}"/>
+                <input class="form-control" name="productCode" placeholder="商品编号" th:value="${productCode==null?'':productCode}"/>
+                <select class="form-control" name="isCash">
+                    <option value="2" >订单类型</option>
+                    <option value="1" th:selected="${isCash=='1'}">现金单</option>
+                    <option value="0" th:selected="${isCash=='0'}">积分兑换单</option>
+                </select>
+                <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="90px">
+                    <div class="checkbox-inline">
+                        <input type="checkbox" class="select-all" />
+                        <label>全选</label>
+                    </div>
+                </th>
+                <th>订单编号</th>
+                <th>关联产品</th>
+                <th>单价</th>
+                <th>购买数量</th>
+                <th>总价</th>
+                <th>会员账号</th>
+                <th>支付方式</th>
+                <th class="time-column">购买时间</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order:${list}">
+                <td class="center">
+                    <div class="checkbox-inline">
+                        <input type="checkbox" th:value="${order.id}" class="select-item"/>
+                        <label></label>
+                    </div>
+                </td>
+                <td th:text="${order.code}"></td>
+                <td><a th:href="@{/product/edit?id={id}(id=${order.productId})}" th:text="${order.product.code}"></a></td>
+                <td th:text="${order.price}"></td>
+                <td th:text="${order.count}"></td>
+                <td th:text="${order.amount}"></td>
+                <td th:text="${order.userAccount}"></td>
+
+                <td th:if="${order.isCash==1}" class="text text-warning center" >现金支付</td>
+                <td th:if="${order.isCash==0}" class="text text-primary center" >积分兑换</td>
+                <td th:text="${#dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
+
+                <td th:text="${order.remark}"></td>
+                <td th:attr="data-id=${order.id}" class="center">
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','5102')}" class="btn btn-outline btn-primary btn-xs " title="编辑订单" ><i class="fa fa-edit"></i></a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(list)}">
+                <td colspan="11" class="center">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <page th:replace="/admin/_page::page"></page>
+    </div>
+</div>
+<footer th:replace="/admin/_footer::footer">
+    Your Company Name.
+</footer>
+<script>
+    $(function () {
+
+    });
+</script>
+</body>
+</html>

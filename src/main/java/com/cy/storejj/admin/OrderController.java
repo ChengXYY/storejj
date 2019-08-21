@@ -35,7 +35,6 @@ public class OrderController extends AdminConfig {
 
     @Permission("5100")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @ResponseBody
     public String list(@RequestParam Map<String, Object> param,
                        HttpServletRequest request,
                        ModelMap model){
@@ -46,6 +45,10 @@ public class OrderController extends AdminConfig {
         }
         if(param.get("isCash")!=null){
             currentUrl = CommonOperation.setUrlParam(currentUrl, "isCash", param.get("isCash").toString());
+            int isCash = Integer.parseInt(param.get("isCash").toString());
+            if(isCash != 0  && isCash != 1){
+                param.remove("isCash");
+            }
         }
         if(param.get("productCode")!=null && StringUtils.isNotBlank(param.get("productCode").toString())){
             currentUrl = CommonOperation.setUrlParam(currentUrl, "productCode", param.get("productCode").toString());
@@ -66,6 +69,7 @@ public class OrderController extends AdminConfig {
 
         model.addAttribute("pageTitle",listPageTitle+orderMenuTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "order");
+        model.addAttribute("LeftMenuFlag", "order");
         return adminHtml+"order_list";
     }
 

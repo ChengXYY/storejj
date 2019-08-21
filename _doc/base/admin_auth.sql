@@ -11,7 +11,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 21/08/2019 09:38:31
+ Date: 21/08/2019 17:54:00
 */
 
 SET NAMES utf8mb4;
@@ -82,7 +82,7 @@ INSERT INTO `admin_auth` VALUES (45, '2205', '图片-批量删除', '2200', NULL
 INSERT INTO `admin_auth` VALUES (46, '3101', '产品-搜索', '3100', NULL, NULL);
 INSERT INTO `admin_auth` VALUES (47, '3102', '产品-新增', '3100', NULL, NULL);
 INSERT INTO `admin_auth` VALUES (48, '3103', '产品-编辑', '3100', NULL, NULL);
-INSERT INTO `admin_auth` VALUES (49, '3104', '产品-加入积分商城', '3100', NULL, NULL);
+INSERT INTO `admin_auth` VALUES (49, '3104', '产品-加入/移出积分商城', '3100', NULL, NULL);
 INSERT INTO `admin_auth` VALUES (50, '3105', '产品-下架', '3100', NULL, NULL);
 INSERT INTO `admin_auth` VALUES (51, '3106', '产品-批量下架', '3100', NULL, NULL);
 INSERT INTO `admin_auth` VALUES (52, '3107', '产品-售出', '3100', NULL, NULL);

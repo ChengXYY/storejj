@@ -21,7 +21,7 @@ public interface ProductService {
     //删除恢复
     JSONObject restart(String ids);
 
-    JSONObject add2Shop(String ids);
+    JSONObject add2Shop(String ids, Integer to);
 
     List<Product> getList(Map<String, Object> filter);
 

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="template" >
 <div class="toolbar">
-    <form class="right form-inline" id="searchForm">
+    <div class="col-md-6"></div>
+    <form class="right form-inline col-md-6" id="searchForm">
         <input class="form-control" name="account" placeholder="会员账号" th:value="${account==null?'':account}"/>
         <button type="button" class="btn btn-warning" id="btnSearch"><i class="fa fa-search"></i></button>
     </form>
@@ -83,6 +84,8 @@
                             $("#userStatus").text("异常");
                             $("#userStatus").addClass("text-danger")
                         }
+
+                        $("input[name='account']").val(data.account);
                     }else {
                         layer.msg(data.retMsg);
                     }

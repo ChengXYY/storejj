@@ -348,7 +348,7 @@ table td a:hover{
 }
 
 .time-column{
-    min-width: 90px;
+    width: 90px;
 }
 
 .oneline-column{

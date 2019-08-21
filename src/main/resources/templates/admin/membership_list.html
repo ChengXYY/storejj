@@ -17,6 +17,11 @@
                     <i class="fa fa-plus"></i> 添加会员等级
                 </a>
             </div>
+            <div class="col-md-6 right">
+
+                <a class="btn btn-success btn-outline" id="userLevelRefresh" title="用户等级刷新"><i class="fa fa-refresh"></i></a>
+            </div>
+
         </div>
 
         <table class="table">
@@ -60,7 +65,27 @@
 </footer>
 <script>
     $(function () {
-
+        $("#userLevelRefresh").click(function () {
+           layer.confirm("确认刷新用户等级吗？刷新过程较慢，请耐心等待~",{
+               btn: ['确认','取消']
+           }, function(){
+               var index = layer.load(0, {shade: false});
+               $.ajax({
+                   type:"post",
+                   data:{},
+                   dataType:"json",
+                   url:"/membership/user/refresh",
+                   success:function (data) {
+                       layer.close(index);
+                       if(data.retCode==0){
+                           location.reload();
+                       }else{
+                           layer.msg(data.retMsg);
+                       }
+                   }
+               });
+           }, function(){});
+        });
 
         $("#add-admingroup").click(function () {
             layer.open({

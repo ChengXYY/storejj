@@ -24,34 +24,6 @@
                 </a>
             </div>
         </div>
-        <!--
-        <table class="table">
-            <thead>
-            <tr>
-                <th>全选<input class="select-all" value="1" type="checkbox"></th>
-                <th>编码</th>
-                <th>名称</th>
-            </tr>
-            </thead>
-            <tbody>
-            <form id="myForm">
-                <input type="hidden" name="id" th:value="${groupId}">
-            <tr th:each="auth:${list}">
-                <td>
-                    <input type="checkbox"
-                           name="authcodes[]"
-                           th:value="${auth.code}"
-                           th:checked="${auth.code!=null && #strings.contains(authlist, auth.code)}"
-                           class="select-item"/>
-                </td>
-                <td th:text="${auth.code}">code</td>
-                <td th:text="${auth.intro}">intro</td>
-            </tr>
-            </form>
-            </tbody>
-        </table>
-        -->
-
         <div id="authTree"></div>
     </div>
 </div>
@@ -75,6 +47,7 @@
                 }
             });
             $("body").on("change", "#groupSelect",function () {
+                tree.reload("authCode");
                 if($(this).val() != "0"){
                     $.ajax({
                         type:"post",

@@ -91,4 +91,10 @@ public class MembershipController extends AdminConfig {
             return e.toJson();
         }
     }
+
+    @ResponseBody
+    @RequestMapping("/user/refresh")
+    public JSONObject refresh(){
+        return null;
+    }
 }

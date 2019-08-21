@@ -1,6 +1,8 @@
 server:
   port: 8080
 spring:
+  jackson:
+    time-zone: GMT+8
   mvc:
     favicon:
       enabled: false

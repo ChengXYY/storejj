@@ -14,64 +14,128 @@
         <div th:replace="/admin/_user_template::template"></div>
         <hr/>
         <div class="center" id="userBtns" style="display: none">
-            <a class="btn btn-success">消费积分</a>
-            <a class="btn btn-warning">累积积分</a>
+            <a class="btn btn-success" id="pointsUp">累积积分</a>
+            <a class="btn btn-warning" id="pointsDown">消费积分</a>
+
+            <a class="btn btn-info" id="levelUp">提升等级</a>
+            <a class="btn btn-primary" id="levelDown">降低等级</a>
         </div>
     </div>
 </div>
 <footer th:replace="/admin/_footer::footer">
     Your Company Name.
 </footer>
-<div style="display:none;padding:40px;" id="opLevel">
-    <h3 id="boxTitle">User</h3>
-    <form id="editForm">
-        <input type="hidden" name="type" value="0" />
-        <input type="hidden" name="account" value="" />
-        <input type="number" name="level" value="0" step="100" class="form-control" />
-        <button class="btn btn-primary" id="btnSave">保 存</button>
-    </form>
 
-</div>
+    <div style="padding:40px;display: none" id="opPoints">
+        <form id="pointsForm" class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label">会员账号</label>
+                <input type="text" name="account" value="" class="form-control"  readonly/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">变更积分</label>
+                <input type="number" name="points" value="0" class="form-control" />
+            </div>
+            <div class="form-group center">
+                <input type="hidden" name="type" value="0" />
+                <button class="btn btn-primary" id="pointsSave">保 存</button>
+            </div>
+        </form>
+
+    </div>
+
+    <div style="padding:40px;display: none" id="opLevel">
+        <form id="levelForm" class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label">会员账号</label>
+                <input type="text" name="account" value="" class="form-control"  readonly/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">变更等级</label>
+                <input type="number" name="level" value="0" class="form-control" />
+            </div>
+            <div class="form-group center">
+                <input type="hidden" name="type" value="0" />
+                <button class="btn btn-primary" id="levelSave">保 存</button>
+            </div>
+        </form>
+
+    </div>
+
 <script>
     $(function () {
 
-        $("#btnIncrease").click(function () {
-            $("#opLevel input[name='type']").val(1);
-            $("#opLevel input[name='level']").val(0);
+        $("#pointsUp").click(function () {
+            $("#opPoints input[name='type']").val(1);
             layer.open({
                 type: 1,
-                title: '升等级',
+                title: '累积积分',
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: $("#opLevel"),
-                success:function (layero, index) {
-                    layer.iframeAuto(index);
-                }
+                content: $("#opPoints")
             });
         });
 
-        $("#points_increase").click(function () {
-            $("#opLevel input[name='type']").val(0);
-            $("#opLevel input[name='level']").val(0);
+        $("#pointsDown").click(function () {
+            $("#opPoints input[name='type']").val(0);
             layer.open({
                 type: 1,
-                title: '降等级',
+                title: '消费积分',
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: $("#opLevel"),
-                success:function (layero, index) {
-                    layer.iframeAuto(index);
-                }
+                content: $("#opPoints")
+            });
+        });
+
+        $("#levelUp").click(function () {
+            $("#opLevel input[name='type']").val(1);
+            layer.open({
+                type: 1,
+                title: '提升等级',
+                shadeClose: false,
+                shade: 0.3,
+                area: '500px',
+                content: $("#opLevel")
+            });
+        });
+
+        $("#levelDown").click(function () {
+            $("#opLevel input[name='type']").val(0);
+            layer.open({
+                type: 1,
+                title: '降低等级',
+                shadeClose: false,
+                shade: 0.3,
+                area: '500px',
+                content: $("#opLevel")
             });
         });
         
-        $("#btnSave").click(function () {
+        $("#pointsSave").click(function () {
             var index = layer.load(0, { shade: false });
             $.ajax({
                 type:"post",
-                data:$("#editForm").serialize(),
+                data:$("#pointsForm").serialize(),
+                dataType:"json",
+                url: "/user/points/submit",
+                success: function (data) {
+                    layer.close(index);
+                    if(data.retCode ==0){
+
+                    }else {
+                        layer.msg(retMsg);
+                    }
+                }
+            })
+        });
+
+        $("#levelSave").click(function () {
+            var index = layer.load(0, { shade: false });
+            $.ajax({
+                type:"post",
+                data:$("#levelForm").serialize(),
                 dataType:"json",
                 url: "/user/level/submit",
                 success: function (data) {

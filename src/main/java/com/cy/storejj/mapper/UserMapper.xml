@@ -184,7 +184,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.cy.storejj.model.User" >
     update user
     <set >
-
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -197,7 +196,9 @@
       <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
       </if>
-
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
       </if>

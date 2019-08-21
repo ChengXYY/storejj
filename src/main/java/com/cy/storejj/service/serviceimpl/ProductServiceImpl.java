@@ -145,7 +145,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
     }
 
     @Override
-    public JSONObject add2Shop(String ids) {
+    public JSONObject add2Shop(String ids, Integer to) {
         if(ids == null || ids.isEmpty()) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         ids = ids.replace(" ", "");
         String[] idArr = ids.split(",");
@@ -158,7 +158,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
             Product p = new Product();
 
             p.setId(Integer.parseInt(id));
-            p.setIsShop(1);
+            p.setIsShop(to);
 
             try {
                 edit(p);
@@ -168,7 +168,10 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
                 fail++;
             }
         }
-        msg = "成功加入："+success+"，失败："+fail+"。"+msg;
+        if(to == 1)
+            msg = "成功加入："+success+"，失败："+fail+"。"+msg;
+        else
+            msg = "成功移出："+success+"，失败："+fail+"。"+msg;
         if(fail > 0){
             return CommonOperation.fail(msg);
         }else {

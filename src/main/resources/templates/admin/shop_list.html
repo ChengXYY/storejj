@@ -12,11 +12,12 @@
     </div>
     <div class="col-md-10">
         <div class="toolbar">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <a th:if="${#strings.contains(session.ADMIN_AUTH+'','3102')}" class="btn btn-primary" href="/product/add"><i class="fa fa-plus"></i> 新增产品</a>
+                <a th:if="${#strings.contains(session.ADMIN_AUTH+'','3104')}" class="btn btn-success remove-from-shop" href="javascript:"><i class="fa fa-building-o"></i> 移出积分商城</a>
                 <a th:if="${#strings.contains(session.ADMIN_AUTH+'','3106')}" class="btn btn-danger batch-delete" href="javascript:" ><i class="fa fa-trash-o"></i> 批量下架</a>
             </div>
-            <form th:if="${#strings.contains(session.ADMIN_AUTH+'','3201')}" class="col-md-8 right form-inline">
+            <form th:if="${#strings.contains(session.ADMIN_AUTH+'','3201')}" class="col-md-6 right form-inline">
                 <input class="form-control" name="code" value="产品编号"/>
                 <input class="form-control" name="title" value="产品标题"/>
                 <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
@@ -159,6 +160,29 @@
                 content: '/product/exchange?id='+id,
                 success:function (layero, index) {
                     layer.iframeAuto(index);
+                }
+            });
+        });
+
+        $(".remove-from-shop").click(function () {
+            var ids = getSelectedIds();
+            if(ids.length < 1){
+                layer.msg("请勾选您要移出积分商城的记录");
+                return;
+            }
+            var index = layer.load(0, { shade: false });
+            $.ajax({
+                type:"post",
+                data:{
+                    ids:ids
+                },
+                dataType:"json",
+                url:"/product/shop/batchremove",
+                success:function (data) {
+                    layer.close(index);
+                    layer.alert(data.retMsg, function () {
+                        location.reload();
+                    })
                 }
             });
         });

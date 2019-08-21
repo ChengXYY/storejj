@@ -219,7 +219,7 @@ public class UserController extends AdminConfig {
         try {
             User user = userService.get(account);
             //参数检查
-            if(points<0){
+            if(points<1){
                 return CommonOperation.fail("积分必须为正数");
             }
             int oldPoints = user.getPoints();
@@ -230,6 +230,7 @@ public class UserController extends AdminConfig {
                     return CommonOperation.fail("积分不足");
                 }
             }else if(type == 1){
+                //累积积分
                 points = oldPoints+points;
             }else {
                 return CommonOperation.fail();
@@ -237,7 +238,7 @@ public class UserController extends AdminConfig {
 
             User newUser = new User();
             newUser.setId(user.getId());
-            newUser.setPoints(user.getPoints());
+            newUser.setPoints(points);
             return userService.edit(newUser);
         }catch (JsonException e){
             return e.toJson();
@@ -254,17 +255,18 @@ public class UserController extends AdminConfig {
         try {
             User user = userService.get(account);
             //参数检查
-            if(level<0){
+            if(level<1){
                 return CommonOperation.fail("等级必须为正数");
             }
             int oldLevel = user.getLevel();
             if(type == 0){
-                //消费积分
+                //降低等级
                 level = oldLevel-level;
                 if(level<0){
                     return CommonOperation.fail("等级已为0");
                 }
             }else if(type == 1){
+                //提升等级
                 level = oldLevel+level;
             }else {
                 return CommonOperation.fail();
@@ -272,10 +274,11 @@ public class UserController extends AdminConfig {
 
             User newUser = new User();
             newUser.setId(user.getId());
-            newUser.setLevel(user.getLevel());
+            newUser.setLevel(level);
             return userService.edit(newUser);
         }catch (JsonException e){
             return e.toJson();
         }
     }
+
 }

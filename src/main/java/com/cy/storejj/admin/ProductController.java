@@ -156,7 +156,17 @@ public class ProductController extends AdminConfig {
     @RequestMapping("/shop/batchadd")
     public JSONObject shopAdd(@RequestParam(value = "ids")String ids){
         try {
-            return productService.add2Shop(ids);
+            return productService.add2Shop(ids, 1);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+    @Permission("3104")
+    @ResponseBody
+    @RequestMapping("/shop/batchremove")
+    public JSONObject shopRemove(@RequestParam(value = "ids")String ids){
+        try {
+            return productService.add2Shop(ids, 0);
         }catch (JsonException e){
             return e.toJson();
         }

@@ -36,7 +36,7 @@
                 <th>手机</th>
                 <th>邮箱</th>
                 <th>账号状态</th>
-                <th>新增时间</th>
+                <th class="time-column">注册时间</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -103,7 +103,7 @@
                     id:id
                 },
                 dataType:"json",
-                url:"/user/diable",
+                url:"/user/disable",
                 success:function (msg) {
                     if(msg.retCode == 0){
                         location.reload();

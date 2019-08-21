@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/_include::include"></head>
+<body>
+<header th:include="/admin/_header::header">
+    Your Company Name.
+</header>
+<style>
+    .form-horizontal:nth-of-type(even){
+        border-right: 1px #ccc dashed;
+    }
+    .form-group > .col-md-9{
+        padding-top: 7px;
+    }
+    .order-check{
+        position: absolute;
+        margin-left: 33em;
+        z-index: 999;
+    }
+</style>
+<div th:replace="/admin/_topmenu::topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_order_leftmenu::leftmenu"></div>
+    </div>
+    <div class="col-md-10">
+        <div class="toolbar">
+            <div class="col-md-4"></div>
+            <form th:if="${#strings.contains(session.ADMIN_AUTH+'','5101')}" class="col-md-8 right form-inline">
+                <input class="form-control" name="code" placeholder="订单编号" th:value="${code==null?'':code}"/>
+                <input class="form-control" name="productCode" placeholder="商品编号" th:value="${productCode==null?'':productCode}"/>
+                <select class="form-control" name="isCash">
+                    <option value="2" >订单类型</option>
+                    <option value="1" th:selected="${isCash=='1'}">现金单</option>
+                    <option value="0" th:selected="${isCash=='0'}">积分兑换单</option>
+                </select>
+                <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <h4>
+            <div class="checkbox-inline">
+                <input type="checkbox" class="select-all" />
+                <label>全选</label>
+            </div>
+        </h4>
+        <hr/>
+        <div class="col-md-6 form-horizontal" th:each="order:${list}">
+            <div class="checkbox-inline order-check">
+                <input type="checkbox" th:value="${order.id}" class="select-item"/>
+                <label></label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">订单编号：</label>
+                <div class="col-md-9" th:text="${order.code}"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">关联产品：</label>
+                <div class="col-md-9">
+                    <a th:href="@{/product/edit?id={id}(id=${order.productId})}" th:text="${order.product.code}"></a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">单价：</label>
+                <div class="col-md-9" th:text="${order.price}"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">购买数量：</label>
+                <div class="col-md-9" th:text="${order.count}"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">总价：</label>
+                <div class="col-md-9" th:text="${order.amount}"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">会员账号：</label>
+                <div class="col-md-9" th:text="${order.userAccount}"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">支付方式：</label>
+                <div class="col-md-9">
+                    <span th:if="${order.isCash==1}" class="text text-warning" >现金支付</span>
+                    <span th:if="${order.isCash==0}" class="text text-primary" >积分兑换</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">购买时间：</label>
+                <div class="col-md-9" th:text="${#dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">备注：</label>
+                <div class="col-md-9" th:text="${order.remark}"></div>
+            </div>
+            <hr/>
+        </div>
+
+        <page th:replace="/admin/_page::page"></page>
+    </div>
+</div>
+<footer th:replace="/admin/_footer::footer">
+    Your Company Name.
+</footer>
+<script>
+    $(function () {
+
+    });
+</script>
+</body>
+</html>

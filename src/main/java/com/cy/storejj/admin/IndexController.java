@@ -39,6 +39,9 @@ public class IndexController extends AdminConfig {
     private CategoryService categoryService;
 
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -84,7 +87,13 @@ public class IndexController extends AdminConfig {
     public String product(ModelMap modelMap){
         Map<String, Object> filter = new HashMap<>();
         int categoryCount = categoryService.getCount(filter);
+        filter.put("isDelete", 0);
+        int productCount = productService.getCount(filter);
+        filter.put("isShop", 1);
+        int shopCount = productService.getCount(filter);
         modelMap.addAttribute("categoryCount", categoryCount);
+        modelMap.addAttribute("productCount", productCount);
+        modelMap.addAttribute("shopCount", shopCount);
         modelMap.addAttribute("TopMenuFlag", "product");
         modelMap.addAttribute("pageTitle",productMenuTitle+systemTitle);
         return adminHtml +"product_index";
