@@ -26,7 +26,6 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/system")
-@Permission("9001")
 public class SystemController extends AdminConfig {
 
     @Autowired
@@ -39,7 +38,7 @@ public class SystemController extends AdminConfig {
     private AuthService authService;
 
 
-    @Permission("2901")
+    @Permission("6100")
     @RequestMapping("/admin/list")
     public String adminList(HttpSession session, ModelMap model){
         Map<String, Object>filter = new HashMap<String, Object>();
@@ -59,19 +58,7 @@ public class SystemController extends AdminConfig {
         return adminHtml +"admin_list";
     }
 
-    @Permission("2901")
-    @ResponseBody
-    @RequestMapping(value = "/admin/resetpwd/submit", produces = {"application/json;charset=UTF-8"})
-    public JSONObject passwordReset(Integer id){
-
-        try{
-            return adminService.resetPassword(id);
-        }catch (JsonException e){
-            return e.toJson();
-        }
-    }
-
-    @Permission("2901")
+    @Permission("6102")
     @RequestMapping("/admin/add")
     public String adminAdd(HttpSession session, ModelMap model){
         List<AdminGroup> list = admingroupService.getListAll(Integer.parseInt(session.getAttribute(adminId).toString()));
@@ -80,7 +67,7 @@ public class SystemController extends AdminConfig {
         return adminHtml +"admin_add";
     }
 
-    @Permission("2901")
+    @Permission("6102")
     @ResponseBody
     @RequestMapping(value = "/admin/add/submit", produces = {"application/json;charset=UTF-8"})
     public JSONObject adminAdd(Admin admin, HttpSession session){
@@ -96,7 +83,7 @@ public class SystemController extends AdminConfig {
         }
     }
 
-    @Permission("2901")
+    @Permission("6103")
     @RequestMapping("/admin/edit/{id}")
     public String adminEdit(@PathVariable("id") Integer id, HttpSession session, ModelMap model){
         try {
@@ -115,7 +102,7 @@ public class SystemController extends AdminConfig {
 
     }
 
-    @Permission("2901")
+    @Permission("6103")
     @ResponseBody
     @RequestMapping(value = "/admin/edit/submit", method = RequestMethod.POST)
     public JSONObject editAdmin(Admin admin ){
@@ -127,7 +114,7 @@ public class SystemController extends AdminConfig {
         }
     }
 
-    @Permission("2901")
+    @Permission("6104")
     @ResponseBody
     @RequestMapping(value = "/admin/remove", method = RequestMethod.POST)
     public JSONObject removeAdmin(@RequestParam(value = "id", required = true)Integer id){
@@ -139,8 +126,20 @@ public class SystemController extends AdminConfig {
         }
     }
 
+    @Permission("6105")
+    @ResponseBody
+    @RequestMapping(value = "/admin/resetpwd/submit", produces = {"application/json;charset=UTF-8"})
+    public JSONObject passwordReset(Integer id){
+
+        try{
+            return adminService.resetPassword(id);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
     // AdminGroup 处理
-    @Permission("2902")
+    @Permission("6200")
     @RequestMapping("/admingroup/list")
     public String admingroupList(HttpSession session, ModelMap model){
         List<AdminGroup> list = admingroupService.getListAll(Integer.parseInt(session.getAttribute(adminId).toString()));
@@ -155,14 +154,14 @@ public class SystemController extends AdminConfig {
         return adminHtml +"admingroup_list";
     }
 
-    @Permission("2902")
+    @Permission("6202")
     @RequestMapping(value = "/admingroup/add", method = RequestMethod.GET)
     public String admingroupAdd(ModelMap model){
     //    model.addAttribute("parentId", parentId);
         return adminHtml +"admingroup_add";
     }
 
-    @Permission("2902")
+    @Permission("6202")
     @ResponseBody
     @RequestMapping("/admingroup/add/submit")
     public JSONObject admingroupAdd(AdminGroup admingroup, HttpSession session){
@@ -174,7 +173,7 @@ public class SystemController extends AdminConfig {
         }
     }
 
-    @Permission("2902")
+    @Permission("6203")
     @RequestMapping(value = "/admingroup/edit", method = RequestMethod.GET)
     public String admingroupEdit(@RequestParam("id") Integer id, ModelMap model){
         try {
@@ -188,7 +187,7 @@ public class SystemController extends AdminConfig {
 
     }
 
-    @Permission("2902")
+    @Permission("6203")
     @ResponseBody
     @RequestMapping("/admingroup/edit/submit")
     public JSONObject admingroupEdit(AdminGroup admingroup){
@@ -200,7 +199,7 @@ public class SystemController extends AdminConfig {
         }
     }
 
-    @Permission("2902")
+    @Permission("6206")
     @ResponseBody
     @RequestMapping(value = "/admingroup/remove", method = RequestMethod.POST)
     public JSONObject admingroupRemove(@RequestParam(value = "id") Integer id){
@@ -211,7 +210,7 @@ public class SystemController extends AdminConfig {
         }
     }
 
-    @Permission("2902")
+    @Permission("6204")
     @RequestMapping(value = "/admingroup/members", method = RequestMethod.GET)
     public String admingroupMembers(@RequestParam(value = "id") Integer id, ModelMap model){
         try {
@@ -230,7 +229,7 @@ public class SystemController extends AdminConfig {
         }
     }
 
-    @Permission("2902")
+    @Permission("6205")
     @ResponseBody
     @RequestMapping(value = "/admingroup/members/remove", method = RequestMethod.POST)
     public JSONObject admingroupMembers(@RequestParam(value = "ids") String ids, ModelMap model){
@@ -242,7 +241,7 @@ public class SystemController extends AdminConfig {
     }
 
     //权限
-    @Permission("2903")
+    @Permission("6300")
     @RequestMapping("/admingroup/auth")
     public String admingrouAuth(HttpSession session,
                                     ModelMap model){
@@ -261,7 +260,7 @@ public class SystemController extends AdminConfig {
         }
     }
 
-    @Permission("2903")
+    @Permission("6301")
     @ResponseBody
     @RequestMapping(value = "/admingroup/auth/list", method = RequestMethod.POST)
     public JSONObject getMyAuthList(@RequestParam(value = "groupid")Integer groupId){
@@ -282,7 +281,7 @@ public class SystemController extends AdminConfig {
     }
 
 
-    @Permission("2903")
+    @Permission("6301")
     @ResponseBody
     @RequestMapping(value = "/admingroup/auth/tree")
     public JSONObject getTree(){
@@ -294,7 +293,7 @@ public class SystemController extends AdminConfig {
     }
 
 
-    @Permission("2903")
+    @Permission("6301")
     @ResponseBody
     @RequestMapping(value = "/admingroup/auth/save", method = RequestMethod.POST)
     public JSONObject authSave(Integer id, @RequestParam(value = "authcodes[]") String[] authcodes){
@@ -306,7 +305,7 @@ public class SystemController extends AdminConfig {
     }
 
     //log list
-    @Permission("2904")
+    @Permission("6400")
     @RequestMapping(value = "/adminlog/list", method = RequestMethod.GET)
     public String adminlogList(@RequestParam Map<String, Object> param,
                                HttpServletRequest request,

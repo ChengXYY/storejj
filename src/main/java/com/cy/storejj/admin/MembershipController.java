@@ -1,6 +1,7 @@
 package com.cy.storejj.admin;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cy.storejj.aop.Permission;
 import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.model.Membership;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-
+@Permission("6500")
 @Controller
 @RequestMapping("/membership")
 public class MembershipController extends AdminConfig {
@@ -37,11 +38,14 @@ public class MembershipController extends AdminConfig {
         return adminHtml +"membership_list";
     }
 
+    @Permission("6502")
     @RequestMapping("/add")
     public String add(ModelMap model){
         return adminHtml+"membership_add";
     }
 
+
+    @Permission("6502")
     @ResponseBody
     @RequestMapping("/add/submit")
     public JSONObject add(Membership membership){
@@ -53,6 +57,7 @@ public class MembershipController extends AdminConfig {
     }
 
 
+    @Permission("6503")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam(value = "id", required = true)Integer id, ModelMap model){
         try {
@@ -65,6 +70,7 @@ public class MembershipController extends AdminConfig {
         }
     }
 
+    @Permission("6503")
     @ResponseBody
     @RequestMapping(value = "/edit/submit")
     public JSONObject edit(Membership membership){
@@ -75,6 +81,7 @@ public class MembershipController extends AdminConfig {
         }
     }
 
+    @Permission("6504")
     @ResponseBody
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
     public JSONObject remove(@RequestParam(value = "id")Integer id){

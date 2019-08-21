@@ -24,13 +24,12 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/category")
-@Permission("1003")
+@Permission("3400")
 public class CategoryController extends AdminConfig {
 
     @Autowired
     private CategoryService categoryService;
 
-    @Permission("2132")
     @RequestMapping(value = {"", "/", "/index", "/list"}, method = RequestMethod.GET)
     public String list(@RequestParam Map<String, Object> param,
                        HttpServletRequest request,
@@ -59,7 +58,7 @@ public class CategoryController extends AdminConfig {
         return adminHtml +"category_list";
     }
 
-    @Permission("2132")
+    @Permission("3402")
     @RequestMapping(value = "/add")
     public String add(ModelMap modelMap){
         modelMap.addAttribute("pageTitle",addPageTitle+categoryModuleTitle+systemTitle);
@@ -68,7 +67,7 @@ public class CategoryController extends AdminConfig {
         return adminHtml +"category_add";
     }
 
-    @Permission("2132")
+    @Permission("3402")
     @ResponseBody
     @RequestMapping(value = "/add/submit", method = RequestMethod.POST)
     public JSONObject add(Category category, HttpSession session){
@@ -81,7 +80,7 @@ public class CategoryController extends AdminConfig {
         }
     }
 
-    @Permission("2132")
+    @Permission("3403")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam(value = "id")Integer id, ModelMap model){
 
@@ -100,7 +99,7 @@ public class CategoryController extends AdminConfig {
         }
     }
 
-    @Permission("2132")
+    @Permission("3403")
     @ResponseBody
     @RequestMapping(value = "/edit/submit", method = RequestMethod.POST)
     public JSONObject edit(Category category){
@@ -112,7 +111,7 @@ public class CategoryController extends AdminConfig {
         }
     }
 
-    @Permission("2132")
+    @Permission("3404")
     @ResponseBody
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
     public JSONObject remove(@RequestParam(value = "id")Integer id){
@@ -123,7 +122,6 @@ public class CategoryController extends AdminConfig {
         }
     }
 
-    @Permission("2132")
     @ResponseBody
     @RequestMapping("/upload")
     public JSONObject upload(@RequestParam(value = "fileupload")MultipartFile file){

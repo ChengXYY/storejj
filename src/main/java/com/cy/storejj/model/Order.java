@@ -1,8 +1,9 @@
 package com.cy.storejj.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
-public class ProductOrder {
+public class Order {
     private Integer id;
 
     private String code;
@@ -25,9 +26,11 @@ public class ProductOrder {
 
     private String remark;
 
+    private Integer isCash;
+
     private String createBy;
 
-    private Date createTime;
+    private Date createTime = new Timestamp(System.currentTimeMillis());
 
     public Integer getId() {
         return id;
@@ -115,6 +118,14 @@ public class ProductOrder {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Integer getIsCash() {
+        return isCash;
+    }
+
+    public void setIsCash(Integer isCash) {
+        this.isCash = isCash;
     }
 
     public String getCreateBy() {

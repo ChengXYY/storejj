@@ -24,13 +24,12 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/article")
-@Permission("1002")
+@Permission("2100")
 public class ArticleController extends AdminConfig {
 
     @Autowired
     private ArticleService articleService;
 
-    @Permission("2121")
     @RequestMapping(value = {"", "/index", "/list"}, method = RequestMethod.GET)
     public String list(@RequestParam Map<String, Object> param,
                        HttpServletRequest request,
@@ -58,7 +57,7 @@ public class ArticleController extends AdminConfig {
         return adminHtml +"article_list";
     }
 
-    @Permission("2121")
+    @Permission("2102")
     @RequestMapping("/add")
     public String add(ModelMap model){
         //获取模板列表
@@ -68,7 +67,7 @@ public class ArticleController extends AdminConfig {
         return adminHtml +"article_add";
     }
 
-    @Permission("2121")
+    @Permission("2102")
     @ResponseBody
     @RequestMapping(value = "/add/submit", method = RequestMethod.POST)
     public JSONObject add(Article article, HttpSession session){
@@ -81,7 +80,7 @@ public class ArticleController extends AdminConfig {
         }
     }
 
-    @Permission("2121")
+    @Permission("2103")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam(value = "id", required = true)Integer id, ModelMap model){
 
@@ -100,7 +99,7 @@ public class ArticleController extends AdminConfig {
         }
     }
 
-    @Permission("2121")
+    @Permission("2103")
     @ResponseBody
     @RequestMapping(value = "/edit/submit", method = RequestMethod.POST)
     public JSONObject edit(Article article){
@@ -112,7 +111,7 @@ public class ArticleController extends AdminConfig {
         }
     }
 
-    @Permission("2121")
+    @Permission("2104")
     @ResponseBody
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
     public JSONObject remove(@RequestParam(value = "id", required = true)Integer id){
@@ -123,7 +122,6 @@ public class ArticleController extends AdminConfig {
         }
     }
 
-    @Permission("2121")
     @ResponseBody
     @RequestMapping("/upload")
     public JSONObject uploadIamge(@RequestParam(value = "fileupload")MultipartFile file){
@@ -138,7 +136,6 @@ public class ArticleController extends AdminConfig {
         return  result;
     }
 
-    @Permission("2121")
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     public JSONObject get(@RequestParam(value = "code")String code){
@@ -150,7 +147,7 @@ public class ArticleController extends AdminConfig {
         }
     }
 
-    @Permission("2121")
+    @Permission("2105")
     @ResponseBody
     @RequestMapping("/batchremove")
     public JSONObject batchRemove(@RequestParam(value = "ids")String ids){

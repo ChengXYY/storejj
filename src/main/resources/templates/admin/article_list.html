@@ -13,10 +13,10 @@
     <div class="col-md-10">
         <div class="toolbar">
             <div class="col-md-4">
-                <a class="btn btn-primary" href="/article/add"><i class="fa fa-plus"></i> 新增文章</a>
-                <a class="btn btn-danger batch-delete" href="javascript:" ><i class="fa fa-trash-o"></i> 批量删除</a>
+                <a th:if="${#strings.contains(session.ADMIN_AUTH+'','2102')}" class="btn btn-primary" href="/article/add"><i class="fa fa-plus"></i> 新增文章</a>
+                <a th:if="${#strings.contains(session.ADMIN_AUTH+'','2105')}" class="btn btn-danger batch-delete" href="javascript:" ><i class="fa fa-trash-o"></i> 批量删除</a>
             </div>
-            <form class="col-md-8 right form-inline">
+            <form th:if="${#strings.contains(session.ADMIN_AUTH+'','2101')}" class="col-md-8 right form-inline">
                 <input class="form-control" name="code" placeholder="文章编号" th:value="${code==null?'':code}"/>
                 <input class="form-control" name="title" placeholder="文章标题" th:value="${title==null?'':title}"/>
                 <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
@@ -51,9 +51,9 @@
                 <td th:text="${article.author}"></td>
                 <td th:text="${#dates.format(article.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td th:attr="data-id=${article.id}" class="center">
-                    <a class="btn btn-outline btn-primary btn-xs " title="编辑文章" th:href="@{/article/edit?id={id}(id=${article.id})}"><i class="fa fa-edit"></i></a>
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','2103')}" class="btn btn-outline btn-primary btn-xs " title="编辑文章" th:href="@{/article/edit?id={id}(id=${article.id})}"><i class="fa fa-edit"></i></a>
                     <a class="btn btn-outline btn-warning btn-xs" title="预览" target="_blank" th:href="@{/article/preview?id={id}(id=${article.id})}"><i class="fa fa-pagelines"></i></a>
-                    <a class="btn btn-outline btn-danger btn-xs delete" title="删除文章" ><i class="fa fa-trash"></i></a>
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','2104')}" class="btn btn-outline btn-danger btn-xs delete" title="删除文章" ><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(list)}">

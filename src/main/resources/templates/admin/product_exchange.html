@@ -20,6 +20,7 @@
         <div class="form-group ">
             <label>兑换件数：</label>
             <input type="number" class="form-control" name="count" value="1" min="1"/>
+            <input type="hidden" name="price" readonly th:value="${product.price}" />
         </div>
         <div class="form-group">
             <label>会员账号：</label>
@@ -49,7 +50,7 @@
                 type : "post",
                 data : $("#myForm").serialize(),
                 dataType : "json",
-                url : "/product/sell/submit",
+                url : "/order/exchange",
                 success : function (data) {
                     if(data.retCode == 0){
                         parent.location.reload();

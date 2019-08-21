@@ -33,7 +33,7 @@
                 <label class="col-md-4 control-label">所属分类：</label>
                 <div class="col-md-8">
                     <select class="form-control" name="categoryCode">
-                        <option value="0">请选择</option>
+                        <option value="">请选择</option>
                         <option th:each="cat:${categoryList}" th:value="${cat.code}" th:text="${cat.name}"></option>
                     </select>
                 </div>
@@ -102,6 +102,7 @@
         $("#submit-form").click(function () {
             var images = $("#successFiles").val();
             images = JSON.parse(images);
+            console.log(images);
             $("#productImageForm").html("");
             for(var i=0; i<images.length; i++){
                 $("#productImageForm").append('<input name="images['+i+'].name" value="'+images[i].name+'">');

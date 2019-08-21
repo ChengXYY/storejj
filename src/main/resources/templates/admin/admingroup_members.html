@@ -16,7 +16,7 @@
                 <h5 th:text="${groupName}"></h5>
             </div>
             <div class="col-md-6 right">
-                <a class="btn btn-danger" id="batch-remove">
+                <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6205')}" class="btn btn-danger" id="batch-remove">
                     <i class="fa fa-trash"></i> 移除
                 </a>
                 <a class="btn btn-default" href="javascript:history.back()">

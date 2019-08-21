@@ -52,6 +52,8 @@ public class AdminConfig extends CommonConfig{
 
     protected static String userMenuTitle = "会员管理-";
 
+    protected static String orderMenuTitle = "订单管理-";
+
     protected static String indexModuleTitle = "首页-";
 
     protected static String listPageTitle  = "列表-";

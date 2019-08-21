@@ -6,7 +6,9 @@ import com.cy.storejj.config.WebConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.UserMapper;
+import com.cy.storejj.model.Membership;
 import com.cy.storejj.model.User;
+import com.cy.storejj.service.MembershipService;
 import com.cy.storejj.service.UserService;
 import com.cy.storejj.utils.CommonOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +24,9 @@ import java.util.Map;
 public class UserServiceImpl extends WebConfig implements UserService{
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private MembershipService membershipService;
 
     @Override
     public JSONObject add(User user) {
@@ -45,12 +50,32 @@ public class UserServiceImpl extends WebConfig implements UserService{
             user.setPassword(pass.get("newstr").toString());
             user.setSalt(pass.get("salt").toString());
         }
+
+        if(user.getPointsSum() != null){
+            int level = getLevel(user.getPointsSum());
+            user.setLevel(level);
+        }
         int rs = userMapper.updateByPrimaryKeySelective(user);
         if(rs >= 0){
             return CommonOperation.success(user.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
+    }
+
+    private Integer getLevel(int points){
+
+        List<Membership> mList = membershipService.getListAll();
+        for (int i=0; i<mList.size(); i++){
+            if(mList.get(i).getMaxPoints() == -1 && points >= mList.get(i).getMinPoints()){
+                return mList.get(i).getLevel();
+            }
+            if(mList.get(i).getMaxPoints() != -1 && points >= mList.get(i).getMinPoints() && points <= mList.get(i).getMaxPoints()){
+                return mList.get(i).getLevel();
+            }
+
+        }
+        return 0;
     }
 
     @Override

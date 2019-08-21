@@ -13,10 +13,10 @@
     <div class="col-md-10">
         <div class="toolbar">
             <div class="col-md-4">
-                <a class="btn btn-primary" href="/category/add"><i class="fa fa-plus"></i> 添加类型</a>
-                <a class="btn btn-danger batch-delete" href="javascript:" ><i class="fa fa-trash-o"></i> 批量删除</a>
+                <a th:if="${#strings.contains(session.ADMIN_AUTH+'','3402')}" class="btn btn-primary" href="/category/add"><i class="fa fa-plus"></i> 添加类型</a>
+                <a th:if="${#strings.contains(session.ADMIN_AUTH+'','3405')}" class="btn btn-danger batch-delete" href="javascript:" ><i class="fa fa-trash-o"></i> 批量删除</a>
             </div>
-            <form class="col-md-8 right form-inline">
+            <form th:if="${#strings.contains(session.ADMIN_AUTH+'','3401')}" class="col-md-8 right form-inline">
                 <input class="form-control" name="code" value="类型编号"/>
                 <input class="form-control" name="title" value="类型名称"/>
                 <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
@@ -53,8 +53,8 @@
                 <td class="center show-image"><img th:src="@{/getimg(filename=${category.pic})}"></td>
                 <td th:text="${#dates.format(category.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td th:attr="data-id=${category.id}" class="center">
-                    <a class="btn btn-outline btn-primary btn-xs " title="编辑类型" th:href="@{/category/edit?id={id}(id=${category.id})}"><i class="fa fa-edit"></i></a>
-                    <a class="btn btn-outline btn-danger btn-xs delete" title="删除类型" ><i class="fa fa-trash"></i></a>
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','3403')}" class="btn btn-outline btn-primary btn-xs " title="编辑类型" th:href="@{/category/edit?id={id}(id=${category.id})}"><i class="fa fa-edit"></i></a>
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','3404')}" class="btn btn-outline btn-danger btn-xs delete" title="删除类型" ><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(list)}">

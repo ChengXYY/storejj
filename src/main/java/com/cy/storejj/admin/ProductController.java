@@ -1,6 +1,5 @@
 package com.cy.storejj.admin;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.aop.Permission;
 import com.cy.storejj.config.AdminConfig;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,7 +28,6 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/product")
-@Permission("1003")
 public class ProductController extends AdminConfig {
 
     @Autowired
@@ -39,7 +36,7 @@ public class ProductController extends AdminConfig {
     @Autowired
     private CategoryService categoryService;
 
-    @Permission("2131")
+    @Permission("3100")
     @RequestMapping(value = {"", "/index", "/list"}, method = RequestMethod.GET)
     public String list(@RequestParam Map<String, Object> param,
                        HttpServletRequest request,
@@ -67,7 +64,7 @@ public class ProductController extends AdminConfig {
         model.addAttribute("LeftMenuFlag", "product");
         return adminHtml +"product_list";
     }
-    @Permission("2131")
+
     @ResponseBody
     @RequestMapping(value = "/getimages",method = RequestMethod.POST)
     public JSONObject getImages(@RequestParam("id")Integer id){
@@ -92,37 +89,8 @@ public class ProductController extends AdminConfig {
         }
     }
 
-    //销售
-    @Permission("2131")
-    @RequestMapping(value = "/sell", method = RequestMethod.GET)
-    public String sell(@RequestParam("id")Integer id, ModelMap model){
-        //获取产品
-        try{
-            Product product = productService.get(id);
-            model.addAttribute("product", product);
-            return adminHtml +"product_sell";
-        }catch (JsonException e){
-            model.addAttribute("error", e.toJson());
-            return "/error/common";
-        }
-    }
 
-    //兑换
-    @Permission("2131")
-    @RequestMapping(value = "/exchange", method = RequestMethod.GET)
-    public String exchange(@RequestParam("id")Integer id, ModelMap model){
-        //获取产品
-        try{
-            Product product = productService.get(id);
-            model.addAttribute("product", product);
-            return adminHtml +"product_exchange";
-        }catch (JsonException e){
-            model.addAttribute("error", e.toJson());
-            return "/error/common";
-        }
-    }
-
-    @Permission("2131")
+    @Permission("3102")
     @RequestMapping("/add")
     public String add(ModelMap model){
         //获取模板列表
@@ -134,7 +102,7 @@ public class ProductController extends AdminConfig {
         return adminHtml +"product_add";
     }
 
-    @Permission("2131")
+    @Permission("3102")
     @ResponseBody
     @RequestMapping(value = "/add/submit", method = RequestMethod.POST)
     public JSONObject add(Product product, HttpSession session){
@@ -147,7 +115,7 @@ public class ProductController extends AdminConfig {
         }
     }
 
-    @Permission("2131")
+    @Permission("3103")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam(value = "id", required = true)Integer id, ModelMap model){
 
@@ -170,7 +138,7 @@ public class ProductController extends AdminConfig {
         }
     }
 
-    @Permission("2131")
+    @Permission("3103")
     @ResponseBody
     @RequestMapping(value = "/edit/submit", method = RequestMethod.POST)
     public JSONObject edit(Product product){
@@ -182,7 +150,20 @@ public class ProductController extends AdminConfig {
         }
     }
 
-    @Permission("2131")
+
+    @Permission("3104")
+    @ResponseBody
+    @RequestMapping("/shop/batchadd")
+    public JSONObject shopAdd(@RequestParam(value = "ids")String ids){
+        try {
+            return productService.add2Shop(ids);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
+
+    @Permission("3105")
     @ResponseBody
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
     public JSONObject remove(@RequestParam(value = "id", required = true)Integer id){
@@ -194,7 +175,7 @@ public class ProductController extends AdminConfig {
     }
 
 
-    @Permission("2131")
+    @Permission("3100")
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     public JSONObject get(@RequestParam(value = "code")String code){
@@ -206,7 +187,7 @@ public class ProductController extends AdminConfig {
         }
     }
 
-    @Permission("2131")
+    @Permission("3106")
     @ResponseBody
     @RequestMapping("/batchremove")
     public JSONObject batchRemove(@RequestParam(value = "ids")String ids){
@@ -217,8 +198,25 @@ public class ProductController extends AdminConfig {
         }
     }
 
+    //销售
+    @Permission("3107")
+    @RequestMapping(value = "/sell", method = RequestMethod.GET)
+    public String sell(@RequestParam("id")Integer id, ModelMap model){
+        //获取产品
+        try{
+            Product product = productService.get(id);
+            model.addAttribute("product", product);
+            return adminHtml +"product_sell";
+        }catch (JsonException e){
+            model.addAttribute("error", e.toJson());
+            return "/error/common";
+        }
+    }
+
     //---积分商城相关
-    @Permission("2133")
+    //兑换
+
+    @Permission("3200")
     @RequestMapping("/shop")
     public String shopList(@RequestParam Map<String, Object> param,
                            HttpServletRequest request,
@@ -247,20 +245,22 @@ public class ProductController extends AdminConfig {
         return adminHtml +"shop_list";
     }
 
-    @Permission("2133")
-    @ResponseBody
-    @RequestMapping("/shop/batchadd")
-    public JSONObject shopAdd(@RequestParam(value = "ids")String ids){
-        try {
-            return productService.add2Shop(ids);
+    @Permission("3202")
+    @RequestMapping(value = "/exchange", method = RequestMethod.GET)
+    public String exchange(@RequestParam("id")Integer id, ModelMap model){
+        //获取产品
+        try{
+            Product product = productService.get(id);
+            model.addAttribute("product", product);
+            return adminHtml +"product_exchange";
         }catch (JsonException e){
-            return e.toJson();
+            model.addAttribute("error", e.toJson());
+            return "/error/common";
         }
     }
 
-
     //---已删除产品列表
-    @Permission("2134")
+    @Permission("3300")
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String deleteList(@RequestParam Map<String, Object> param,
                        HttpServletRequest request,
@@ -290,7 +290,7 @@ public class ProductController extends AdminConfig {
     }
 
     //批量上架
-    @Permission("2134")
+    @Permission("3302")
     @ResponseBody
     @RequestMapping(value = "/upper", method = RequestMethod.POST)
     public JSONObject upper(@RequestParam("ids")String ids){

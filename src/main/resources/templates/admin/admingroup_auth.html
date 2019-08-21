@@ -19,7 +19,7 @@
                 </select>
             </div>
             <div class="col-md-6 right">
-                <a class="btn btn-primary" id="auth-save" lay-demo="saveAuth">
+                <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6301')}" class="btn btn-primary" id="auth-save" lay-demo="saveAuth">
                     <i class="fa fa-save"></i> 保存权限
                 </a>
             </div>

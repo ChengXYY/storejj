@@ -13,10 +13,10 @@
     <div class="col-md-10">
         <div class="toolbar">
             <div class="col-md-4">
-                <a class="btn btn-primary" href="/sitepage/add"><i class="fa fa-plus"></i> 新增页面</a>
-                <a class="btn btn-danger batch-delete" href="javascript:" ><i class="fa fa-trash-o"></i> 批量删除</a>
+                <a th:if="${#strings.contains(session.ADMIN_AUTH+'','1102')}" class="btn btn-primary" href="/sitepage/add"><i class="fa fa-plus"></i> 新增页面</a>
+                <a th:if="${#strings.contains(session.ADMIN_AUTH+'','1105')}" class="btn btn-danger batch-delete" href="javascript:" ><i class="fa fa-trash-o"></i> 批量删除</a>
             </div>
-            <form class="col-md-8 right form-inline">
+            <form class="col-md-8 right form-inline" th:if="${#strings.contains(session.ADMIN_AUTH+'','1101')}">
                 <input class="form-control" name="code" value="页面编号"/>
                 <input class="form-control" name="title" value="页面标题"/>
                 <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
@@ -49,9 +49,9 @@
                 <td th:text="${page.title}"></td>
                 <td th:text="${#dates.format(page.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td th:attr="data-id=${page.id}" class="center">
-                    <a class="btn btn-outline btn-primary btn-xs " title="编辑页面" th:href="@{/sitepage/edit?id={id}(id=${page.id})}"><i class="fa fa-edit"></i></a>
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','1103')}" class="btn btn-outline btn-primary btn-xs " title="编辑页面" th:href="@{/sitepage/edit?id={id}(id=${page.id})}"><i class="fa fa-edit"></i></a>
                     <a class="btn btn-outline btn-warning btn-xs" title="预览" target="_blank" th:href="@{/page/{code}(code=${page.code})}"><i class="fa fa-pagelines"></i></a>
-                    <a class="btn btn-outline btn-danger btn-xs delete" title="删除页面" ><i class="fa fa-trash"></i></a>
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','1104')}" class="btn btn-outline btn-danger btn-xs delete" title="删除页面" ><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(list)}">

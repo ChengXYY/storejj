@@ -21,13 +21,13 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
-@Permission("1004")
+
 public class UserController extends AdminConfig {
 
     @Autowired
     private UserService userService;
 
-    @Permission("2141")
+    @Permission("4100")
     @RequestMapping("/list")
     public String list(@RequestParam Map<String,Object> param,
                        HttpServletRequest request,
@@ -52,14 +52,14 @@ public class UserController extends AdminConfig {
         return adminHtml +"user_list";
     }
 
-    @Permission("2144")
+    @Permission("4102")
     @RequestMapping("/register")
     public String add(){
         return adminHtml +"user_register";
     }
 
     //获取验证码
-    @Permission("2144")
+    @Permission("4102")
     @ResponseBody
     @RequestMapping("/getcode")
     public JSONObject getCode(HttpSession session){
@@ -69,7 +69,7 @@ public class UserController extends AdminConfig {
     }
     //
 
-    @Permission("2144")
+    @Permission("4102")
     @RequestMapping("/register/submit")
     @ResponseBody
     public JSONObject register(@RequestParam Map<String, Object> param, HttpSession session){
@@ -84,7 +84,7 @@ public class UserController extends AdminConfig {
         }
     }
 
-    @Permission("2145")
+    @Permission("4103")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id")Integer id, ModelMap model){
         try {
@@ -101,7 +101,7 @@ public class UserController extends AdminConfig {
     }
 
 
-    @Permission("2145")
+    @Permission("4103")
     @ResponseBody
     @RequestMapping(value = "/edit/{type}", method = RequestMethod.POST)
     public JSONObject edit(User user, @PathVariable("type")String type, HttpSession session){
@@ -144,7 +144,7 @@ public class UserController extends AdminConfig {
         return true;
     }
 
-    @Permission("2145")
+    @Permission("4104")
     @ResponseBody
     @RequestMapping(value = "/enable", method = RequestMethod.POST)
     public JSONObject enableUser(@RequestParam(value = "id")Integer id){
@@ -158,7 +158,7 @@ public class UserController extends AdminConfig {
         }
     }
 
-    @Permission("2145")
+    @Permission("4104")
     @ResponseBody
     @RequestMapping(value = "/disable", method = RequestMethod.POST)
     public JSONObject disableUser(@RequestParam(value = "id")Integer id){
@@ -172,8 +172,7 @@ public class UserController extends AdminConfig {
         }
     }
 
-
-    @Permission("2146")
+    @Permission("4000")
     @ResponseBody
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     public JSONObject getUserInfo(@RequestParam(value = "account")String account){
@@ -192,8 +191,7 @@ public class UserController extends AdminConfig {
             return e.toJson();
         }
     }
-
-    @Permission("2142")
+    @Permission("4200")
     @RequestMapping("/check")
     public String getUserPoints(ModelMap model){
         model.addAttribute("pageTitle","会员等级积分查询-"+userMenuTitle+systemTitle);
@@ -203,7 +201,7 @@ public class UserController extends AdminConfig {
     }
 
 
-    @Permission("2143")
+    @Permission("4300")
     @RequestMapping("/modify")
     public String getUserLevel(ModelMap model){
         model.addAttribute("pageTitle","会员等级积分修改-"+userMenuTitle+systemTitle);
@@ -212,7 +210,7 @@ public class UserController extends AdminConfig {
         return adminHtml +"user_level_modify";
     }
 
-    @Permission("2143")
+    @Permission("4301")
     @ResponseBody
     @RequestMapping(value = "/points/submit", method = RequestMethod.POST)
     public JSONObject editUserPoints(@RequestParam(value = "account")String account,
@@ -247,7 +245,7 @@ public class UserController extends AdminConfig {
     }
 
 
-    @Permission("2143")
+    @Permission("4302")
     @ResponseBody
     @RequestMapping("/level/submit")
     public JSONObject editUserLevel(@RequestParam(value = "account")String account,

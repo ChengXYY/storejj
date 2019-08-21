@@ -12,7 +12,7 @@
     </div>
     <div class="col-md-10">
         <div class="toolbar">
-            <div class="col-md-6">
+            <div th:if="${#strings.contains(session.ADMIN_AUTH+'','6102')}" class="col-md-6" >
                 <a class="btn btn-primary btn-outline" id="add-admin">
                     <i class="fa fa-plus"></i> 添加管理员
                 </a>
@@ -34,13 +34,13 @@
                 <td th:text="${#dates.format(admin.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td class="center" th:if="${admin.groupId != session.ADMIN_GROUP}">
                     <input type="hidden" class="id" th:value="${admin.id}"/>
-                    <a class="btn btn-success btn-outline btn-xs reset" href="javascript:" title="重置密码">
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6105')}" class="btn btn-success btn-outline btn-xs reset" href="javascript:" title="重置密码">
                         <i class="fa fa-refresh"></i>
                     </a>
-                    <a class="btn btn-primary btn-outline btn-xs edit" href="javascript:" title="编辑管理员信息">
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6103')}" class="btn btn-primary btn-outline btn-xs edit" href="javascript:" title="编辑管理员信息">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <a class="btn btn-danger btn-outline btn-xs remove" href="javascript:" title="删除管理员">
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6104')}" class="btn btn-danger btn-outline btn-xs remove" href="javascript:" title="删除管理员">
                         <i class="fa fa-close"></i>
                     </a>
                 </td>

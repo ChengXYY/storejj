@@ -12,7 +12,7 @@
     </div>
     <div class="col-md-10">
         <div class="toolbar">
-            <div class="col-md-6">
+            <div th:if="${#strings.contains(session.ADMIN_AUTH+'','6502')}" class="col-md-6">
                 <a class="btn btn-primary btn-outline" id="add-admingroup">
                     <i class="fa fa-plus"></i> 添加会员等级
                 </a>
@@ -39,7 +39,7 @@
                 <td th:text="${membership.content}">content</td>
                 <td class="center">
                     <input type="hidden" class="id" th:value="${membership.id}"/>
-                    <a class="text-danger remove" href="javascript:" title="删除">
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6504')}" class="text-danger remove" href="javascript:" title="删除">
                         <i class="fa fa-close"></i>
                     </a>
                 </td>

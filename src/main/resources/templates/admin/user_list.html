@@ -13,10 +13,10 @@
     <div class="col-md-10">
         <div class="toolbar">
             <div class="col-md-4">
-                <a class="btn btn-primary" href="javascript:" id="userAdd"><i class="fa fa-plus"></i> 注册会员</a>
+                <a th:if="${#strings.contains(session.ADMIN_AUTH+'','4102')}" class="btn btn-primary" href="javascript:" id="userAdd"><i class="fa fa-plus"></i> 注册会员</a>
                 <a class="btn btn-danger batch-delete" href="javascript:" ><i class="fa fa-trash-o"></i> 批量删除</a>
             </div>
-            <form class="col-md-8 right form-inline">
+            <form th:if="${#strings.contains(session.ADMIN_AUTH+'','4101')}" class="col-md-8 right form-inline">
                 <input class="form-control" name="account" placeholder="会员账号" th:value="${account==null?'':account}"/>
                 <input class="form-control" name="name" placeholder="会员姓名" th:value="${name==null?'':name}"/>
                 <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
@@ -56,9 +56,9 @@
 
                 <td th:text="${#dates.format(user.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td th:attr="data-id=${user.id}" class="center">
-                    <a class="btn btn-outline btn-primary btn-xs " title="编辑会员" th:href="@{/user/edit?id={id}(id=${user.id})}"><i class="fa fa-edit"></i></a>
-                    <a th:if="${user.status == 1}" class="btn btn-outline btn-danger btn-xs disable" title="禁用会员" ><i class="fa fa-power-off"></i></a>
-                    <a th:if="${user.status == 0}" class="btn btn-outline btn-success btn-xs enable" title="启用会员" ><i class="fa fa-power-off"></i></a>
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','4103')}" class="btn btn-outline btn-primary btn-xs " title="编辑会员" th:href="@{/user/edit?id={id}(id=${user.id})}"><i class="fa fa-edit"></i></a>
+                    <a th:if="${user.status == 1 && #strings.contains(session.ADMIN_AUTH+'','4104')}" class="btn btn-outline btn-danger btn-xs disable" title="禁用会员" ><i class="fa fa-power-off"></i></a>
+                    <a th:if="${user.status == 0 && #strings.contains(session.ADMIN_AUTH+'','4104')}" class="btn btn-outline btn-success btn-xs enable" title="启用会员" ><i class="fa fa-power-off"></i></a>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(list)}">

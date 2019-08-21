@@ -8,13 +8,13 @@
         </a>
     </li>
     <li th:class="${LeftMenuFlag=='page'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2111')}">
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','1100')}">
         <a class="list-group-item-heading" href="/sitepage/list">
             页面管理
         </a>
     </li>
     <li th:class="${LeftMenuFlag=='tpl'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2112')}">
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','1200')}">
         <a class="list-group-item-heading" href="/pagetpl/list">
             模板配置
         </a>

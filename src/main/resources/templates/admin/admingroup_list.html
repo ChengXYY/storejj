@@ -12,7 +12,7 @@
     </div>
     <div class="col-md-10">
         <div class="toolbar">
-            <div class="col-md-6">
+            <div th:if="${#strings.contains(session.ADMIN_AUTH+'','6202')}" class="col-md-6">
                 <a class="btn btn-primary btn-outline" id="add-admingroup">
                     <i class="fa fa-plus"></i> 添加管理员组
                 </a>
@@ -34,13 +34,13 @@
                 <td class="center" th:if="${group.id != session.ADMIN_GROUP}">
                     <input type="hidden" class="id" th:value="${group.id}"/>
 
-                    <a class="btn btn-warning btn-outline btn-xs" th:href="${'/system/admingroup/members?id='+group.id}" title="组内成员">
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6204')}" class="btn btn-warning btn-outline btn-xs" th:href="${'/system/admingroup/members?id='+group.id}" title="组内成员">
                         <i class="fa fa-users"></i>
                     </a>
-                    <a class="btn btn-primary btn-outline btn-xs edit" href="javascript:" title="编辑组信息">
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6203')}" class="btn btn-primary btn-outline btn-xs edit" href="javascript:" title="编辑组信息">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <a class="btn btn-danger btn-outline btn-xs remove" href="javascript:" title="删除管理员组">
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6206')}" class="btn btn-danger btn-outline btn-xs remove" href="javascript:" title="删除管理员组">
                         <i class="fa fa-close"></i>
                     </a>
                 </td>

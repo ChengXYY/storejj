@@ -13,7 +13,7 @@
     <div class="col-md-10">
         <div class="toolbar">
             <div class="col-md-6">            </div>
-            <form class="col-md-6 right form-inline">
+            <form th:if="${#strings.contains(session.ADMIN_AUTH+'','6401')}" class="col-md-6 right form-inline">
                 <input class="form-control" placeholder="请输入关键词" type="text" name="content" th:value="${content}"/>
                 <button type="submit" class="btn btn-warning btn-outline"><i class="fa fa-search"></i></button>
             </form>

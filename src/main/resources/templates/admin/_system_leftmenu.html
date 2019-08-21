@@ -8,25 +8,25 @@
         </a>
     </li>
     <li th:class="${LeftMenuFlag=='admin'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2901')}">
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','6100')}">
         <a class="list-group-item-heading" href="/system/admin/list">
             管理员
         </a>
     </li>
     <li th:class="${LeftMenuFlag=='admingroup'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2902')}">
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','6200')}">
         <a class="list-group-item-heading" href="/system/admingroup/list">
             管理员组
         </a>
     </li>
     <li th:class="${LeftMenuFlag=='adminauth'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2903')}">
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','6300')}">
         <a class="list-group-item-heading" href="/system/admingroup/auth">
             权限配置
         </a>
     </li>
     <li th:class="${LeftMenuFlag=='adminlog'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2904')}">
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','6400')}">
         <a class="list-group-item-heading" href="/system/adminlog/list">
             管理员日志
         </a>
@@ -39,7 +39,7 @@
         </a>
     </li>
     <li th:class="${LeftMenuFlag=='membership'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2905')}">
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','6500')}">
         <a class="list-group-item-heading" href="/membership/list">
             会员制度配置
         </a>

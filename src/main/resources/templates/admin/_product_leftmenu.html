@@ -8,27 +8,28 @@
         </a>
     </li>
     <li th:class="${LeftMenuFlag=='product'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2131')}">
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','3100')}">
         <a class="list-group-item-heading" href="/product/list">
             产品列表
         </a>
     </li>
-    <li th:class="${LeftMenuFlag=='category'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2132')}">
-        <a class="list-group-item-heading" href="/category/list">
-            产品分类
-        </a>
-    </li>
     <li th:class="${LeftMenuFlag=='shop'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2133')}">
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','3200')}">
         <a class="list-group-item-heading" href="/product/shop">
             积分商城
         </a>
     </li>
     <li th:class="${LeftMenuFlag=='pdelete'?'list-group-item active':'list-group-item'}"
-        th:if="${#strings.contains(session.ADMIN_AUTH+'','2134')}">
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','3300')}">
         <a class="list-group-item-heading" href="/product/delete">
             已下架产品
+        </a>
+    </li>
+
+    <li th:class="${LeftMenuFlag=='category'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','3400')}">
+        <a class="list-group-item-heading" href="/category/list">
+            产品分类
         </a>
     </li>
 </ul>

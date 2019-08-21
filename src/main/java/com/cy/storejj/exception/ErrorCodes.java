@@ -22,6 +22,7 @@ public enum ErrorCodes {
     GROUP_NOT_EMPTY(30001, "群组不为空"),
     PRODUCT_NOT_EXIST(30002, "产品信息不存在"),
     STOCK_NOT_ENOUGH(30003, "产品库存不足"),
+    USER_NOT_EXIST(30004, "会员信息不存在"),
 
     //会员制度
     POINTS_CROSS_HIGN(40001, "积分交叉：最高积分>等级高的最低积分"),

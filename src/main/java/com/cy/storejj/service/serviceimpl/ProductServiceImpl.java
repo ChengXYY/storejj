@@ -106,7 +106,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
                 fail++;
             }
         }
-        msg = "成功删除："+success+"，失败："+fail+"。"+msg;
+        msg = "成功下架："+success+"，失败："+fail+"。"+msg;
         if(fail > 0){
             return CommonOperation.fail(msg);
         }else {
