@@ -12,9 +12,12 @@
     </div>
     <div class="col-md-10">
         <div class="toolbar">
-            <div class="col-md-6">            </div>
-            <form th:if="${#strings.contains(session.ADMIN_AUTH+'','6401')}" class="col-md-6 right form-inline">
+            <form th:if="${#strings.contains(session.ADMIN_AUTH+'','6401')}" class="right form-inline">
+
                 <input class="form-control" placeholder="请输入关键词" type="text" name="content" th:value="${content}"/>
+
+                <input class="form-control" placeholder="开始时间" type="date" name="startTime" th:value="${#strings.isEmpty(startTime)?'':#strings.substring(startTime,0,10)}" />
+                <input class="form-control" placeholder="结束时间" type="date" name="endTime" th:value="${#strings.isEmpty(endTime)?'':#strings.substring(endTime,0,10)}" />
                 <button type="submit" class="btn btn-warning btn-outline"><i class="fa fa-search"></i></button>
             </form>
         </div>

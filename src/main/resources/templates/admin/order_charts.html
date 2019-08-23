@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/_include::include"></head>
+<body>
+<header th:include="/admin/_header::header">
+    Your Company Name.
+</header>
+<style>
+    .form-horizontal:nth-of-type(even){
+        border-right: 1px #ccc dashed;
+    }
+    .form-group > .col-md-9{
+        padding-top: 7px;
+    }
+    .order-check{
+        position: absolute;
+        margin-left: 33em;
+        z-index: 999;
+    }
+</style>
+<div th:replace="/admin/_topmenu::topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_order_leftmenu::leftmenu"></div>
+    </div>
+    <div class="col-md-10">
+        <div class="toolbar">
+            <form th:if="${#strings.contains(session.ADMIN_AUTH+'','5101')}" class="right form-inline">
+                <input class="form-control" name="code" placeholder="订单编号" th:value="${code==null?'':code}"/>
+                <input class="form-control" name="productCode" placeholder="商品编号" th:value="${productCode==null?'':productCode}"/>
+                <select class="form-control" name="isCash">
+                    <option value="2" >订单类型</option>
+                    <option value="1" th:selected="${isCash=='1'}">现金单</option>
+                    <option value="0" th:selected="${isCash=='0'}">积分兑换单</option>
+                </select>
+
+                <input class="form-control" placeholder="开始时间" type="date" name="startTime" th:value="${#strings.isEmpty(startTime)?'':#strings.substring(startTime,0,10)}" />
+                <input class="form-control" placeholder="结束时间" type="date" name="endTime" th:value="${#strings.isEmpty(endTime)?'':#strings.substring(endTime,0,10)}" />
+                <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+       <div id="orderCharts">
+
+       </div>
+    </div>
+</div>
+<footer th:replace="/admin/_footer::footer">
+    Your Company Name.
+</footer>
+<script>
+    $(function () {
+
+    });
+</script>
+</body>
+</html>

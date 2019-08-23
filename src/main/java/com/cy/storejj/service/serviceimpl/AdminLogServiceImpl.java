@@ -28,7 +28,7 @@ public class AdminLogServiceImpl extends AdminConfig implements AdminLogService 
         AdminLog log = new AdminLog();
         log.setContent(content);
         log.setAdmin(session.getAttribute(adminAccount).toString());
-        log.setCreateBy(session.getAttribute(adminId).toString());
+        log.setCreateBy(session.getAttribute(adminAccount).toString());
         int rs =  adminlogMapper.insertSelective(log);
         if (rs >0)
             return CommonOperation.success();

@@ -10,7 +10,7 @@ public class AdminLog {
 
     private String content;
 
-    private Timestamp createTime  = new Timestamp(System.currentTimeMillis());
+    private Timestamp createTime;
 
     private String createBy;
 

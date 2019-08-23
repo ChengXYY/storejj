@@ -76,24 +76,27 @@
     <include refid="Base_Column_List" />
     from product_order
     <where>
+      <if test="code !=null">
+        and code like CONCAT('%',#{code},'%')
+      </if>
       <if test="productId!=null">
         and product_id = #{productId}
       </if>
       <if test="userAccount!=null">
         and user_account = #{userAccount}
       </if>
-      <if test="startTime!=null and startTime!=''">
-          <![CDATA[and DATE_FORMAT(create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d') ]]>
+      <if test="startTime!=null">
+        and create_time <![CDATA[ >= ]]> #{startTime}
       </if>
-      <if test="endTime!=null and endTime!=''">
-          <![CDATA[and DATE_FORMAT(create_time, '%Y-%m-%d') <= DATE_FORMAT(#{endTime}, '%Y-%m-%d') ]]>
+      <if test="endTime!=null">
+        and create_time <![CDATA[ <= ]]> #{endTime}
       </if>
       <if test="isCash!=null">
         and is_cash = #{isCash}
       </if>
     </where>
     <if test="orderby!=null">
-      order by ${orderby}
+      order by #{orderby}
     </if>
     <if test="orderby == null" >
       order by create_time desc
@@ -108,17 +111,20 @@
     count(id) as ct
     from product_order
     <where>
+      <if test="code !=null">
+        and code like CONCAT('%',#{code},'%')
+      </if>
       <if test="productId!=null">
         and product_id = #{productId}
       </if>
       <if test="userAccount!=null">
         and user_account = #{userAccount}
       </if>
-      <if test="startTime!=null and startTime!=''">
-            <![CDATA[and DATE_FORMAT(create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d') ]]>
+      <if test="startTime!=null">
+        and create_time <![CDATA[ >= ]]> #{startTime}
       </if>
-      <if test="endTime!=null and endTime!=''">
-            <![CDATA[and DATE_FORMAT(create_time, '%Y-%m-%d') <= DATE_FORMAT(#{endTime}, '%Y-%m-%d') ]]>
+      <if test="endTime!=null">
+        and create_time <![CDATA[ <= ]]> #{endTime}
       </if>
       <if test="isCash!=null">
         and is_cash = #{isCash}

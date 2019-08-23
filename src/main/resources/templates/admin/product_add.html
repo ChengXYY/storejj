@@ -100,14 +100,24 @@
 <script>
     $(function () {
         $("#submit-form").click(function () {
-            var images = $("#successFiles").val();
-            images = JSON.parse(images);
-            console.log(images);
+            var newImg = $("#successFiles").val();
+            newImg = JSON.parse(newImg);
             $("#productImageForm").html("");
-            for(var i=0; i<images.length; i++){
-                $("#productImageForm").append('<input name="images['+i+'].name" value="'+images[i].name+'">');
-                $("#productImageForm").append('<input name="images['+i+'].url" value="'+images[i].url+'">');
+            var count = 0;
+            for(var i=0; i<newImg.length; i++){
+                $("#productImageForm").append('<input name="images['+i+'].name" value="'+newImg[i].name+'">');
+                $("#productImageForm").append('<input name="images['+i+'].url" value="'+newImg[i].url+'">');
+                count++;
             }
+            count++;
+
+            var delImg = $("#deleteFiles").val();
+            delImg = JSON.parse(delImg);
+            for(var i=0; i<delImg.length; i++){
+                $("#productImageForm").append('<input name="images['+(i+count)+'].url" value="'+delImg[i].url+'">');
+                $("#productImageForm").append('<input name="images['+(i+count)+'].size" value="0">');
+            }
+
             $.ajax({
                 type : "post",
                 data : $("#myForm").serialize(),

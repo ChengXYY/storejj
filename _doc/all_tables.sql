@@ -11,7 +11,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 21/08/2019 17:54:15
+ Date: 23/08/2019 14:31:04
 */
 
 SET NAMES utf8mb4;
@@ -31,8 +31,8 @@ CREATE TABLE `admin`  (
   `last_login_ip` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `last_login_time` datetime(0) NULL DEFAULT NULL,
   `login_count` int(10) NULL DEFAULT 0,
-  `create_time` timestamp(0) NULL DEFAULT NULL,
   `parent_id` int(11) NULL DEFAULT 0,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -47,7 +47,7 @@ CREATE TABLE `admin_auth`  (
   `name` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `parent_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_by` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` timestamp(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 93 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -61,7 +61,7 @@ CREATE TABLE `admin_group`  (
   `auth` varchar(600) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `sort` int(4) NOT NULL DEFAULT 99,
   `parent_id` int(4) NULL DEFAULT 0,
-  `create_time` timestamp(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -74,10 +74,10 @@ CREATE TABLE `admin_log`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `admin` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `content` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 227 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 269 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for article
@@ -90,7 +90,7 @@ CREATE TABLE `article`  (
   `author` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `create_by` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -105,7 +105,7 @@ CREATE TABLE `category`  (
   `intro` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `pic` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片 filename',
   `create_by` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` timestamp(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -118,7 +118,7 @@ CREATE TABLE `page_tpl`  (
   `name` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `create_by` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -136,9 +136,9 @@ CREATE TABLE `picture`  (
   `size` int(11) NULL DEFAULT NULL,
   `ext` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_by` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product
@@ -158,7 +158,7 @@ CREATE TABLE `product`  (
   `status` tinyint(4) NULL DEFAULT 1 COMMENT '状态，1-在售  2-已预订 0-已售',
   `is_delete` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除 1-已删除 0-未删除',
   `create_by` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` timestamp(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -174,9 +174,9 @@ CREATE TABLE `product_images`  (
   `size` int(11) NULL DEFAULT NULL,
   `ext` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_by` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` timestamp(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_order
@@ -194,7 +194,7 @@ CREATE TABLE `product_order`  (
   `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `is_cash` tinyint(1) NULL DEFAULT 1,
   `create_by` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` timestamp(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -209,7 +209,7 @@ CREATE TABLE `site_page`  (
   `title` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `css` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  `create_time` timestamp(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -226,7 +226,7 @@ CREATE TABLE `sys_dict`  (
   `sort` int(4) NULL DEFAULT 0,
   `desc` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_by` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` timestamp(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -249,7 +249,7 @@ CREATE TABLE `user`  (
   `points_sum` int(11) NULL DEFAULT 0 COMMENT '积分累积',
   `status` tinyint(1) NULL DEFAULT 1,
   `create_by` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` timestamp(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -265,7 +265,7 @@ CREATE TABLE `user_membership`  (
   `max_points` int(11) NULL DEFAULT 0,
   `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `create_by` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` timestamp(0) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -278,7 +278,7 @@ CREATE TABLE `user_record`  (
   `amount` int(11) NULL DEFAULT NULL COMMENT '消费额  分',
   `user_id` int(11) NULL DEFAULT NULL COMMENT '用户id',
   `create_by` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作员',
-  `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '添加时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户消费记录' ROW_FORMAT = Dynamic;
 

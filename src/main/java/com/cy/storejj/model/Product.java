@@ -34,7 +34,7 @@ public class Product {
 
     private String createBy;
 
-    private Timestamp createTime= new Timestamp(System.currentTimeMillis());
+    private Timestamp createTime;
 
     private List<ProductImages> images;
 

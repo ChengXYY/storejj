@@ -22,7 +22,7 @@ public class Admin {
 
     private Integer loginCount;
 
-    private Timestamp createTime = new Timestamp(System.currentTimeMillis());
+    private Timestamp createTime;
 
     private Integer parentId;
 

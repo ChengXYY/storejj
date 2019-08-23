@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,14 +31,19 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
         if(art!=null) throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
         int rs = productMapper.insertSelective(product);
         if(rs > 0){
-            //插入图片
+            //图片操作
             List<ProductImages> images = product.getImages();
-            if(images.size()>0){
-                images.forEach(r->{
-                    r.setProductId(product.getId());
-                    productMapper.insertImages(r);
-                });
-            }
+
+            images.forEach(t->{
+                if(t.getSize() == 0){
+                    //删除多余图片
+                    CommonOperation.removeFile(t.getUrl());
+                }else if(StringUtils.isNotBlank(t.getName()) && StringUtils.isNotBlank(t.getUrl())){
+                    t.setProductId(product.getId());
+                    productMapper.insertImages(t);
+                }
+            });
+
             return CommonOperation.success(product.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
@@ -59,7 +65,23 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
         int rs = productMapper.updateByPrimaryKeySelective(product);
         if(rs > 0){
             //图片操作
-            List<ProductImages> images = p.getImages();
+            List<ProductImages> images = product.getImages();
+            if(images != null && images.size()>0){
+                images.forEach(t->{
+                    if(t.getSize() !=null && t.getSize() == 0){
+                        //删除
+                        if(CommonOperation.checkId(t.getId())){
+                            deleteImages(t.getId());
+                        }else {
+                            CommonOperation.removeFile(t.getUrl());
+                        }
+                    }else if(StringUtils.isNotBlank(t.getUrl()) && t.getId() == null){
+                        //增加
+                        t.setProductId(product.getId());
+                        productMapper.insertImages(t);
+                    }
+                });
+            }
 
             return CommonOperation.success(product.getId());
         }else {
@@ -228,7 +250,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
             System.out.println(e.toJson());
         }
 
-        int rs = productMapper.deleteImagesByProduct(id);
+        int rs = productMapper.deleteImages(id);
         if(rs >= 0){
             return CommonOperation.success(id);
         }else {

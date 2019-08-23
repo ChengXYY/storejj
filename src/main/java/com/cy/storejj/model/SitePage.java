@@ -12,7 +12,7 @@ public class SitePage {
 
     private String title;
 
-    private Timestamp createTime= new Timestamp(System.currentTimeMillis());
+    private Timestamp createTime;
 
     private String createBy;
 

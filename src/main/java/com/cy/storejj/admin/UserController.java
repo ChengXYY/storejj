@@ -33,9 +33,7 @@ public class UserController extends AdminConfig {
                        HttpServletRequest request,
                        ModelMap model){
         String currentUrl = request.getRequestURI();
-        if(param.get("name")!=null && StringUtils.isNotBlank(param.get("name").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
-        }
+        currentUrl = handleParam(param, currentUrl);
         param.put("currentUrl", currentUrl);
 
         int totalCount = userService.getCount(param);

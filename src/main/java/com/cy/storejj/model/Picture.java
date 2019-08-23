@@ -22,7 +22,7 @@ public class Picture {
 
     private String createBy;
 
-    private Timestamp createTime= new Timestamp(System.currentTimeMillis());
+    private Timestamp createTime;
 
     public Integer getId() {
         return id;

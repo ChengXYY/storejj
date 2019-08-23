@@ -313,9 +313,8 @@ public class SystemController extends AdminConfig {
 
         String currentUrl = request.getRequestURI();
 
-        if(param.get("content")!=null && StringUtils.isNotBlank(param.get("content").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "content", param.get("content").toString());
-        }
+        currentUrl = handleParam(param, currentUrl);
+
         param.put("currentUrl", currentUrl);
         int totalCount = adminlogService.getCount(param);
         param.put("totalCount", totalCount);

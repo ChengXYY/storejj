@@ -42,12 +42,8 @@ public class ProductController extends AdminConfig {
                        HttpServletRequest request,
                        ModelMap model){
         String currentUrl = request.getRequestURI();
-        if(param.get("code")!=null && StringUtils.isNotBlank(param.get("code").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "code", param.get("code").toString());
-        }
-        if(param.get("name")!=null && StringUtils.isNotBlank(param.get("name").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
-        }
+        currentUrl = handleParam(param, currentUrl);
+
         param.put("currentUrl", currentUrl);
     //    param.put("isShop", 0);
         param.put("isDelete",0);

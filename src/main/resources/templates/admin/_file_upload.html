@@ -72,7 +72,7 @@
     </div>
     <div id="showBox">
         <div class="image-box" th:if="${images!=null}" th:each="image:${images}">
-            <a class="text text-danger delete-image" th:attr="data-file=${image.url}, data-id=${image.id}"  >
+            <a class="text text-danger delete-image" th:attr="data-file=${image.url}, data-id=${image.id}, data-imgid=${image.id}"  >
                 <i class="fa fa-times-circle"></i>
             </a>
             <span class="text text-success upload-success" style="display: block">
@@ -87,7 +87,7 @@
 </div>
 <template id="imageShow">
     <div class="image-box">
-        <a class="text text-danger delete-image" data-file="_FILE" data-id="_ID">
+        <a class="text text-danger delete-image" data-file="_FILE" data-id="_ID" data-imgid="0">
             <i class="fa fa-times-circle"></i>
         </a>
         <span class="text text-success upload-success">
@@ -110,7 +110,7 @@
 
 <script>
     $(function () {
-        var uploadFiles = [];
+    //    var uploadFiles = [];
         var successFiles = [];
         var deleteFiles = [];
 
@@ -125,7 +125,7 @@
             if(fileList.length>0){
                 for (var i = 0; i < fileList.length; i++) {
                     fileList[i]["id"] = Math.floor(Math.random()*10000000);
-                    uploadFiles.push(fileList[i]);
+                //    uploadFiles.push(fileList[i]);
                     getImage(fileList[i]);
                     uploadImage(fileList[i]);
                 }
@@ -139,7 +139,8 @@
                 function () {
                     var file = {
                         id:obj.data("id"),
-                        name:obj.data("file")
+                        imgid:obj.data("imgid"),
+                        url:obj.data("file")
                     }
 
                     deleteImage(file);
@@ -167,6 +168,18 @@
         }
 
         function deleteImage(file) {
+
+            //先前端删除，提交后，后端删除
+            deleteFiles.push(file);
+            $("#deleteFiles").val(JSON.stringify(deleteFiles));
+            for (var i = 0; i<successFiles.length; i++){
+                if(successFiles[i].id == file.id){
+                    successFiles.splice(i, 1);
+                    saveSuccess();
+                }
+            }
+
+            /*
             var loading = layer.load(0, { shade: false });
             $.ajax({
                 type:"post",
@@ -196,6 +209,7 @@
                     }
                 }
             });
+            */
         }
 
         function uploadImage(file) {

@@ -14,7 +14,7 @@ public class AdminGroup {
 
     private Integer parentId;
 
-    private Timestamp createTime= new Timestamp(System.currentTimeMillis());
+    private Timestamp createTime;
 
     private String createBy;
 

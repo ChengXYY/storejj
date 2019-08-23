@@ -30,7 +30,7 @@ public class Order {
 
     private String createBy;
 
-    private Date createTime = new Timestamp(System.currentTimeMillis());
+    private Date createTime;
 
     public Integer getId() {
         return id;

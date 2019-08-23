@@ -40,23 +40,18 @@ public class OrderController extends AdminConfig {
                        ModelMap model){
 
         String currentUrl = request.getRequestURI();
-        if(param.get("code")!=null && StringUtils.isNotBlank(param.get("code").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "code", param.get("code").toString());
-        }
-        if(param.get("isCash")!=null){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "isCash", param.get("isCash").toString());
-            int isCash = Integer.parseInt(param.get("isCash").toString());
-            if(isCash != 0  && isCash != 1){
-                param.remove("isCash");
-            }
-        }
+        currentUrl = handleParam(param, currentUrl);
+
         if(param.get("productCode")!=null && StringUtils.isNotBlank(param.get("productCode").toString())){
             currentUrl = CommonOperation.setUrlParam(currentUrl, "productCode", param.get("productCode").toString());
             Product product = productService.get(param.get("productCode").toString());
             if(product != null){
                 param.put("productId", product.getId());
             }
+        }else {
+            param.remove("productCode");
         }
+
         param.put("currentUrl", currentUrl);
 
         int totalCount = orderService.getCount(param);

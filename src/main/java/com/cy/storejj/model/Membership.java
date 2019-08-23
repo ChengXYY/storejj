@@ -16,7 +16,7 @@ public class Membership {
 
     private String createBy;
 
-    private Timestamp createTime = new Timestamp(System.currentTimeMillis());
+    private Timestamp createTime;
 
     private String content;
 

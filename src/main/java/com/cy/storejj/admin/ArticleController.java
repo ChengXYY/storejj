@@ -35,12 +35,9 @@ public class ArticleController extends AdminConfig {
                        HttpServletRequest request,
                        ModelMap model){
         String currentUrl = request.getRequestURI();
-        if(param.get("code")!=null && StringUtils.isNotBlank(param.get("code").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "code", param.get("code").toString());
-        }
-        if(param.get("title")!=null && StringUtils.isNotBlank(param.get("title").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "title", param.get("title").toString());
-        }
+        currentUrl = handleParam(param, currentUrl);
+
+
         param.put("currentUrl", currentUrl);
 
         int totalCount = articleService.getCount(param);
