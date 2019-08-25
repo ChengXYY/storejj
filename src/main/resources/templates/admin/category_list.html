@@ -50,7 +50,8 @@
                 <td class="oneline-column" th:text="${category.code}"></td>
                 <td class="oneline-column" th:text="${category.name}"></td>
                 <td th:text="${category.intro}"></td>
-                <td class="center show-image"><img th:src="@{/getimg(filename=${category.pic})}"></td>
+                <td class="center show-image" th:if="${#strings.isEmpty(category.pic)==false}"><img th:src="@{/getimg(filename=${category.pic})}"></td>
+                <td th:if="${#strings.isEmpty(category.pic)}" class="center">暂无图片</td>
                 <td th:text="${#dates.format(category.createTime,'yyyy-MM-dd HH:mm:ss')}">createTime</td>
                 <td th:attr="data-id=${category.id}" class="center">
                     <a th:if="${#strings.contains(session.ADMIN_AUTH+'','3403')}" class="btn btn-outline btn-primary btn-xs " title="编辑类型" th:href="@{/category/edit?id={id}(id=${category.id})}"><i class="fa fa-edit"></i></a>

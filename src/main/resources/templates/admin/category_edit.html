@@ -44,7 +44,7 @@
         <div class="form-group col-md-12" id="uploadShow">
             <h5 class="text-danger" id="upload-finished">请上传文件</h5>
             <input type="hidden" name="pic" th:value="${category.pic}"/>
-            <div class="image" id="show-image">
+            <div class="image" id="show-image" th:if="${#strings.isEmpty(category.pic)==false}">
                 <img th:src="@{/getimg(filename=${category.pic})}" width="200px"/>
             </div>
         </div>
