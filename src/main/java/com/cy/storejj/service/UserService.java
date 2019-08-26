@@ -33,4 +33,7 @@ public interface UserService {
     JSONObject editPassword(String oldpwd, String newpwd, String repwd, HttpSession session);
 
     JSONObject register(String account, String vercode, HttpSession session, String createBy);
+
+    //level point 更新
+    JSONObject levelRefresh();
 }

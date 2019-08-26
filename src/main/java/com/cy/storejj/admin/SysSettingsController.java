@@ -8,6 +8,7 @@ import com.cy.storejj.model.Membership;
 import com.cy.storejj.model.SysDict;
 import com.cy.storejj.service.SysDictService;
 import com.cy.storejj.service.MembershipService;
+import com.cy.storejj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,6 +26,9 @@ public class SysSettingsController extends AdminConfig {
     private MembershipService membershipService;
     @Autowired
     private SysDictService dictService;
+    @Autowired
+    private UserService userService;
+
 
     @Permission("6500")
     @RequestMapping("/membership/list")
@@ -61,7 +65,7 @@ public class SysSettingsController extends AdminConfig {
 
 
     @Permission("6503")
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/membership/edit", method = RequestMethod.GET)
     public String edit(@RequestParam(value = "id", required = true)Integer id, ModelMap model){
         try {
             Membership item = membershipService.get(id);
@@ -75,7 +79,7 @@ public class SysSettingsController extends AdminConfig {
 
     @Permission("6503")
     @ResponseBody
-    @RequestMapping(value = "/edit/submit")
+    @RequestMapping(value = "/membership/edit/submit")
     public JSONObject edit(Membership membership){
         try {
             return membershipService.edit(membership);
@@ -86,7 +90,7 @@ public class SysSettingsController extends AdminConfig {
 
     @Permission("6504")
     @ResponseBody
-    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    @RequestMapping(value = "/membership/remove", method = RequestMethod.POST)
     public JSONObject remove(@RequestParam(value = "id")Integer id){
         try {
             return membershipService.remove(id);
@@ -98,7 +102,11 @@ public class SysSettingsController extends AdminConfig {
     @ResponseBody
     @RequestMapping("/user/refresh")
     public JSONObject refresh(){
-        return null;
+        try{
+            return userService.levelRefresh();
+        }catch (JsonException e){
+            return e.toJson();
+        }
     }
 
     @Permission("6600")
@@ -112,7 +120,7 @@ public class SysSettingsController extends AdminConfig {
 
         model.addAttribute("pageTitle",listPageTitle+membershipModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "system");
-        model.addAttribute("LeftMenuFlag", "membership");
+        model.addAttribute("LeftMenuFlag", "store");
         return adminHtml +"store_list";
     }
 

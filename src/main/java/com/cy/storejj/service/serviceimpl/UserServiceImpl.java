@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,9 +51,9 @@ public class UserServiceImpl extends WebConfig implements UserService{
             user.setPassword(pass.get("newstr").toString());
             user.setSalt(pass.get("salt").toString());
         }
-
+        List<Membership> mList = membershipService.getListAll();
         if(user.getPointsSum() != null){
-            int level = getLevel(user.getPointsSum());
+            int level = getLevel(user.getPointsSum(), mList);
             user.setLevel(level);
         }
         int rs = userMapper.updateByPrimaryKeySelective(user);
@@ -63,9 +64,9 @@ public class UserServiceImpl extends WebConfig implements UserService{
         }
     }
 
-    private Integer getLevel(int points){
+    private Integer getLevel(int points, List<Membership> mList){
 
-        List<Membership> mList = membershipService.getListAll();
+
         for (int i=0; i<mList.size(); i++){
             if(mList.get(i).getMaxPoints() == -1 && points >= mList.get(i).getMinPoints()){
                 return mList.get(i).getLevel();
@@ -190,5 +191,21 @@ public class UserServiceImpl extends WebConfig implements UserService{
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
     }
+
+    @Override
+    public JSONObject levelRefresh() {
+        Map<String, Object> filter = new HashMap<>();
+        List<User> list = userMapper.selectByFilter(filter);
+        List<Membership> membershipList = membershipService.getListAll();
+        list.forEach(r->{
+            int level = getLevel(r.getPointsSum(), membershipList);
+            if(r.getLevel() != level){
+                r.setLevel(level);
+                edit(r);
+            }
+        });
+        return CommonOperation.success("刷新完成！");
+    }
+
 
 }
