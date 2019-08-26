@@ -41,6 +41,7 @@ public class CategoryController extends AdminConfig {
         int totalCount = categoryService.getCount(param);
         param.put("totalCount", totalCount);
         param = setPagenation(param);
+        param.put("orderby", "create_time desc");
 
         List<Category> list = categoryService.getList(param);
 

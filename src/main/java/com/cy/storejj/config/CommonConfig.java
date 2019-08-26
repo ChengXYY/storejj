@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class CommonConfig {
 
-    protected static String baseSavePath = "/opt/upload/";
+    protected static String baseSavePath = "C:/www/upload/";
 
     protected static Integer pageSize = 15;
 

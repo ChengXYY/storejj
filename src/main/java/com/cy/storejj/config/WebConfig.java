@@ -7,7 +7,7 @@ public class WebConfig extends CommonConfig{
     protected static String webHtml = "/web/meghna/";
 
     //页面标题
-    protected static String systemTitle = "My Web";
+    protected static String systemTitle = "大平珠宝";
     
 
     protected static String userAccount = "USER_ACCOUNT";

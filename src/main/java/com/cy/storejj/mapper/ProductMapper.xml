@@ -14,6 +14,7 @@
     <result column="tags" property="tags" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <association property="category" column="category_code" select="getCategory"></association>
@@ -23,7 +24,7 @@
 
 
   <sql id="Base_Column_List" >
-    id, name, code, content, pic, is_shop, price, stock, category_code, tags,status, is_delete, create_by,
+    id, name, code, content, pic, is_shop, price, stock, category_code, tags,status, is_delete, url, create_by,
     create_time
   </sql>
 
@@ -179,6 +180,9 @@
       <if test="isDelete != null" >
         is_delete,
       </if>
+      <if test="url != null" >
+        url,
+      </if>
       <if test="createBy != null" >
         create_by,
       </if>
@@ -223,6 +227,9 @@
       <if test="isDelete != null" >
         #{isDelete,jdbcType=INTEGER},
       </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
       <if test="createBy != null" >
         #{createBy,jdbcType=VARCHAR},
       </if>
@@ -263,6 +270,9 @@
       </if>
       <if test="isDelete != null" >
       is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        url = #{pic,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},

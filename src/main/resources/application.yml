@@ -1,5 +1,8 @@
 server:
   port: 8080
+  servlet:
+    session:
+      timeout: 36000s
 spring:
   mvc:
     favicon:
@@ -30,6 +33,7 @@ spring:
     multipart:
       max-file-size: 52428800
       max-request-size: 52428800
+
   mail:
       port: 25
       host:

@@ -63,7 +63,12 @@
                     </div>
                 </div>
             </div>
-
+            <div class="form-group col-md-6">
+                <label class="col-md-4 control-label">链接：</label>
+                <div class="col-md-8">
+                    <input class="form-control" type="text" name="url" value=""/>
+                </div>
+            </div>
             <div class="form-group col-md-6">
                 <label class="col-md-4 control-label">商品描述：</label>
                 <div class="col-md-8">
@@ -101,21 +106,25 @@
     $(function () {
         $("#submit-form").click(function () {
             var newImg = $("#successFiles").val();
-            newImg = JSON.parse(newImg);
-            $("#productImageForm").html("");
             var count = 0;
-            for(var i=0; i<newImg.length; i++){
-                $("#productImageForm").append('<input name="images['+i+'].name" value="'+newImg[i].name+'">');
-                $("#productImageForm").append('<input name="images['+i+'].url" value="'+newImg[i].url+'">');
-                count++;
+            if(newImg.length > 2){
+                newImg = JSON.parse(newImg);
+                $("#productImageForm").html("");
+                for(var i=0; i<newImg.length; i++){
+                    $("#productImageForm").append('<input name="images['+i+'].name" value="'+newImg[i].name+'">');
+                    $("#productImageForm").append('<input name="images['+i+'].url" value="'+newImg[i].url+'">');
+                    count++;
+                }
             }
-            count++;
 
             var delImg = $("#deleteFiles").val();
-            delImg = JSON.parse(delImg);
-            for(var i=0; i<delImg.length; i++){
-                $("#productImageForm").append('<input name="images['+(i+count)+'].url" value="'+delImg[i].url+'">');
-                $("#productImageForm").append('<input name="images['+(i+count)+'].size" value="0">');
+            if(delImg.length > 2){
+                delImg = JSON.parse(delImg);
+                for(var i=0; i<delImg.length; i++){
+                    $("#productImageForm").append('<input name="images['+(i+count)+'].url" value="'+delImg[i].url+'">');
+                    $("#productImageForm").append('<input name="images['+(i+count)+'].size" value="0">');
+                    $("#productImageForm").append('<input name="images['+(i+count)+'].id" value="'+delImg[i].imgid+'">');
+                }
             }
 
             $.ajax({

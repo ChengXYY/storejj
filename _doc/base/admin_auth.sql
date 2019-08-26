@@ -11,7 +11,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 23/08/2019 14:31:40
+ Date: 26/08/2019 17:42:28
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `admin_auth`  (
   `create_by` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 93 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 99 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of admin_auth
@@ -119,5 +119,11 @@ INSERT INTO `admin_auth` VALUES (89, '6501', '会员制度-搜索', '6500', NULL
 INSERT INTO `admin_auth` VALUES (90, '6502', '会员制度-新增', '6500', NULL, NULL);
 INSERT INTO `admin_auth` VALUES (91, '6503', '会员制度-编辑', '6500', NULL, NULL);
 INSERT INTO `admin_auth` VALUES (92, '6504', '会员制度-删除', '6500', NULL, NULL);
+INSERT INTO `admin_auth` VALUES (93, '3404', '分类删除', '3400', NULL, '2019-08-26 11:21:43');
+INSERT INTO `admin_auth` VALUES (94, '6600', '店铺配置', '6000', NULL, '2019-08-26 15:46:27');
+INSERT INTO `admin_auth` VALUES (95, '6601', '店铺-列表', '6600', NULL, '2019-08-26 15:46:38');
+INSERT INTO `admin_auth` VALUES (96, '6602', '店铺-新增', '6600', NULL, '2019-08-26 15:46:45');
+INSERT INTO `admin_auth` VALUES (97, '6603', '店铺-编辑', '6600', NULL, '2019-08-26 15:46:54');
+INSERT INTO `admin_auth` VALUES (98, '6604', '店铺-删除', '6600', NULL, '2019-08-26 15:47:03');
 
 SET FOREIGN_KEY_CHECKS = 1;

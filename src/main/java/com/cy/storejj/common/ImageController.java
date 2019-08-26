@@ -34,7 +34,7 @@ public class ImageController extends AdminConfig {
                            HttpServletRequest request, HttpServletResponse response)throws IOException{
         try {
             Picture pic = pictureService.get(code);
-            String filename = pic.getUrl().replace("getimg?filename=", "");
+            String filename = pic.getUrl();
 
             CommonOperation.getImage(filename,request, response);
         }catch (JsonException e){

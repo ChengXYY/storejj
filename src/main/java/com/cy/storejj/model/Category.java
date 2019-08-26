@@ -12,6 +12,8 @@ public class Category {
 
     private String pic;
 
+    private Integer sort;
+
     private String createBy;
 
     private Timestamp createTime;
@@ -48,6 +50,14 @@ public class Category {
 
     public void setPic(String pic) {
         this.pic = pic == null ? null : pic.trim();
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 
     public String getCreateBy() {

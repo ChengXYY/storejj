@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.config.WebConfig;
 import com.cy.storejj.model.Category;
 import com.cy.storejj.model.Product;
+import com.cy.storejj.model.SysDict;
 import com.cy.storejj.service.CategoryService;
 import com.cy.storejj.service.ProductService;
 import com.cy.storejj.service.SitePageService;
+import com.cy.storejj.service.SysDictService;
 import org.hibernate.validator.constraints.EAN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,16 +34,23 @@ public class PageController extends WebConfig {
     private CategoryService categoryService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private SysDictService sysDictService;
 
     @RequestMapping(value = {"/", "", "/index", "/index/"})
     public String index(ModelMap modelMap){
         Map<String, Object> filter = new HashMap<>();
+        filter.put("orderBy", "sort desc");
         List<Category> categoryList = categoryService.getList(filter);
         filter.put("page", 0);
-        filter.put("pageSize", 9);
+        filter.put("pageSize", 16);
+        filter.put("isDelete", 0);
+        filter.put("orderby", "create_time desc");
         List<Product> productList = productService.getList(filter);
+        List<SysDict> storeList = sysDictService.getList("StoreSettings");
         pageData.put("category", categoryList);
         pageData.put("product", productList);
+        pageData.put("store", storeList);
         pageData.put("title", systemTitle);
         pageData.put("topflag", "index");
         modelMap.addAttribute("page", pageData);

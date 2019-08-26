@@ -6,13 +6,14 @@
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="intro" property="intro" jdbcType="LONGVARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
-    id, code, name, pic, create_by, create_time, intro
+    id, code, name, pic, sort, create_by, create_time, intro
   </sql>
 
   <!-- select -->
@@ -87,6 +88,9 @@
       <if test="pic != null" >
         pic,
       </if>
+      <if test="sort != null" >
+        sort,
+      </if>
       <if test="createBy != null" >
         create_by,
       </if>
@@ -109,6 +113,9 @@
       </if>
       <if test="pic != null" >
         #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
       </if>
       <if test="createBy != null" >
         #{createBy,jdbcType=VARCHAR},
@@ -134,6 +141,9 @@
       </if>
       <if test="pic != null" >
         pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=VARCHAR},
       </if>
       
       <if test="intro != null" >

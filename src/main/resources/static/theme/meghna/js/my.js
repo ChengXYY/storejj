@@ -1,16 +1,22 @@
 $(function () {
+
    $(".og-grid .mix a img").each(function () {
+/*
        var height = $(this).height();
        var width = $(this).width();
+       var rate = width/height;
        var obj = $(this).parent();
        var pWidth = obj.width();
-       var pHeigh = obj.height();
-       var rate = pWidth/pHeigh;
+       var pHeight = obj.height();
+       var pRate = pWidth/pHeight;
 
-       if(width > height){
+       if(rate>=pRate){
            $(this).css("height", "100%");
        }else {
-           $(this).css("width", "100%");
-       }
+           $(this).css("height", "100%");
+       }*/
+       $(this).css("height", "250px");
+       $(this).css("width", "300px");
    })
+
 });

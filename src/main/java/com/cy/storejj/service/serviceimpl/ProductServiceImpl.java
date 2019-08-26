@@ -35,7 +35,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
             List<ProductImages> images = product.getImages();
 
             images.forEach(t->{
-                if(t.getSize() == 0){
+                if(t.getSize()!=null && t.getSize() == 0){
                     //删除多余图片
                     CommonOperation.removeFile(t.getUrl());
                 }else if(StringUtils.isNotBlank(t.getName()) && StringUtils.isNotBlank(t.getUrl())){
@@ -203,7 +203,17 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
 
     @Override
     public List<Product> getList(Map<String, Object> filter) {
-        return productMapper.selectByFilter(filter);
+        List<Product> list = productMapper.selectByFilter(filter);
+        if(list!=null && list.size()>0){
+            for(int i=0; i<list.size(); i++){
+                String url = "";
+                if(list.get(i).getImages().size()>0){
+                    url = list.get(i).getImages().get(0).getUrl();
+                }
+                list.get(i).setPic(url);
+            }
+        }
+        return list;
     }
 
     @Override

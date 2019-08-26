@@ -15,5 +15,5 @@ public interface SysDictMapper {
 
     int updateByPrimaryKeySelective(SysDict record);
 
-    List<Map<String, Object>> selectByType(@Param(value = "type")String type);
+    List<SysDict> selectByType(@Param(value = "type")String type);
 }

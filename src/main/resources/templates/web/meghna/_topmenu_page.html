@@ -30,6 +30,8 @@
                 <li><a href="/index#about">会员·服务</a></li>
                 <li><a href="/index#aboutus">店铺</a></li>
                 <li><a href="/index#contact-us">联系我们</a></li>
+                <li th:if="${#strings.isEmpty(session.USER_SESSION)==false}"><a href="/usercenter"><b>个人中心</b></a></li>
+                <li th:if="${#strings.isEmpty(session.USER_SESSION)}"><a href="/userlogin"><b>登录</b></a></li>
             </ul>
         </nav>
         <!-- /main nav -->
