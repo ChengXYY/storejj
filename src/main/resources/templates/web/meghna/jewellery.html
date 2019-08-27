@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:replace="/web/meghna/_include::include"></head>
+	
+    <body class="blog-page">
+	    <!--
+	    Start Preloader
+	    ==================================== -->
+		<div th:replace="/web/meghna/_loading::loading"></div>
+        <!--
+        End Preloader
+        ==================================== -->
+        
+        <!-- 
+        Fixed Navigation
+        ==================================== -->
+        <header th:replace="/web/meghna/_topmenu_page::topmenu"></header>
+        <!--
+        End Fixed Navigation
+        ==================================== -->
+        
+        
+        <!-- Start Blog Banner
+        ==================================== -->
+        <section id="blog-banner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="blog-icon">
+                            <img src="/getpic?code=jewellery">
+                        </div>
+                        <div class="blog-title">
+                            <h1>#大平珠宝# 欢迎您</h1>
+                        </div>
+                        
+					</div>     <!-- End col-lg-12 -->
+				</div>	    <!-- End row -->
+			</div>       <!-- End container -->
+		</section>    <!-- End Section -->
+
+        <!-- Start Blog Post Section
+        ==================================== -->
+        <section id="blog-page">
+            <div class="container">
+                <div class="row">
+                   
+                    <div id="blog-posts" class="col-md-8 col-sm-8">
+                        <div class="post-item">
+
+                           <!-- Single Post -->
+                            <article th:each="prd:${productList}" class="entry wow fadeInDown"  data-wow-duration="1000ms" data-wow-delay="300ms">
+
+								<div id="post-thumb" class="post-thumb" th:if="${#lists.isEmpty(prd.images)==false}">
+									<div class="item" th:each="img:${prd.images}">
+										<img th:src=@{/getimg?filename={filename}(filename=${img.url})} th:alt="${img.name}" class="img-responsive">
+									</div>
+								</div>
+
+                                <div class="post-excerpt">
+									<h3><a href="javascript:" th:text="${prd.name}">Title</a></h3>
+                                    <p th:text="${prd.content}">content</p>
+                                    <a class="btn btn-transparent" th:href="@{prd.url}">前往购买</a>
+                                </div>
+								
+                                <div class="post-meta">
+                                    <span class="comments">
+                                        <i class="fa fa-rmb"></i><span th:text="${prd.price}"></span> 元
+                                    </span>
+                                    <span class="post-view">
+                                        <i class="fa fa-cubes"></i><span th:text="${prd.stock}"></span> 件
+                                    </span>
+                                    <span class="post-tags">
+                                        <i class="fa fa-tags"></i><a href="#" th:text="${prd.category.name}">cat</a>
+                                    </span>
+                                </div>
+                            </article>
+                            <!-- End Single Post -->
+                               
+                            <nav th:replace="/web/meghna/_page::page"></nav>
+                        </div>
+                    </div>
+                    
+                    <div th:replace="/web/meghna/_jewellery_right::right"></div>
+
+				</div>	    <!-- End row -->
+			</div>       <!-- End container -->
+		</section>    <!-- End Section -->
+        
+
+		<!-- Start Footer Section
+		========================================== -->
+		<!-- footer -->
+		<footer th:replace="/web/meghna/_footer::footer"></footer>
+
+		<a th:replace="/web/meghna/_scrollup::scrollup"></a>
+
+		<div th:replace="/web/meghna/_scripts::scripts"></div>
+    </body>
+</html>

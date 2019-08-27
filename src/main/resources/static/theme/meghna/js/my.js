@@ -17,6 +17,15 @@ $(function () {
        }*/
        $(this).css("height", "250px");
        $(this).css("width", "300px");
-   })
+   });
+
+   $(".product-search").click(function () {
+       var catCode = $(this).data("code");
+       var param = [];
+       param.push($('<input>', {name:'categoryCode', value: catCode, type:"hidden"}));
+       $("#productSearchForm").append(param);
+       $("#productSearchForm").submit();
+
+   });
 
 });

@@ -42,8 +42,8 @@
     <if test="orderby == null" >
       order by create_time desc
     </if>
-    <if test="page !=null and pagesize !=null">
-      limit #{page}, #{pagesize}
+    <if test="pageNum !=null and pageSize !=null">
+      limit #{pageNum}, #{pageSize}
     </if>
   </select>
   <select id="countByFilter" resultType="java.lang.Integer" parameterType="map">

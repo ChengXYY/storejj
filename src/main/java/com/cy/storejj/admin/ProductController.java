@@ -32,7 +32,6 @@ public class ProductController extends AdminConfig {
 
     @Autowired
     private ProductService productService;
-
     @Autowired
     private CategoryService categoryService;
 
@@ -42,6 +41,7 @@ public class ProductController extends AdminConfig {
                        HttpServletRequest request,
                        ModelMap model){
         String currentUrl = request.getRequestURI();
+
         currentUrl = handleParam(param, currentUrl);
 
         param.put("currentUrl", currentUrl);

@@ -36,6 +36,9 @@
     <if test="orderby == null" >
       order by create_time desc
     </if>
+    <if test="pageNum !=null and pageSize !=null">
+      limit #{pageNum}, #{pageSize}
+    </if>
   </select>
   <select id="countByFilter" parameterType="map" resultType="java.lang.Integer">
     select

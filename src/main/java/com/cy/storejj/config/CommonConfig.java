@@ -17,7 +17,13 @@ public class CommonConfig {
         Integer page = Integer.parseInt(param.get("pageNum").toString());
         if(param.get("totalCount") == null ) param.put("totalCount", 0);
         int totalCount = Integer.parseInt(param.get("totalCount").toString());
-        int pageCount = (int)Math.ceil((double)totalCount/pageSize);
+        int pSize = 0;
+        if(param.get("pageSize") == null || param.get("pageSize").equals("0")){
+            pSize = pageSize;
+        }else{
+            pSize = Integer.parseInt(param.get("pageSize").toString());
+        }
+        int pageCount = (int)Math.ceil((double)totalCount/pSize);
         if(pageCount <1){
             pageCount = 1;
         }
@@ -25,9 +31,9 @@ public class CommonConfig {
             page = pageCount;
         }
         param.put("currentPage", page);
-        param.put("pageSize", pageSize);
+        param.put("pageSize", pSize);
 
-        page = (page-1)*pageSize;
+        page = (page-1)*pSize;
 
         param.put("pageCount", pageCount);
 

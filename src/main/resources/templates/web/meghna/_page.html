@@ -2,17 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org" >
 <nav class="post-pagination wow fadeInDown" th:fragment="page"  data-wow-duration="1000ms" data-wow-delay="300ms">
     <ul>
-        <li class="disabled"><a href="#">&laquo;</a></li>
-        <li class="active"><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">...</a></li>
-        <li><a href="#">10</a></li>
-        <li><a href="#">11</a></li>
-        <li><a href="#">12</a></li>
-        <li><a href="#">13</a></li>
-        <li><a href="#">&raquo;</a></li>
+        <li th:class="${currentPage-1>0?'':'disabled'}" th:style="${currentPage==1?'pointer-events:none':''}">
+            <a th:href="@{${currentUrl}(pageNum=${currentPage-1})}">&laquo;</a>
+        </li>
+
+        <li th:if="${currentPage-2 > 1}"><a th:href="@{${currentUrl}(pageNum=1)}">1</a></li>
+        <li th:if="${currentPage-2 > 1}"><a title="向前翻5页" th:href="@{${currentUrl}(pageNum=${(currentPage-5 <1) ? 1: currentPage-5 })}">...</a></li>
+        <li th:if="${currentPage-2 >= 1}" ><a th:href="@{${currentUrl}(pageNum=${currentPage-2})}" th:text="${currentPage -2}" >1</a></li>
+        <li th:if="${currentPage-1 >= 1}" ><a th:href="@{${currentUrl}(pageNum=${currentPage-1})}" th:text="${currentPage -1}" >1</a></li>
+
+        <li class="active"><a th:href="@{${currentUrl}(pageNum=${currentPage})}" th:text="${currentPage}"> 1 </a></li>
+
+        <li th:if="${currentPage+1<= pageCount}" ><a th:href="@{${currentUrl}(pageNum=${currentPage+1})}" th:text="${currentPage +1}" >1</a></li>
+        <li th:if="${currentPage+2<= pageCount}" ><a th:href="@{${currentUrl}(pageNum=${currentPage+2})}" th:text="${currentPage +2}" >1</a></li>
+
+        <li th:if="${currentPage+2< pageCount}"><a title="向后翻5页" th:href="@{${currentUrl}(pageNum=${(currentPage+5>pageCount)?pageCount:currentPage+5})}">...</a></li>
+        <li th:if="${currentPage+2< pageCount}"><a th:href="@{${currentUrl}(pageNum=${pageCount})}" th:text="${pageCount}">pageCount</a></li>
+
+        <li th:class="${currentPage==pageCount?'disabled':''}">
+            <a th:href="@{${currentUrl}(pageNum=${currentPage+1})}" th:style="${currentPage==pageCount?'pointer-events:none':''}">&raquo;</a>
+        </li>
     </ul>
 </nav>
 

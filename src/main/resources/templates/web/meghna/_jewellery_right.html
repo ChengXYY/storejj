@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<!-- Widget Section -->
+<div id="right-sidebar" class="col-md-4 col-sm-4" th:fragment="right">
+    <!-- Single Widget -->
+    <aside class="widget wow fadeInDown">
+        <div class="widget-title">
+            <h3>通知</h3>
+        </div>
+        <div class="widget-content">
+            <p>2019年6月新到一批原石，新会员享受新人专属价格。6月1日至6月3日期间，高级会员可到店享受会所原石鉴赏服务，届时，会所提供午餐、下午，各种零食饮料。</p>
+        </div>
+    </aside>
+    <!-- End Single Widget -->
+    <aside class="widget wow fadeInDown">
+        <div class="widget-title">
+            <h3>分类</h3>
+        </div>
+        <div class="widget-content">
+            <ul class="categories">
+                <li th:class="${#strings.isEmpty(categoryCode)==false?'':'active'}"><i class="fa fa-tag"></i> <a href="javascript:" class="product-search" data-code="" >全部</a></li>
+                <li th:each="cat:${categoryList}" th:class="${categoryCode==cat.code?'active':''}"><i class="fa fa-tag"></i> <a th:attr="data-code=${cat.code}" href="javascript:" class="product-search" th:text="${cat.name}">cat</a></li>
+            </ul>
+        </div>
+    </aside>
+    <!-- Single Widget -->
+    <aside class="widget wow fadeInUp"  data-wow-duration="1000ms">
+        <div class="widget-title">
+            <h3>搜索</h3>
+        </div>
+        <div class="widget-content">
+            <form method="get" role="search" id="productSearchForm">
+                <input th:value="${name}" type="text" class="form-control" placeholder="输入关键词..." autocomplete="on" name="name">
+                <button type="submit" title="Search" id="search-submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </div>
+    </aside>
+    <!-- End Single Widget -->
+
+    <!-- Single Widget -->
+    <aside class="widget wow fadeInDown">
+        <div class="widget-title">
+            <h3>订阅</h3>
+            <p>留下您的邮箱，来订阅我的最新动态吧！</p>
+        </div>
+        <div class="widget-content">
+            <form action="">
+                <input type="email" name="email" class="form-control" placeholder="Enter your email" required="">
+                <input type="submit" value="Subscribe" class="btn btn-transparent">
+            </form>
+        </div>
+    </aside>
+    <!-- End Single Widget -->
+
+
+</div>
+<!-- End Widget Section -->
+</html>
