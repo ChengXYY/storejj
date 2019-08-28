@@ -89,7 +89,20 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> getList(Map<String, Object> filter) {
-        return articleMapper.selectByFilter(filter);
+        List<Article> list = articleMapper.selectByFilter(filter);
+        if(list !=null ){
+            for (int i=0; i<list.size(); i++){
+                List<String> imgSrc = CommonOperation.getImgSrc(list.get(i).getContent());
+                list.get(i).setImageUrl(imgSrc);
+
+                String intro = CommonOperation.getText(list.get(i).getContent());
+                if(intro.length() > 100){
+                    intro = intro.substring(0,100)+"...";
+                }
+                list.get(i).setIntro(intro);
+            }
+        }
+        return list;
     }
 
     @Override

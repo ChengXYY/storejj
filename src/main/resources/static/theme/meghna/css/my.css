@@ -2,7 +2,7 @@
     width: 100%;
 }
 #twitter-feed{
-    background-image: url("/getimg?filename=picture_ww2.jpg");
+    background-image: url("/getpic?code=index-bg05");
 }
 
 .twitter-bird span{
@@ -13,5 +13,5 @@
 }
 
 #counter{
-    background-image: url("/getimg?filename=picture_ww4.jpg");
+    background-image: url("/getpic?code=index-bg06");
 }

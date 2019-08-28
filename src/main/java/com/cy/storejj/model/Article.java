@@ -2,6 +2,7 @@ package com.cy.storejj.model;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 public class Article {
     private Integer id;
@@ -17,6 +18,10 @@ public class Article {
     private Timestamp createTime;
 
     private String content;
+
+    private List<String> imageUrl;
+
+    private String intro;
 
     public Integer getId() {
         return id;
@@ -72,5 +77,21 @@ public class Article {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public List<String> getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(List<String> imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 }

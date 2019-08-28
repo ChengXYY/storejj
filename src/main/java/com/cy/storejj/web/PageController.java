@@ -2,13 +2,11 @@ package com.cy.storejj.web;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.config.WebConfig;
+import com.cy.storejj.model.Article;
 import com.cy.storejj.model.Category;
 import com.cy.storejj.model.Product;
 import com.cy.storejj.model.SysDict;
-import com.cy.storejj.service.CategoryService;
-import com.cy.storejj.service.ProductService;
-import com.cy.storejj.service.SitePageService;
-import com.cy.storejj.service.SysDictService;
+import com.cy.storejj.service.*;
 import com.cy.storejj.utils.CommonOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.EAN;
@@ -29,8 +27,6 @@ public class PageController extends WebConfig {
 
     private JSONObject pageData = new JSONObject();
 
-    //自定义页面
-
     @Autowired
     private SitePageService sitepageService;
     @Autowired
@@ -39,20 +35,39 @@ public class PageController extends WebConfig {
     private ProductService productService;
     @Autowired
     private SysDictService sysDictService;
+    @Autowired
+    private ArticleService articleService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = {"/", "", "/index", "/index/"})
     public String index(ModelMap modelMap){
+        //店铺
+        List<SysDict> storeList = sysDictService.getList("StoreSettings");
+
         Map<String, Object> filter = new HashMap<>();
+        // userCount
+        int userCount = userService.getCount(filter);
+
+
+        //产品种类
         filter.put("orderBy", "sort desc");
         List<Category> categoryList = categoryService.getList(filter);
+
+        //文章
+        filter.put("orderby", "create_time desc");
         filter.put("page", 0);
+        filter.put("pageSize", 4);
+        List<Article> articleList = articleService.getList(filter);
+
+        //产品
         filter.put("pageSize", 16);
         filter.put("isDelete", 0);
-        filter.put("orderby", "create_time desc");
         List<Product> productList = productService.getList(filter);
-        List<SysDict> storeList = sysDictService.getList("StoreSettings");
+
         pageData.put("category", categoryList);
         pageData.put("product", productList);
+        pageData.put("article", articleList);
         pageData.put("store", storeList);
         pageData.put("title", systemTitle);
         pageData.put("topflag", "index");
@@ -78,15 +93,15 @@ public class PageController extends WebConfig {
         return webHtml+"product";
     }
 
-    @RequestMapping("/stories")
+    @RequestMapping("/story")
     public String stories(ModelMap modelMap){
         pageData.put("title", "新闻·故事 - "+systemTitle);
         pageData.put("topflag", "blog");
         modelMap.addAttribute("page", pageData);
-        return webHtml+"story";
+        return webHtml +"story";
     }
 
-    @RequestMapping("/story")
+    @RequestMapping("/story/detail")
     public String story(ModelMap modelMap){
 
         pageData.put("title", "新闻·故事 - "+systemTitle);

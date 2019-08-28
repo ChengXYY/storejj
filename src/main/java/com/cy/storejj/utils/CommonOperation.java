@@ -13,10 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -330,6 +327,40 @@ public class CommonOperation extends AdminConfig {
 
     public static String getRandomStr(int length){
         return getRandomStr(length, null);
+    }
+
+    //提取 html img标签的 src值
+    public static List<String> getImgSrc(String content){
+        List<String> list = new ArrayList();
+        //目前img标签标示有3种表达式
+        //<img alt="" src="1.jpg"/> <img alt="" src="1.jpg"></img> <img alt="" src="1.jpg">
+        //开始匹配content中的<img />标签
+        Pattern p_img = Pattern.compile("<(img|IMG)(.*?)(/>|></img>|>)");
+        Matcher m_img = p_img.matcher(content);
+        boolean result_img = m_img.find();
+        if (result_img) {
+            while (result_img) {
+                //获取到匹配的<img />标签中的内容
+                String str_img = m_img.group(2);
+                //开始匹配<img />标签中的src
+                Pattern p_src = Pattern.compile("(src|SRC)=(\"|\')(.*?)(\"|\')");
+                Matcher m_src = p_src.matcher(str_img);
+                if (m_src.find()) {
+                    String str_src = m_src.group(3);
+                    list.add(str_src);
+                }
+                //匹配content中是否存在下一个<img />标签，有则继续以上步骤匹配<img />标签中的src
+                result_img = m_img.find();
+            }
+        }
+        return list;
+    }
+
+    //提取 html 纯文本内容
+    public static String getText(String strHtml) {
+        String txtcontent = strHtml.replaceAll("</?[^>]+>", ""); //剔出<html>的标签
+        txtcontent = txtcontent.replaceAll("<a>\\s*|\t|\r|\n</a>", "");//去除字符串中的空格,回车,换行符,制表符
+        return txtcontent;
     }
 
 }

@@ -22,9 +22,10 @@ public class UserLoginController extends WebConfig {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/login")
+    @RequestMapping("/userlogin")
     public String index(ModelMap model){
         pageData.put("title", "会员登录");
+        pageData.put("topflag", "userlogin");
         model.addAttribute("page", pageData);
         return webHtml+"login";
     }

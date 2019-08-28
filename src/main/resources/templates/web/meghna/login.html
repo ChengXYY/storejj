@@ -25,7 +25,7 @@
 
                 <!-- Contact Form -->
                 <div class="contact-form col-md-4 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
-                    <form id="contact-form" method="post" role="form">
+                    <form id="contact-form" method="post" role="form" id="loginForm">
 
                         <div class="form-group">
                             <input type="text" placeholder="手机号" class="form-control" name="account" >
@@ -36,11 +36,11 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="button" value="发送短信验证码" class="btn btn-transparent" >
+                            <input type="button" value="发送短信验证码" class="btn btn-transparent" id="sendVercode">
                         </div>
 
                         <div id="cf-submit">
-                            <input type="submit" id="contact-submit" class="btn btn-transparent" value="提 交">
+                            <input type="button" id="login-submit" class="btn btn-transparent" value="提 交">
                         </div>
 
                     </form>
@@ -60,6 +60,25 @@
     <footer th:replace="/web/meghna/_footer::footer"></footer>
 
     <div th:replace="/web/meghna/_scripts::scripts"></div>
+    <script>
+        $(function () {
+            $("#login-submit").click(function () {
+                $.ajax({
+                    type: 'post',
+                    data: $("#loginForm").serialize(),
+                    dataType: "json",
+                    url: "/login/submit",
+                    success: function (msg) {
+                        if(msg.retCode == 0){
+                            location.href = "/usercenter";
+                        }else{
+                            layer.msg(msg.retMsg);
+                        }
+                    }
+                })
+            })
+        });
+    </script>
 </body>
 
 </html>
