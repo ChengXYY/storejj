@@ -24,6 +24,8 @@ public class User {
 
     private Integer level;
 
+    private Membership levelInfo;
+
     //消费  展示：积分/100
     private Integer points;
 
@@ -114,6 +116,14 @@ public class User {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public Membership getLevelInfo() {
+        return levelInfo;
+    }
+
+    public void setLevelInfo(Membership levelInfo) {
+        this.levelInfo = levelInfo;
     }
 
     public Integer getPoints() {

@@ -42,6 +42,6 @@ $(function () {
        }else {
            $(this).css("height", "100%");
        }
-   })
+   });
 
 });

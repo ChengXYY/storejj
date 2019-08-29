@@ -1,9 +1,12 @@
 package com.cy.storejj.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.config.WebConfig;
 import com.cy.storejj.exception.JsonException;
+import com.cy.storejj.model.Membership;
 import com.cy.storejj.model.Product;
 import com.cy.storejj.model.User;
+import com.cy.storejj.service.MembershipService;
 import com.cy.storejj.service.ProductService;
 import com.cy.storejj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +20,26 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/membership")
 public class UserCenterController extends WebConfig {
 
     @Autowired
     private UserService userService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private MembershipService membershipService;
 
-    @RequestMapping("/center")
+    private JSONObject pageData = new JSONObject();
+
+    @RequestMapping("/usercenter")
     public String userCenter(HttpSession session, ModelMap model){
+        pageData.put("title", systemTitle);
+
+        if(session.getAttribute(userAccount) == null){
+            pageData.put("topflag", "userlogin");
+            model.addAttribute("page", pageData);
+            return webHtml+"login";
+        }
         try {
             Integer id = Integer.parseInt(session.getAttribute(userId).toString());
             //用户个人信息
@@ -45,7 +58,9 @@ public class UserCenterController extends WebConfig {
 
             model.addAttribute("myShop", productList);
 
-            return webHtml+"user_center";
+            pageData.put("topflag", "usercenter");
+            model.addAttribute("page", pageData);
+            return webHtml+"usercenter";
 
         }catch (JsonException e){
             return "/error/404";

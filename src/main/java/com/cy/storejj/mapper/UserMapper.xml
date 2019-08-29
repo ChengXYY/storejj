@@ -16,7 +16,24 @@
     <result column="points_sum" property="pointsSum" jdbcType="INTEGER" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+
+    <association property="levelInfo" column="level" select="getLevelInfo"></association>
   </resultMap>
+
+  <!-- category -->
+  <sql id="levelTable">id, level, title, max_points, min_points, content</sql>
+  <resultMap id="levelMap" type="com.cy.storejj.model.Membership">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="max_points" property="maxPoints" jdbcType="INTEGER" />
+    <result column="min_points" property="minPoints" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getLevelInfo" resultMap="levelMap" parameterType="java.lang.Integer">
+    select <include refid="levelTable" /> from user_membership g where g.level=#{level,jdbcType=VARCHAR}
+  </select>
+
   <sql id="Base_Column_List" >
     id,user_code, name, nickname, mobile, email,account, level, points, points_sum,status, create_by, create_time
   </sql>

@@ -25,7 +25,7 @@
 
                 <!-- Contact Form -->
                 <div class="contact-form col-md-4 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
-                    <form id="contact-form" method="post" role="form" id="loginForm">
+                    <form method="post" role="form" id="loginForm">
 
                         <div class="form-group">
                             <input type="text" placeholder="手机号" class="form-control" name="account" >
@@ -76,7 +76,36 @@
                         }
                     }
                 })
-            })
+            });
+
+            $("#sendVercode").click(function () {
+                $.ajax({
+                    type:"get",
+                    data:{},
+                    dataType: "json",
+                    url: "/sendcode",
+                    success: function (msg) {
+                        layer.msg(msg.retMsg);
+                        $("#sendVercode").attr("disabled","disabled");
+                    }
+                })
+            });
+
+            var time = 120;
+            //倒计时
+            function getRandomCode() {
+                if (time === 0) {
+                    $("#sendVercode").attr("disabled","");
+                    time = 120;
+                    return;
+                } else {
+                    time--;
+                    $('#sendVercode i').value(time+"秒后重新发送");
+                }
+                setTimeout(function() {
+                    getRandomCode();
+                },1000);
+            }
         });
     </script>
 </body>

@@ -35,13 +35,21 @@ public class UserLoginController extends WebConfig {
     public JSONObject login(String account, String vercode, HttpSession session){
 
         try {
-            //userService.login(account, password, vercode, session);
-            return CommonOperation.success();
+            userService.login(account,vercode, session);
+            return CommonOperation.success("登录成功！");
         }catch (JsonException e){
             //result.put("code", e.getCode());
             //result.put("msg", e.getMsg());
             return e.toJson();
         }
+    }
+
+    @RequestMapping("/sendcode")
+    @ResponseBody
+    public JSONObject sendCode(HttpSession session){
+        String code = "1234";
+        session.setAttribute(verCode, code);
+        return CommonOperation.success();
     }
 
 }

@@ -5,6 +5,8 @@ import com.cy.storejj.aop.Permission;
 import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.model.Picture;
+import com.cy.storejj.model.PictureImages;
+import com.cy.storejj.model.ProductImages;
 import com.cy.storejj.service.PictureService;
 import com.cy.storejj.utils.CommonOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,12 +66,43 @@ public class PictureController extends AdminConfig {
         return adminHtml +"picture_add";
     }
 
+    private void handleImage(List<ProductImages> images, Picture picture){
+        if(images != null){
+            images.forEach(t->{
+                if(t.getSize()!=null && t.getSize() == 0){
+                    //删除多余图片
+                    CommonOperation.removeFile(t.getUrl());
+                }else if(StringUtils.isNotBlank(t.getName()) && StringUtils.isNotBlank(t.getUrl())){
+                    //只保留第一张图片
+                    if(StringUtils.isBlank(picture.getUrl())){
+                        picture.setUrl(t.getUrl());
+                    }else {
+                        //删除多余图片
+                        CommonOperation.removeFile(t.getUrl());
+                    }
+                }
+            });
+        }
+    }
+
     @Permission("2202")
     @ResponseBody
     @RequestMapping(value = "/add/submit", method = RequestMethod.POST)
-    public JSONObject add(Picture picture, HttpSession session){
-        picture.setCreateBy(session.getAttribute(adminAccount).toString());
+    public JSONObject add(PictureImages pictureImages, HttpSession session){
+
         try {
+            Picture picture = new Picture();
+            picture.setUrl(pictureImages.getUrl());
+            picture.setCode(pictureImages.getCode());
+            picture.setName(pictureImages.getName());
+            picture.setIntro(pictureImages.getIntro());
+            picture.setExt(pictureImages.getExt());
+            picture.setSize(pictureImages.getSize());
+            picture.setLink(pictureImages.getLink());
+
+            picture.setCreateBy(session.getAttribute(adminAccount).toString());
+            //图片处理
+            handleImage(pictureImages.getImages(), picture);
             return pictureService.add(picture);
 
         }catch (JsonException e){
@@ -81,9 +115,16 @@ public class PictureController extends AdminConfig {
     public String edit(@RequestParam(value = "id")Integer id, ModelMap model){
 
         try {
-
             Picture picture = pictureService.get(id);
+            ProductImages img = new ProductImages();
+            img.setName(picture.getUrl());
+            img.setUrl(picture.getUrl());
+            img.setId(picture.getId());
+            List<ProductImages> images = new ArrayList<>();
+            images.add(img);
+
             model.addAttribute("picture", picture);
+            model.addAttribute("images", images);
             model.addAttribute("pageTitle",editPageTitle+pictureModuleTitle+systemTitle);
             model.addAttribute("TopMenuFlag", "resource");
             model.addAttribute("LeftMenuFlag", "picture");
@@ -98,8 +139,19 @@ public class PictureController extends AdminConfig {
     @Permission("2203")
     @ResponseBody
     @RequestMapping(value = "/edit/submit", method = RequestMethod.POST)
-    public JSONObject edit(Picture picture){
+    public JSONObject edit(PictureImages pictureImages){
         try {
+            Picture picture = new Picture();
+            picture.setId(pictureImages.getId());
+            picture.setUrl(pictureImages.getUrl());
+            picture.setCode(pictureImages.getCode());
+            picture.setName(pictureImages.getName());
+            picture.setIntro(pictureImages.getIntro());
+            picture.setExt(pictureImages.getExt());
+            picture.setSize(pictureImages.getSize());
+            picture.setLink(pictureImages.getLink());
+
+            handleImage(pictureImages.getImages(), picture);
             return pictureService.edit(picture);
 
         }catch (JsonException e){

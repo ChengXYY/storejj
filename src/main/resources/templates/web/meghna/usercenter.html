@@ -9,28 +9,99 @@
 		<div th:replace="/web/meghna/_loading::loading"></div>
         <!--
         End Preloader
-        ==================================== -->
-        <!--
-        Welcome Slider
-        ==================================== -->
-		<!--/#home section-->
-		<section th:replace="/web/meghna/_home::home"></section>
+
         <!-- 
         Fixed Navigation
         ==================================== -->
 		<header th:replace="/web/meghna/_topmenu_page::topmenu"></header>
 
-		<section class="bg-one">
+		<section class="bg-one" id="user-center">
 			<div class="container">
 				<div class="row">
 					<div class="title text-center wow fadeIn" data-wow-duration="500ms">
-						<h2>个人中心-<span class="color" th:text="${user.account}">ME</span></h2>
+						<h2>个人中心-<span class="color" th:text="${user.name}">ME</span></h2>
 						<div class="border"></div>
+					</div>
+
+					<div class="col-md-2 col-sm-4 col-xs-6 wow fadeInUp" data-wow-duration="500ms">
+						<div class="skill-chart text-center">
+							<h3><i class="fa fa-user-circle-o"></i> 昵称</h3>
+							<p th:text="${user.nickname}"></p>
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-6 wow fadeInUp" data-wow-duration="500ms">
+						<div class="skill-chart text-center">
+							<h3><i class="fa fa-phone"></i> 联系电话</h3>
+							<p th:text="${user.mobile}"></p>
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-6 wow fadeInUp" data-wow-duration="500ms">
+						<div class="skill-chart text-center">
+							<h3><i class="fa fa-envelope"></i> 邮箱</h3>
+							<p th:text="${user.email}"></p>
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-6 wow fadeInUp" data-wow-duration="500ms">
+						<div class="skill-chart text-center">
+							<h3><i class="fa fa-user-secret"></i> 账号</h3>
+							<p th:text="${user.account}"></p>
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-6 wow fadeInUp" data-wow-duration="500ms">
+						<div class="skill-chart text-center">
+							<h3><i class="fa fa-gift"></i> 积分</h3>
+							<p th:text="${user.points}"></p>
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-6 wow fadeInUp" data-wow-duration="500ms">
+						<div class="skill-chart text-center">
+							<h3><i class="fa fa-sort-amount-desc"></i> 等级</h3>
+							<p th:text="${user.levelInfo.title}"></p>
+						</div>
 					</div>
 
 				</div>
 			</div>
 		</section>
+
+		<section class="bg-one">
+			<div class="container">
+				<div class="row">
+					<div class="title text-center wow fadeIn" data-wow-duration="500ms">
+						<h2>积分<span class="color">兑换</span></h2>
+						<div class="border"></div>
+					</div>
+
+					<div class="clearfix">
+
+						<!-- single blog post -->
+						<article th:each="prd:${myShop}" class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="200ms">
+							<div class="note">
+								<div id="gallery-post" class="media-wrapper" th:if="${#lists.isEmpty(prd.images)==false}">
+									<div th:each="img:${prd.images}" class="item">
+										<img th:src=@{/getimg?filename={filename}(filename=${img.url})} th:alt="${prd.name}" class="img-responsive">
+									</div>
+								</div>
+
+								<div class="excerpt">
+									<h3 th:text="${prd.name}">title</h3>
+									<p><b><i class="fa fa-cubes"></i> 库存：</b><span th:text="${prd.stock}"></span> |
+									<b><i class="fa fa-rmb"></i> 积分：</b><span th:text="${prd.price}"></span></p>
+									<a class="btn btn-transparent" href="javascript:">兑换</a>
+								</div>
+							</div>
+						</article>
+						<!-- end single blog post -->
+
+					</div>
+
+					<div class="all-post text-center">
+						<a class="btn btn-transparent" href="/shopall">查看全部</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
 
 
 

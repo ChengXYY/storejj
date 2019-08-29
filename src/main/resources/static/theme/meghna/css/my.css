@@ -15,3 +15,9 @@
 #counter{
     background-image: url("/getpic?code=index-bg06");
 }
+
+#user-center{
+    background-image: url("/getpic?code=usercenter");
+    padding-bottom: 100px;
+    padding-top: 80px;
+}

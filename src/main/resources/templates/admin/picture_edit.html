@@ -2,31 +2,75 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/common/_include::include"></head>
 <body>
+<script type="text/javascript" th:src="@{~/js/bootstrap.js}"></script>
+<header th:include="/admin/_header::header">
+    Your Company Name.
+</header>
+<div th:replace="/admin/_topmenu::topmenu"></div>
 <div class="container fluid">
-    <form class="form-horizontal " id="myForm" style="margin-bottom: 50px">
+    <div class="col-md-2">
+        <div th:replace="/admin/_resource_leftmenu::leftmenu"></div>
+    </div>
+    <form class="form-horizontal col-md-10" id="myForm" style="margin-bottom: 50px">
 
         <div class="form-group">
-            <h4 class="text text-primary center">图片编号</h4>
+            <h3 class="text text-primary center">图片编号</h3>
             <hr/>
-            <input class="form-control" placeholder="英文字母、数字、符号" type="text" name="code" th:value="${picture.code}"/>
+            <input type="hidden" name="id" th:value="${picture.id}">
+            <input readonly th:value="${picture.code}" class="form-control" placeholder="英文字母、数字、符号" type="text" name="code"/>
         </div>
         <div class="form-group">
-            <h4 class="text text-primary center">图片描述</h4>
+            <h3 class="text text-primary center">图片描述</h3>
             <hr/>
-            <textarea class="form-control" name="intro" th:text="${picture.intro}"></textarea>
+            <textarea th:text="${picture.intro}" class="form-control" name="intro"></textarea>
+        </div>
+        <div class="form-group">
+            <h3 class="text text-primary center">图片上传</h3>
+            <hr/>
+            <div id="productImageForm" style="display: none">
+
+            </div>
+            <div th:replace="/admin/_file_upload::template"></div>
         </div>
 
-        <div class="form-group center center">
+
+        <div class="form-group center">
             <br/>
-            <input type="hidden" name="id" th:value="${picture.id}"/>
-            <a class="btn btn-primary" href="javascript:" id="submit-form">提交修改</a>
+            <a class="btn btn-warning" href="javascript:" id="submit-form">保 存</a>
+            <a href="javascript:history.back()" class="btn btn-default">返 回</a>
         </div>
     </form>
 </div>
 
+<footer th:replace="/admin/_footer::footer">
+    Your Company Name.
+</footer>
+
+<script type="text/javascript" th:src="@{~/js/common-files.js}"></script>
 <script>
     $(function () {
         $("#submit-form").click(function () {
+            var newImg = $("#successFiles").val();
+            var count = 0;
+            if(newImg.length > 2){
+                newImg = JSON.parse(newImg);
+                $("#productImageForm").html("");
+                for(var i=0; i<newImg.length; i++){
+                    $("#productImageForm").append('<input name="images['+i+'].name" value="'+newImg[i].name+'">');
+                    $("#productImageForm").append('<input name="images['+i+'].url" value="'+newImg[i].url+'">');
+                    count++;
+                }
+            }
+
+            var delImg = $("#deleteFiles").val();
+            if(delImg.length > 2){
+                delImg = JSON.parse(delImg);
+                for(var i=0; i<delImg.length; i++){
+                    $("#productImageForm").append('<input name="images['+(i+count)+'].url" value="'+delImg[i].url+'">');
+                    $("#productImageForm").append('<input name="images['+(i+count)+'].size" value="0">');
+                    $("#productImageForm").append('<input name="images['+(i+count)+'].id" value="'+delImg[i].imgid+'">');
+                }
+            }
 
             $.ajax({
                 type : "post",
@@ -35,7 +79,7 @@
                 url : "/picture/edit/submit",
                 success :function (data) {
                     if(data.retCode == 0){
-                        parent.location.reload();
+                        location.href="/picture/list";
                     }else {
                         layer.msg(data.retMsg);
                     }

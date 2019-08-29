@@ -39,20 +39,28 @@ public class PageController extends WebConfig {
     private ArticleService articleService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private MembershipService membershipService;
 
+    // 首页
     @RequestMapping(value = {"/", "", "/index", "/index/"})
     public String index(ModelMap modelMap){
         //店铺
         List<SysDict> storeList = sysDictService.getList("StoreSettings");
 
         Map<String, Object> filter = new HashMap<>();
+
         // userCount
         int userCount = userService.getCount(filter);
 
+        //levelCount
+        int levelCount = membershipService.getListAll().size();
 
         //产品种类
         filter.put("orderBy", "sort desc");
         List<Category> categoryList = categoryService.getList(filter);
+        // categoryCount
+        int categoryCount = categoryList.size();
 
         //文章
         filter.put("orderby", "create_time desc");
@@ -65,34 +73,26 @@ public class PageController extends WebConfig {
         filter.put("isDelete", 0);
         List<Product> productList = productService.getList(filter);
 
+        // productCount
+        int productCount = productService.getCount(filter);
+
         pageData.put("category", categoryList);
         pageData.put("product", productList);
         pageData.put("article", articleList);
         pageData.put("store", storeList);
+
+        pageData.put("userCount", userCount);
+        pageData.put("levelCount", levelCount);
+        pageData.put("categoryCount", categoryCount);
+        pageData.put("productCount", productCount);
+
         pageData.put("title", systemTitle);
         pageData.put("topflag", "index");
         modelMap.addAttribute("page", pageData);
         return webHtml+"index";
     }
 
-    @RequestMapping("/product")
-    public String product(@RequestParam(value = "page", defaultValue = "1", required = false)Integer page,
-                          HttpServletRequest req,
-                          ModelMap modelMap){
-        String requestUrl =  req.getRequestURI();
-
-        pageData.put("title", "珠宝·翡翠 - "+systemTitle);
-        pageData.put("topflag", "product");
-        //   pageData.put("list", list);
-        pageData.put("currentPage", page);
-        pageData.put("pageCount", 15);
-        pageData.put("totalCount", 143);
-        pageData.put("currentUrl", requestUrl);
-  modelMap.addAttribute("page", pageData);
-
-        return webHtml+"product";
-    }
-
+    // 新闻页
     @RequestMapping("/story")
     public String stories(ModelMap modelMap){
         pageData.put("title", "新闻·故事 - "+systemTitle);
@@ -101,6 +101,7 @@ public class PageController extends WebConfig {
         return webHtml +"story";
     }
 
+    //新闻详情
     @RequestMapping("/story/detail")
     public String story(ModelMap modelMap){
 
@@ -110,8 +111,9 @@ public class PageController extends WebConfig {
         return webHtml+"story_detail";
     }
 
+    //商品页
     @RequestMapping(value = "/jewellery", method = RequestMethod.GET)
-    public String list(@RequestParam Map<String, Object> param,
+    public String product(@RequestParam Map<String, Object> param,
                        HttpServletRequest request,
                        ModelMap model){
         String currentUrl = request.getRequestURI();
@@ -153,6 +155,42 @@ public class PageController extends WebConfig {
         pageData.put("topflag", "product");
         model.addAttribute("page", pageData);
         return webHtml +"jewellery";
+    }
+
+    @RequestMapping(value = "/shopall", method = RequestMethod.GET)
+    public String shop(@RequestParam Map<String, Object> param,
+                       HttpServletRequest request,
+                       ModelMap model) {
+        String currentUrl = request.getRequestURI();
+
+        if (param.get("code") != null && StringUtils.isNotBlank(param.get("code").toString())) {
+            currentUrl = CommonOperation.setUrlParam(currentUrl, "code", param.get("code").toString());
+        } else {
+            param.remove("code");
+        }
+
+        if (param.get("name") != null && StringUtils.isNotBlank(param.get("name").toString())) {
+            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
+        } else {
+            param.remove("name");
+        }
+
+        param.put("currentUrl", currentUrl);
+        param.put("isShop", 1); //商城产品
+        param.put("isDelete", 0);
+        int totalCount = productService.getCount(param);
+        param.put("totalCount", totalCount);
+        param.put("pageSize", 5);
+        setPagenation(param);
+
+        List<Product> list = productService.getList(param);
+        model.addAllAttributes(param);
+        model.addAttribute("shopList", list);
+
+        pageData.put("title", "积分商城 - " + systemTitle);
+        pageData.put("topflag", "product");
+        model.addAttribute("page", pageData);
+        return webHtml + "jewellery";
     }
 
 }

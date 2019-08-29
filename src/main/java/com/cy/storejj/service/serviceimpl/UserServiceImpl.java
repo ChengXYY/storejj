@@ -143,8 +143,7 @@ public class UserServiceImpl extends WebConfig implements UserService{
     public JSONObject login(String account, String vercode, HttpSession session) {
         if(session.getAttribute(userSession) != null) return CommonOperation.success("已登录");
         //验证码
-        if(session.getAttribute(verCode).toString().isEmpty()) throw JsonException.newInstance(ErrorCodes.VERCODE_NOT_EMPTY);
-        if(!session.getAttribute(verCode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
+        if(session.getAttribute(verCode) == null || session.getAttribute(verCode).toString().isEmpty() || !session.getAttribute(verCode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
 
         User user = get(account);
         if(user == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
