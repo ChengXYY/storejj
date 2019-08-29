@@ -116,12 +116,14 @@ public class PictureController extends AdminConfig {
 
         try {
             Picture picture = pictureService.get(id);
-            ProductImages img = new ProductImages();
-            img.setName(picture.getUrl());
-            img.setUrl(picture.getUrl());
-            img.setId(picture.getId());
             List<ProductImages> images = new ArrayList<>();
-            images.add(img);
+            if(StringUtils.isNotBlank(picture.getUrl())){
+                ProductImages img = new ProductImages();
+                img.setName(picture.getUrl());
+                img.setUrl(picture.getUrl());
+                img.setId(picture.getId());
+                images.add(img);
+            }
 
             model.addAttribute("picture", picture);
             model.addAttribute("images", images);

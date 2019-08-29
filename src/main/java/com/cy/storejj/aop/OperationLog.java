@@ -97,21 +97,15 @@ public class OperationLog extends AdminConfig {
 
         switch (methodName){
             case "add":
-                Field[] fields = Class.forName(modelName).getDeclaredFields();
-                for(Field f :fields){
-                    f.setAccessible(true);
-                    if(f.getName()=="name"){
-                        param = f.get(args[0]).toString();
-                    }
-                }
+
                 adminlogService.add(session, "添加【"+className+"】记录("+res.get("id")+")");
                 break;
             case "edit":
-                param = getParamValue("id", args, parameterNames);
+
                 adminlogService.add(session, "修改【"+className+"】记录("+res.get("id")+")");
                 break;
             case "remove":
-                param = getParamValue("id", args, parameterNames);
+
                 adminlogService.add(session, "删除【"+className+"】记录("+res.get("id")+")");
                 break;
         }
