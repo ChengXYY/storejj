@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" >
-<head th:replace="/web/meghna/_include_login::include"></head>
+<head th:replace="/web/meghna/_include::include"></head>
 <body>
 
     <div th:replace="/web/meghna/_loading::loading"></div>
 
-    <header th:replace="/web/meghna/_topmenu_login::topmenu"></header>
+    <header th:replace="/web/meghna/_topmenu_page::topmenu"></header>
 
     <section id="login" th:fragment="contact">
         <div class="container">
@@ -13,7 +13,7 @@
 
                 <!-- section title -->
                 <div class="title text-center wow fadeIn" data-wow-duration="500ms">
-                    <h2>会员 <span class="color">登录</span></h2>
+                    <h2>编辑 <span class="color">会员信息</span></h2>
                     <div class="border"></div>
                 </div>
                 <!-- /section title -->
@@ -26,21 +26,26 @@
                 <!-- Contact Form -->
                 <div class="contact-form col-md-4 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
                     <form method="post" role="form" id="loginForm">
-
                         <div class="form-group">
-                            <input type="text" placeholder="手机号" class="form-control" name="account" >
+                            <label class="control-label">姓名：</label>
+                            <input th:value="${user.name}" type="text" placeholder="姓名" class="form-control" name="name" >
                         </div>
-
                         <div class="form-group">
-                            <input type="email" placeholder="验证码" class="form-control" name="vercode" >
+                            <label class="control-label">昵称：</label>
+                            <input th:value="${user.nickname}" type="text" placeholder="昵称" class="form-control" name="nickname" >
                         </div>
-
                         <div class="form-group">
-                            <input type="button" value="发送短信验证码" class="btn btn-transparent" id="sendVercode">
+                            <label class="control-label">电话：</label>
+                            <input th:value="${user.mobile}" type="text" placeholder="电话" class="form-control" name="mobile" >
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">邮箱：</label>
+                            <input th:value="${user.email}" type="text" placeholder="邮箱" class="form-control" name="email" >
                         </div>
 
                         <div id="cf-submit">
-                            <input type="button" id="login-submit" class="btn btn-transparent" value="登 录">
+                            <input type="button" id="user-submit" class="btn btn-transparent" value="保 存">
+                            <a class="btn btn-transparent"  href="/usercenter">返 回</a>
                         </div>
 
                     </form>
@@ -56,26 +61,21 @@
 
 
     </section> <!-- end section -->
-
     <!-- footer -->
     <footer th:replace="/web/meghna/_footer::footer"></footer>
 
     <div th:replace="/web/meghna/_scripts::scripts"></div>
     <script>
         $(function () {
-            $("#login-submit").click(function () {
+            $("#user-submit").click(function () {
                 $.ajax({
                     type: 'post',
                     data: $("#loginForm").serialize(),
                     dataType: "json",
-                    url: "/login/submit",
+                    url: "/usercenter/edit/submit",
                     success: function (msg) {
                         if(msg.retCode == 0){
-                            if(location.href.indexOf("userlogin")>-1){
-                                location.href = "/usercenter";
-                            }else{
-                                location.reload();
-                            }
+                            location.href = "/usercenter";
                         }else{
                             layer.msg(msg.retMsg);
                         }
@@ -83,36 +83,6 @@
                 })
             });
 
-            $("#sendVercode").click(function () {
-                $.ajax({
-                    type:"get",
-                    data:{},
-                    dataType: "json",
-                    url: "/sendcode",
-                    success: function (msg) {
-                        layer.msg(msg.retMsg);
-                        $("#sendVercode").attr("disabled","disabled");
-                        getRandomCode();
-                    }
-                })
-            });
-
-            var time = 120;
-            //倒计时
-            function getRandomCode() {
-                if (time === 0) {
-                    $("#sendVercode").attr("disabled","");
-                    $('#sendVercode').val("发送短信验证码");
-                    time = 120;
-                    return;
-                } else {
-                    time--;
-                    $('#sendVercode').val(time+"秒后重新发送");
-                }
-                setTimeout(function() {
-                    getRandomCode();
-                },1000);
-            }
         });
     </script>
 </body>

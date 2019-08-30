@@ -2,12 +2,14 @@ package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.config.AdminConfig;
+import com.cy.storejj.config.WebConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.AdminLogMapper;
 import com.cy.storejj.model.AdminLog;
 import com.cy.storejj.service.AdminLogService;
 import com.cy.storejj.utils.CommonOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +26,18 @@ public class AdminLogServiceImpl extends AdminConfig implements AdminLogService 
 
     @Override
     public JSONObject add(HttpSession session, String content) {
-        if(session.getAttribute(adminAccount)==null || session.getAttribute(adminAccount).toString().isEmpty() || content.isEmpty())throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
+        if(content.isEmpty())throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
+        String account = "";
+        if(session.getAttribute(adminAccount)!=null){
+            account = session.getAttribute(adminAccount).toString();
+        }
+        if(session.getAttribute(userAccount)!=null){
+            account = session.getAttribute(userAccount).toString();
+        }
+        if(StringUtils.isBlank(account)) throw JsonException.newInstance(ErrorCodes.ACCOUNT_NOT_EMPTY);
         AdminLog log = new AdminLog();
         log.setContent(content);
-        log.setAdmin(session.getAttribute(adminAccount).toString());
+        log.setAdmin(account);
         log.setCreateBy(session.getAttribute(adminAccount).toString());
         int rs =  adminlogMapper.insertSelective(log);
         if (rs >0)

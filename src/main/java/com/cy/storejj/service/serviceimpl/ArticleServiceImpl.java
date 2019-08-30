@@ -51,6 +51,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public JSONObject remove(Integer id) {
         if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        Article article = get(id);
+        if(article.getImageUrl()!=null){
+            //删除图片
+            article.getImageUrl().forEach(r->{
+                String url = r.replace("/getimg?filename=", "");
+                CommonOperation.removeFile(url);
+            });
+        }
         int rs = articleMapper.deleteByPrimaryKey(id);
 
         if(rs > 0){
@@ -113,8 +121,12 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Article get(Integer id) {
         if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
-
-        return articleMapper.selectByPrimaryKey(id);
+        Article article =  articleMapper.selectByPrimaryKey(id);
+        if(article!=null){
+            List<String> imgSrc = CommonOperation.getImgSrc(article.getContent());
+            article.setImageUrl(imgSrc);
+        }
+        return article;
     }
 
     @Override

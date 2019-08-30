@@ -46,6 +46,7 @@ public class UserServiceImpl extends WebConfig implements UserService{
     @Override
     public JSONObject edit(User user) {
         if(!CommonOperation.checkId(user.getId()))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+
         if(StringUtils.isNotBlank(user.getPassword())){
             Map<String, Object> pass = CommonOperation.encodeStr(user.getPassword());
             user.setPassword(pass.get("newstr").toString());
@@ -101,7 +102,7 @@ public class UserServiceImpl extends WebConfig implements UserService{
     public User get(String account) {
         if(StringUtils.isBlank(account))throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         User user = userMapper.selectByAccount(account);
-
+        if(user == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
         return user;
     }
 
@@ -143,7 +144,7 @@ public class UserServiceImpl extends WebConfig implements UserService{
     public JSONObject login(String account, String vercode, HttpSession session) {
         if(session.getAttribute(userSession) != null) return CommonOperation.success("已登录");
         //验证码
-        if(session.getAttribute(verCode) == null || session.getAttribute(verCode).toString().isEmpty() || !session.getAttribute(verCode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
+        if(session.getAttribute(userVercode) == null || session.getAttribute(userVercode).toString().isEmpty() || !session.getAttribute(userVercode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
 
         User user = get(account);
         if(user == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
@@ -165,8 +166,8 @@ public class UserServiceImpl extends WebConfig implements UserService{
 
         if(StringUtils.isBlank(account) || StringUtils.isBlank(vercode))throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         //验证码
-        if(session.getAttribute(verCode).toString().isEmpty()) throw JsonException.newInstance(ErrorCodes.VERCODE_NOT_EMPTY);
-        if(!session.getAttribute(verCode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
+        if(session.getAttribute(userVercode).toString().isEmpty()) throw JsonException.newInstance(ErrorCodes.VERCODE_NOT_EMPTY);
+        if(!session.getAttribute(userVercode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
 
         User u = get(account);
         if(u != null)

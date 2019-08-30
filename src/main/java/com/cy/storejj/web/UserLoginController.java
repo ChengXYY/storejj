@@ -17,16 +17,11 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class UserLoginController extends WebConfig {
 
-    private JSONObject pageData = new JSONObject();
-
     @Autowired
     private UserService userService;
 
     @RequestMapping("/userlogin")
     public String index(ModelMap model){
-        pageData.put("title", "会员登录");
-        pageData.put("topflag", "userlogin");
-        model.addAttribute("page", pageData);
         return webHtml+"login";
     }
 
@@ -48,8 +43,8 @@ public class UserLoginController extends WebConfig {
     @ResponseBody
     public JSONObject sendCode(HttpSession session){
         String code = "1234";
-        session.setAttribute(verCode, code);
-        return CommonOperation.success();
+        session.setAttribute(userVercode, code);
+        return CommonOperation.success("短信已发送！");
     }
 
 }

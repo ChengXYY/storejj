@@ -25,8 +25,6 @@ import java.util.Map;
 @Controller
 public class PageController extends WebConfig {
 
-    private JSONObject pageData = new JSONObject();
-
     @Autowired
     private SitePageService sitepageService;
     @Autowired
@@ -76,28 +74,44 @@ public class PageController extends WebConfig {
         // productCount
         int productCount = productService.getCount(filter);
 
-        pageData.put("category", categoryList);
-        pageData.put("product", productList);
-        pageData.put("article", articleList);
-        pageData.put("store", storeList);
+        modelMap.addAttribute("category", categoryList);
+        modelMap.addAttribute("product", productList);
+        modelMap.addAttribute("article", articleList);
+        modelMap.addAttribute("store", storeList);
 
-        pageData.put("userCount", userCount);
-        pageData.put("levelCount", levelCount);
-        pageData.put("categoryCount", categoryCount);
-        pageData.put("productCount", productCount);
+        modelMap.addAttribute("userCount", userCount);
+        modelMap.addAttribute("levelCount", levelCount);
+        modelMap.addAttribute("categoryCount", categoryCount);
+        modelMap.addAttribute("productCount", productCount);
 
-        pageData.put("title", systemTitle);
-        pageData.put("topflag", "index");
-        modelMap.addAttribute("page", pageData);
+        modelMap.addAttribute("pageTitle", systemTitle);
+        modelMap.addAttribute("topFlag", "index");
         return webHtml+"index";
     }
 
     // 新闻页
     @RequestMapping("/story")
-    public String stories(ModelMap modelMap){
-        pageData.put("title", "新闻·故事 - "+systemTitle);
-        pageData.put("topflag", "blog");
-        modelMap.addAttribute("page", pageData);
+    public String stories(@RequestParam Map<String, Object> param,
+                          HttpServletRequest request,
+                          ModelMap model){
+        model.addAttribute("pageTitle", "新闻·故事 - "+systemTitle);
+        model.addAttribute("topFlag", "blog");
+
+        String currentUrl = request.getRequestURI();
+        if(param.get("name")!=null && StringUtils.isNotBlank(param.get("name").toString())){
+            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
+        }else {
+            param.remove("name");
+        }
+        param.put("currentUrl", currentUrl);
+        int totalCount = articleService.getCount(param);
+        param.put("totalCount", totalCount);
+        param.put("pageSize", 5);
+        setPagenation(param);
+
+        List<Article> list = articleService.getList(param);
+        model.addAllAttributes(param);
+        model.addAttribute("articleList", list);
         return webHtml +"story";
     }
 
@@ -105,9 +119,8 @@ public class PageController extends WebConfig {
     @RequestMapping("/story/detail")
     public String story(ModelMap modelMap){
 
-        pageData.put("title", "新闻·故事 - "+systemTitle);
-        pageData.put("topflag", "blog");
-        modelMap.addAttribute("page", pageData);
+        modelMap.addAttribute("pageTitle", "新闻·故事 - "+systemTitle);
+        modelMap.addAttribute("topFlag", "blog");
         return webHtml+"story_detail";
     }
 
@@ -137,8 +150,6 @@ public class PageController extends WebConfig {
         }
 
         param.put("currentUrl", currentUrl);
-        param.put("isShop", 0); //商城产品不展示
-        param.put("isDelete",0);
         int totalCount = productService.getCount(param);
         param.put("totalCount", totalCount);
         param.put("pageSize", 5);
@@ -151,9 +162,8 @@ public class PageController extends WebConfig {
         List<Category> categoryList = categoryService.getList(null);
         model.addAttribute("categoryList", categoryList);
 
-        pageData.put("title", "珠宝·翡翠 - "+systemTitle);
-        pageData.put("topflag", "product");
-        model.addAttribute("page", pageData);
+        model.addAttribute("pageTitle", "珠宝·翡翠 - "+systemTitle);
+        model.addAttribute("topFlag", "product");
         return webHtml +"jewellery";
     }
 
@@ -187,9 +197,8 @@ public class PageController extends WebConfig {
         model.addAllAttributes(param);
         model.addAttribute("shopList", list);
 
-        pageData.put("title", "积分商城 - " + systemTitle);
-        pageData.put("topflag", "product");
-        model.addAttribute("page", pageData);
+        model.addAttribute("pageTitle", "积分商城 - " + systemTitle);
+        model.addAttribute("topFlag", "product");
         return webHtml + "jewellery";
     }
 

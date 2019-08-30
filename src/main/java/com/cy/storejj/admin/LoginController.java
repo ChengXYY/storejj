@@ -59,8 +59,8 @@ public class LoginController extends AdminConfig {
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
         try {
             //生产验证码字符串并保存到session中
-            String createText = captchaProducer.createText();System.out.println(verCode);
-            session.setAttribute(verCode, createText);
+            String createText = captchaProducer.createText();System.out.println(adminVercode);
+            session.setAttribute(adminVercode, createText);
             //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
             BufferedImage challenge = captchaProducer.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);

@@ -8,16 +8,6 @@ public class WebConfig extends CommonConfig{
 
     //页面标题
     protected static String systemTitle = "大平珠宝";
-    
 
-    protected static String userAccount = "USER_ACCOUNT";
-
-    protected static String userId = "USER_ID";
-
-    protected static String userLevel = "USER_LEVEL";
-
-    protected static String userSession = "USER_SESSION";
-
-    protected static String verCode = "USER_VERCODE";
 
 }

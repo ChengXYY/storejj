@@ -8,6 +8,15 @@ public class CommonConfig {
 
     protected static Integer pageSize = 15;
 
+    protected static String userAccount = "USER_ACCOUNT";
+
+    protected static String userId = "USER_ID";
+
+    protected static String userLevel = "USER_LEVEL";
+
+    protected static String userSession = "USER_SESSION";
+
+    protected static String userVercode = "USER_VERCODE";
 
     protected Map<String, Object> setPagenation(Map<String, Object> params){
         Map<String, Object> param = params;

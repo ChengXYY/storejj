@@ -2,7 +2,7 @@ server:
   port: 8080
   servlet:
     session:
-      timeout: 36000s
+      timeout: 300m
 spring:
   mvc:
     favicon:

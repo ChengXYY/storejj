@@ -125,8 +125,8 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
         if(session.getAttribute(adminSession) != null) return;
         if(account.isEmpty() || password.isEmpty() || vercode.isEmpty()) throw  JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         //验证码
-        if(session.getAttribute(verCode).toString().isEmpty()) throw JsonException.newInstance(ErrorCodes.VERCODE_NOT_EMPTY);
-        if(!session.getAttribute(verCode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
+        if(session.getAttribute(adminVercode).toString().isEmpty()) throw JsonException.newInstance(ErrorCodes.VERCODE_NOT_EMPTY);
+        if(!session.getAttribute(adminVercode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
         if(isSystem(account, password, session)) return;
 
         Admin admin = get(account);

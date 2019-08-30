@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="/web/meghna/_include::include"></head>
+<body>
+
+    <div th:replace="/web/meghna/_loading::loading"></div>
+
+    <header th:replace="/web/meghna/_topmenu_page::topmenu"></header>
+
+    <section class="bg-one">
+        <div class="container">
+            <div class="row">
+                <!-- section title -->
+                <div class="title text-center wow fadeIn" data-wow-duration="500ms">
+                    <h2>商品 <span class="color">兑换</span></h2>
+                    <div class="border"></div>
+                </div>
+                <div class="clearfix col-md-6">
+                    <article class="col-md-6 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="200ms">
+                        <div class="note">
+                            <div  id="gallery-post" class="media-wrapper" th:if="${#lists.isEmpty(product.images)==false}">
+                                <div th:each="img:${product.images}" class="item">
+                                    <img th:src=@{/getimg?filename={filename}(filename=${img.url})} th:alt="${product.name}" class="img-responsive">
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <div class="clearfix">
+                        <div class="author-bio">
+                            <h4 th:text="${product.name}">name</h4>
+                            <p><i class="fa fa-cubes"></i> 库存：</b><span th:text="${product.stock}"></span> </p>
+                            <p><i class="fa fa-credit-card"></i> 积分：</b><span th:text="${product.price}"></span></p>
+                            <br/>
+                            <div class="social-profile">
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-minus-square-o fa-2x"></i></a></li>
+                                    <li><input type="text" value="1" min="1" class="form-control" style="width: 50px"/></li>
+                                    <li><a href="#"><i class="fa fa-plus-square-o fa-2x"></i></a></li>
+                                </ul>
+                            </div>
+                            <br/>
+                            <br/>
+                            <h4><i class="fa fa-rmb"></i> <span th:text="${product.price}"></span></h4>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="contact-form col-md-6 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
+                    <br/>
+                    <form method="post" role="form" id="exchangeForm">
+
+                        <div class="form-group">
+                            <input type="text" placeholder="收货地址" class="form-control" name="address" >
+                        </div>
+
+                        <div class="form-group">
+                            <input type="email" placeholder="收件人姓名" class="form-control" name="receiver" >
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="email" placeholder="收件人电话" class="form-control" name="mobile" >
+                        </div>
+
+                        <div id="cf-submit">
+                            <input type="button" id="exchange-submit" class="btn btn-transparent" value="提 交">
+                        </div>
+
+                    </form>
+                </div>
+
+            </div> <!-- end row -->
+        </div> <!-- end container -->
+
+
+    </section> <!-- end section -->
+
+
+    <!-- footer -->
+    <footer th:replace="/web/meghna/_footer::footer"></footer>
+
+    <div th:replace="/web/meghna/_scripts::scripts"></div>
+    <script>
+        $(function () {
+            $("#user-submit").click(function () {
+                $.ajax({
+                    type: 'post',
+                    data: $("#exchangeForm").serialize(),
+                    dataType: "json",
+                    url: "/usercenter/edit/submit",
+                    success: function (msg) {
+                        if(msg.retCode == 0){
+                            location.href = "/usercenter";
+                        }else{
+                            layer.msg(msg.retMsg);
+                        }
+                    }
+                })
+            });
+
+        });
+    </script>
+</body>
+
+</html>

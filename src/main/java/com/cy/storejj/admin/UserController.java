@@ -62,7 +62,7 @@ public class UserController extends AdminConfig {
     @RequestMapping("/getcode")
     public JSONObject getCode(HttpSession session){
         String code = "1234";
-        session.setAttribute(userVerCode, code);
+        session.setAttribute(userVercode, code);
         return CommonOperation.success();
     }
     //

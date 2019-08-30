@@ -2,17 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" class="no-js">
 <head th:replace="/web/meghna/_include::include"></head>
 	
-    <body id="body">
-	    <!--
-	    Start Preloader
-	    ==================================== -->
+    <body>
 		<div th:replace="/web/meghna/_loading::loading"></div>
-        <!--
-        End Preloader
 
-        <!-- 
-        Fixed Navigation
-        ==================================== -->
 		<header th:replace="/web/meghna/_topmenu_page::topmenu"></header>
 
 		<section class="bg-one" id="user-center">
@@ -59,12 +51,16 @@
 							<p th:text="${user.levelInfo.title}"></p>
 						</div>
 					</div>
+				</div>
 
+				<div class="all-post text-center">
+					<a class="btn btn-transparent" href="/usercenter/edit">编辑个人信息</a>
+					<a class="btn btn-transparent" href="/usercenter/logout">退出登录</a>
 				</div>
 			</div>
 		</section>
 
-		<section class="bg-one">
+		<section>
 			<div class="container">
 				<div class="row">
 					<div class="title text-center wow fadeIn" data-wow-duration="500ms">
@@ -73,11 +69,10 @@
 					</div>
 
 					<div class="clearfix">
-
 						<!-- single blog post -->
 						<article th:each="prd:${myShop}" class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="200ms">
 							<div class="note">
-								<div id="gallery-post" class="media-wrapper" th:if="${#lists.isEmpty(prd.images)==false}">
+								<div id="gallery-post"  class="media-wrapper" th:if="${#lists.isEmpty(prd.images)==false}">
 									<div th:each="img:${prd.images}" class="item">
 										<img th:src=@{/getimg?filename={filename}(filename=${img.url})} th:alt="${prd.name}" class="img-responsive">
 									</div>
@@ -87,12 +82,11 @@
 									<h3 th:text="${prd.name}">title</h3>
 									<p><b><i class="fa fa-cubes"></i> 库存：</b><span th:text="${prd.stock}"></span> |
 									<b><i class="fa fa-rmb"></i> 积分：</b><span th:text="${prd.price}"></span></p>
-									<a class="btn btn-transparent" href="javascript:">兑换</a>
+									<a class="btn btn-transparent" th:href="@{/usercenter/exchange?code={code}(code=${prd.code})}">兑 换</a>
 								</div>
 							</div>
 						</article>
 						<!-- end single blog post -->
-
 					</div>
 
 					<div class="all-post text-center">
@@ -101,10 +95,6 @@
 				</div>
 			</div>
 		</section>
-
-
-
-
 		<!-- footer -->
 		<footer th:replace="/web/meghna/_footer::footer"></footer>
 

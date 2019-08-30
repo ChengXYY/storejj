@@ -36,7 +36,7 @@ public class AdminPermissionCheck extends AdminConfig {
         HttpSession session= request.getSession();
 
         if(session.getAttribute(adminAccount) == null)
-            return "/admin/login";
+            return adminHtml+"login";
 
         //获取访问目标方法
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();

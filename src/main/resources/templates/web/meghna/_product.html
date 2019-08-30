@@ -16,7 +16,7 @@
                 <div class="portfolio-filter clearfix">
                     <ul class="text-center">
                         <li><a href="javascript:void(0)" class="filter" data-filter="all">全部</a></li>
-                        <li th:each="cat:${page.category}">
+                        <li th:each="cat:${category}">
                             <a href="javascript:void(0)" class="filter" th:attr="data-filter=${'.'+cat.code}" th:text="${cat.name}"></a>
                         </li>
                     </ul>
@@ -32,7 +32,7 @@
         <ul id="og-grid" class="og-grid">
 
             <!-- single portfolio item -->
-            <li th:each="prd:${page.product}" th:class="${'mix '+prd.categoryCode}">
+            <li th:each="prd:${product}" th:class="${'mix '+prd.categoryCode}">
                 <a href="javascript:void(0)" th:attr="data-largesrc=${'/getimg?filename='+prd.pic},data-title=${prd.name},data-description=${prd.content},data-url=${prd.url}" >
                     <img th:src=@{/getimg?filename={filename}(filename=${prd.pic})} th:alt="${prd.name}">
                     <div class="hover-mask">

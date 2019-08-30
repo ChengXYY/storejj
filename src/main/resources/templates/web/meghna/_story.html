@@ -13,8 +13,8 @@
 
             <div class="clearfix">
 
-                <!-- single blog post -->
-                <article th:each="art:${page.article}" class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="200ms">
+                <!-- single blog post cy-->
+                <article th:each="art:${article}" class="col-md-3 col-sm-6 col-xs-12 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="200ms">
                     <div class="note">
                         <div id="gallery-post" class="media-wrapper" th:if="${#lists.isEmpty(art.imageUrl)==false}">
                             <div th:each="img:${art.imageUrl}" class="item">

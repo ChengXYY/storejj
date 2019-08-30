@@ -15,7 +15,7 @@
                 <div id="testimonials" class="wow fadeInUp" data-wow-duration="500ms" data-wow-delay="100ms">
 
                     <!-- testimonial single -->
-                    <div class="item text-center" th:each="store:${page.store}">
+                    <div class="item text-center" th:each="store:${store}">
                         <div class="client-thumb">
                             <img th:src="@{/getpic?code={code}(code=${store.value})}" class="img-responsive" alt="CY">
                         </div>
