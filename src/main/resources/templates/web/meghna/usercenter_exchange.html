@@ -6,7 +6,16 @@
     <div th:replace="/web/meghna/_loading::loading"></div>
 
     <header th:replace="/web/meghna/_topmenu_page::topmenu"></header>
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
 
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+</style>
     <section class="bg-one">
         <div class="container">
             <div class="row">
@@ -33,9 +42,9 @@
                             <br/>
                             <div class="social-profile">
                                 <ul>
-                                    <li><a href="#"><i class="fa fa-minus-square-o fa-2x"></i></a></li>
-                                    <li><input type="text" value="1" min="1" class="form-control" style="width: 50px"/></li>
-                                    <li><a href="#"><i class="fa fa-plus-square-o fa-2x"></i></a></li>
+                                    <li><a href="javascript:" id="minusCount"><i class="fa fa-minus-square-o fa-2x"></i></a></li>
+                                    <li><input type="number" value="1" min="1" th:max="${product.stock}" class="form-control" style="width: 50px" id="countValue"/></li>
+                                    <li><a href="javascript:" id="plusCount"><i class="fa fa-plus-square-o fa-2x"></i></a></li>
                                 </ul>
                             </div>
                             <br/>
@@ -66,6 +75,8 @@
                         </div>
 
                         <div id="cf-submit">
+                            <input name="productId" th:value="${product.id}" type="hidden">
+                            <input name="count" type="hidden" value="1">
                             <input type="button" id="exchange-submit" class="btn btn-transparent" value="提 交">
                         </div>
 
@@ -85,7 +96,24 @@
     <div th:replace="/web/meghna/_scripts::scripts"></div>
     <script>
         $(function () {
+            $("#minusCount").click(function () {
+                if($("#countValue").val() <= 1){
+                    return ;
+                }
+                var count = parseInt($("#countValue").val());
+                $("#countValue").val(count-1);
+            });
+
+            $("#plusCount").click(function () {
+                var count = parseInt($("#countValue").val());
+                $("#countValue").val(count+1);
+            });
+            
             $("#user-submit").click(function () {
+                if($("#countValue").val() < 1){
+                    return ;
+                }
+                $(this).find("input[name='count']").val($("#countValue").val());
                 $.ajax({
                     type: 'post',
                     data: $("#exchangeForm").serialize(),

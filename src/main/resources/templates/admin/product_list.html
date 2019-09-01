@@ -54,7 +54,8 @@
                     <a th:href="@{/product/edit?id={id}(id=${product.id})}" th:text="${product.code}" ></a>
                 </td>
                 <td class="oneline-column" th:text="${product.name}"></td>
-                <td th:text="${product.category.name}"></td>
+                <td th:if="${#strings.isEmpty(product.categoryCode)==false && product.category!=null}" th:text="${product.category.name}"></td>
+                <td th:if="${product.category==null}" class="text-danger" th:text="${'暂无分类('+product.categoryCode+')'}"></td>
                 <td th:text="${product.price}"></td>
                 <td th:text="${product.stock}"></td>
 
