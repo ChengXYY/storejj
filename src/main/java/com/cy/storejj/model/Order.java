@@ -30,7 +30,16 @@ public class Order {
 
     private String createBy;
 
-    private Date createTime;
+    private Timestamp createTime;
+
+    // new
+    private String  address;
+
+    private String receiver;
+
+    private String mobile;
+
+    private String ems;
 
     public Integer getId() {
         return id;
@@ -136,11 +145,43 @@ public class Order {
         this.createBy = createBy == null ? null : createBy.trim();
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEms() {
+        return ems;
+    }
+
+    public void setEms(String ems) {
+        this.ems = ems;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 }

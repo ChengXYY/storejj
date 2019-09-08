@@ -91,7 +91,46 @@
 
 					<div class="all-post text-center">
 						<a class="btn btn-transparent" href="/usercenter/shopall">查看全部</a>
-						<a class="btn btn-transparent" href="/usercenter/myorder">我的订单</a>
+					</div>
+				</div>
+			</div>
+			<br/>
+		</section>
+
+		<section class="bg-one" id="user-order">
+			<div class="container">
+				<div class="row">
+					<div class="title text-center wow fadeIn" data-wow-duration="500ms">
+						<h2>我的<span class="color">订单</span></h2>
+						<div class="border"></div>
+					</div>
+
+					<div class="clearfix col-md-6" th:if="${#lists.isEmpty(orderList)==false}" th:each="order:${orderList}">
+						<article class="col-md-6 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="200ms">
+							<div class="note">
+								<div  id="gallery-post" class="media-wrapper" th:if="${#lists.isEmpty(order.product.images)==false}">
+									<div th:each="img:${order.product.images}" class="item">
+										<img th:src=@{/getimg?filename={filename}(filename=${img.url})} th:alt="${order.product.name}" class="img-responsive">
+									</div>
+								</div>
+							</div>
+						</article>
+						<div class="clearfix">
+							<div class="author-bio">
+								<h4 th:text="${order.product.name+'【'+order.product.code+'】'}">name</h4>
+								<p><i class="fa fa-cubes"></i> 购买件数：</b><span th:text="${order.count}" ></span> </p>
+								<p><i class="fa fa-credit-card"></i> 消耗积分：</b><span th:text="${order.amount}"></span></p>
+								<hr/>
+								<h5><i class="fa fa-map"></i> 收件地址：<span th:text="${order.address}"></span></h5>
+								<h5><i class="fa fa-user-circle-o"></i> 收件人：<span th:text="${order.receiver}"></span></h5>
+								<h5><i class="fa fa-phone"></i> 联系电话：<span th:text="${product.mobile}"></span></h5>
+								<h5><i class="fa fa-address-card"></i> 快递单号：<span th:text="${product.ems}"></span></h5>
+							</div>
+						</div>
+					</div>
+
+					<div class="all-post text-center">
+						<a class="btn btn-transparent" href="/usercenter/myorder">查看全部</a>
 					</div>
 				</div>
 			</div>

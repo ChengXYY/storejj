@@ -36,7 +36,7 @@
                     </article>
                     <div class="clearfix">
                         <div class="author-bio">
-                            <h4 th:text="${product.name}">name</h4>
+                            <h4 th:text="${product.name+'【'+product.code+'】'}">name</h4>
                             <p><i class="fa fa-cubes"></i> 库存：</b><span th:text="${product.stock}" id="stockTotal"></span> </p>
                             <p><i class="fa fa-credit-card"></i> 积分：</b><span th:text="${product.price}"></span></p>
                             <br/>
@@ -107,16 +107,20 @@
             $("body").on("change", "#countValue", function () {
                 var count = $("#countValue").val();
                 count = parseInt(count);
+                if(count < 1){
+                    $("#countValue").val(1);
+                    count = 1;
+                }
                 $("#priceShow").text(count*price);
             });
 
             $("#minusCount").click(function () {
                 var count = $("#countValue").val();
                 if(isNaN(count) || count.length<1){
-                    count = 0;
+                    count = 1;
                 }
                 count = parseInt(count);
-                if(count <= 0){
+                if(count <= 1){
                     $("#countValue").val(count);
                     layer.msg("不能更少啦");
                 }else {
@@ -130,7 +134,7 @@
             $("#plusCount").click(function () {
                 var count = $("#countValue").val();
                 if(isNaN(count) || count.length<1){
-                    count = 0;
+                    count = 1;
                 }
                 count = parseInt(count);
                 count++;
@@ -151,7 +155,7 @@
             $("#user-submit").click(function () {
                 var count = $("#countValue").val();
                 if(isNaN(count) || count.length<1){
-                    count = 0;
+                    count = 1;
                 }
                 count = parseInt(count);
                 if(count <1){

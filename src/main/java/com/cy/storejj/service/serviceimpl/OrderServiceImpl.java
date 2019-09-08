@@ -53,6 +53,24 @@ public class OrderServiceImpl implements OrderService {
         String code = CommonOperation.getRandomStr(20, "DPZB");
         sell.setCode(code);
 
+        String remark = "";
+        if(StringUtils.isNotBlank(sell.getAddress())){
+            remark = sell.getAddress();
+        }
+        remark += "#!%";
+        if(StringUtils.isNotBlank(sell.getReceiver())){
+            remark += sell.getReceiver();
+        }
+        remark += "#!%";
+        if(StringUtils.isNotBlank(sell.getMobile())){
+            remark += sell.getMobile();
+        }
+        remark += "#!%";
+        if(StringUtils.isNotBlank(sell.getEms())){
+            remark += sell.getEms();
+        }
+        sell.setRemark(remark);
+
         int rs =  orderMapper.insertSelective(sell);
         if(rs > 0){
             //会员积分
@@ -81,6 +99,23 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public JSONObject edit(Order sell) {
+        String remark = "";
+        if(StringUtils.isNotBlank(sell.getAddress())){
+            remark = sell.getAddress();
+        }
+        remark += "#!%";
+        if(StringUtils.isNotBlank(sell.getReceiver())){
+            remark += sell.getReceiver();
+        }
+        remark += "#!%";
+        if(StringUtils.isNotBlank(sell.getMobile())){
+            remark += sell.getMobile();
+        }
+        remark += "#!%";
+        if(StringUtils.isNotBlank(sell.getEms())){
+            remark += sell.getEms();
+        }
+        sell.setRemark(remark);
         return null;
     }
 
@@ -97,18 +132,38 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order get(String code) {
         if(StringUtils.isBlank(code)) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
-        return orderMapper.selectByCode(code);
+        Order order =  orderMapper.selectByCode(code);
+        String[] remark = order.getRemark().split("#!%");
+        order.setAddress(remark[0]);
+        order.setReceiver(remark[2]);
+        order.setMobile(remark[3]);
+        order.setEms(remark[4]);
+        return order;
     }
 
     @Override
     public Order get(Integer id) {
         if(CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
-        return orderMapper.selectByPrimaryKey(id);
+        Order order =   orderMapper.selectByPrimaryKey(id);
+        String[] remark = order.getRemark().split("#!%");
+        order.setAddress(remark[0]);
+        order.setReceiver(remark[2]);
+        order.setMobile(remark[3]);
+        order.setEms(remark[4]);
+        return order;
     }
 
     @Override
     public List<Order> getList(Map<String, Object> filter) {
-        return orderMapper.selectByFilter(filter);
+        List<Order> orderList = orderMapper.selectByFilter(filter);
+        for(int i=0; i<orderList.size(); i++){
+            String[] remark = orderList.get(i).getRemark().split("#!%");
+            orderList.get(i).setAddress(remark[0]);
+            orderList.get(i).setReceiver(remark[2]);
+            orderList.get(i).setMobile(remark[3]);
+            orderList.get(i).setEms(remark[4]);
+        }
+        return orderList;
     }
 
     @Override

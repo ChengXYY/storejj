@@ -23,6 +23,13 @@
     padding-top: 80px;
 }
 
+#user-order{
+    background-image: url("/getpic?code=userorder");
+    background-size: cover;
+    padding-bottom: 100px;
+    padding-top: 80px;
+}
+
 .right{
     text-align: right;
 }
