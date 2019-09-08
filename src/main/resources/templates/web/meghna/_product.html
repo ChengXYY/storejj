@@ -33,7 +33,7 @@
 
             <!-- single portfolio item -->
             <li th:each="prd:${product}" th:class="${'mix '+prd.categoryCode}">
-                <a href="javascript:void(0)" th:attr="data-largesrc=${'/getimg?filename='+prd.pic},data-title=${prd.name},data-description=${prd.content},data-url=${prd.url}" >
+                <a href="javascript:void(0)" th:attr="data-largesrc=${'/getimg?filename='+prd.pic},data-title=${prd.name},data-url=${prd.url},data-description=${prd.content}" >
                     <img th:src=@{/getimg?filename={filename}(filename=${prd.pic})} th:alt="${prd.name}">
                     <div class="hover-mask">
                         <h3 th:text="${prd.name}">富贵平安玉佩</h3>

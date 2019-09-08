@@ -11,50 +11,30 @@
             </div>
             <!-- /section title -->
 
-            <!-- About item -->
-            <div class="col-md-4 text-center wow fadeInUp" data-wow-duration="500ms" >
-                <div class="wrap-about">
-                    <div class="icon-box">
-                        <i class="fa fa-line-chart fa-4x"></i>
+            <!-- team member -->
+            <div class="col-md-3 col-sm-6 wow fadeInDown" data-wow-duration="500ms" th:if="${#lists.isEmpty(service)==false}" th:each="srv:${service}">
+                <article class="team-mate">
+                    <div class="member-photo">
+                        <!-- member photo -->
+                        <img  th:src="@{/getpic?code={code}(code=${srv.value})}" th:alt="${srv.text}">
+                        <!-- /member photo -->
                     </div>
-                    <!-- Express About Yourself -->
-                    <div class="about-content text-center">
-                        <h3 class="ddd"><a href="/points">积分制度</a></h3>
-                        <p>注册会员可积分提升等级，不同等级享受不同的店内活动。</p>
-                    </div>
-                </div>
-            </div>
-            <!-- End About item -->
 
-            <!-- About item -->
-            <div class="col-md-4 text-center wow fadeInUp" data-wow-duration="500ms" data-wow-delay="250ms">
-                <div class="wrap-about">
-                    <div class="icon-box">
-                        <i class="fa fa-address-card fa-4x"></i>
+                    <!-- member name & designation -->
+                    <div class="member-title">
+                        <h3 th:text="${srv.text}">title</h3>
                     </div>
-                    <!-- Express About Yourself -->
-                    <div class="about-content text-center">
-                        <h3><a href="/points">定制服务</a></h3>
-                        <p>会员可享受玉石专属定制、会所鉴赏等服务</p>
-                    </div>
-                </div>
-            </div>
-            <!-- End About item -->
+                    <!-- /member name & designation -->
 
-            <!-- About item -->
-            <div class="col-md-4 text-center wow fadeInUp" data-wow-duration="500ms" data-wow-delay="500ms">
-                <div class="wrap-about kill-margin-bottom">
-                    <div class="icon-box">
-                        <i class="fa fa-gift fa-4x"></i>
+                    <!-- about member -->
+                    <div class="member-info">
+                        <p th:text="${srv.desc1}">desc</p>
                     </div>
-                    <!-- Express About Yourself -->
-                    <div class="about-content text-center">
-                        <h3><a href="/points">会员活动</a></h3>
-                        <p>店内不定期推出会员专属的活动，会员可在活动中享受玉石专属价及购买限量产品特权</p>
-                    </div>
-                </div>
+                    <!-- /about member -->
+
+                </article>
             </div>
-            <!-- End About item -->
+            <!-- end team member -->
 
         </div> 		<!-- End row -->
     </div>   	<!-- End container -->

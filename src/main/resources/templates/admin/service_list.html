@@ -12,9 +12,9 @@
     </div>
     <div class="col-md-10">
         <div class="toolbar">
-            <div th:if="${#strings.contains(session.ADMIN_AUTH+'','6602')}" class="col-md-6">
-                <a class="btn btn-primary btn-outline" id="add-store">
-                    <i class="fa fa-plus"></i> 新增店铺
+            <div th:if="${#strings.contains(session.ADMIN_AUTH+'','6802')}" class="col-md-6">
+                <a class="btn btn-primary btn-outline" id="add-service">
+                    <i class="fa fa-plus"></i> 新增服务
                 </a>
             </div>
 
@@ -23,29 +23,25 @@
         <table class="table">
             <thead>
             <tr>
-                <th>店铺名称</th>
+                <th>服务名称</th>
                 <th>描述</th>
-                <th>地址</th>
-                <th>联系电话</th>
                 <th>图片编码</th>
                 <th>排序</th>
                 <th width="80px">操作</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="store:${list}">
-                <td th:text="${store.text}">name</td>
-                <td th:text="${store.desc3}">desc</td>
-                <td th:text="${store.desc1}">sort</td>
-                <td th:text="${store.desc2}">sort</td>
-                <td th:text="${store.value}">content</td>
-                <td th:text="${store.sort}">sort</td>
+            <tr th:each="service:${list}">
+                <td th:text="${service.text}">name</td>
+                <td th:text="${service.desc1}">desc</td>
+                <td th:text="${service.value}">pic</td>
+                <td th:text="${service.sort}">sort</td>
                 <td class="center">
-                    <input type="hidden" class="id" th:value="${store.id}"/>
-                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6603')}" class="text-primary edit" href="javascript:" title="编辑">
+                    <input type="hidden" class="id" th:value="${service.id}"/>
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6803')}" class="text-primary edit" href="javascript:" title="编辑">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6604')}" class="text-danger remove" href="javascript:" title="删除">
+                    <a th:if="${#strings.contains(session.ADMIN_AUTH+'','6804')}" class="text-danger remove" href="javascript:" title="删除">
                         <i class="fa fa-close"></i>
                     </a>
                 </td>
@@ -67,14 +63,14 @@
 <script>
     $(function () {
 
-        $("#add-store").click(function () {
+        $("#add-service").click(function () {
             layer.open({
                 type: 2,
-                title: '新增店铺',
+                title: '新增服务',
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: '/store/add',
+                content: '/service/add',
                 success:function (layero, index) {
                     layer.iframeAuto(index);
                 }
@@ -85,11 +81,11 @@
             var id = $(this).siblings(".id").val();
             layer.open({
                 type: 2,
-                title: '编辑店铺',
+                title: '编辑服务',
                 shadeClose: false,
                 shade: 0.3,
                 area: '500px',
-                content: '/store/edit?id='+id,
+                content: '/service/edit?id='+id,
                 success:function (layero, index) {
                     layer.iframeAuto(index);
                 }
@@ -99,7 +95,7 @@
 
         $(".remove").click(function () {
             var id = $(this).siblings(".id").val();
-            layer.confirm('确认删除该店铺信息吗？', {
+            layer.confirm('确认删除该服务信息吗？', {
                     btn: ['确认','取消']
                 }, function(){
                     var index = layer.load(0, {shade: false});
@@ -109,7 +105,7 @@
                             id:id
                         },
                         dataType:"json",
-                        url:"/store/remove",
+                        url:"/service/remove",
                         success:function (data) {
                             layer.close(index);
                             if(data.retCode==0){

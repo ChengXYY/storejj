@@ -1210,15 +1210,32 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 15px;
     color: #fff;
     display: none;
-    padding: 8px 12px;
+    padding: 8px 15px;
     position: fixed;
     right: 20px;
     z-index: 600;
+	width: 50px;
 }
 
 #scrollUp:hover {
     background-color: #6cb670;
     border: 1px solid #6cb670;
+}
+
+#backHome {
+	border: 1px solid #4e595f;
+	bottom: 65px;
+	color: #fff;
+	padding: 8px 12px;
+	position: fixed;
+	right: 20px;
+	z-index: 600;
+	width: 50px;
+}
+
+#backHome:hover {
+	background-color: #6cb670;
+	border: 1px solid #6cb670;
 }
 
 
@@ -1228,8 +1245,8 @@ h1, h2, h3, h4, h5, h6 {
 
 
 #blog-banner {
-	padding-bottom: 100px;
-    padding-top: 150px;
+	padding-bottom: 50px;
+    padding-top: 50px;
 }
 
 .blog-icon {

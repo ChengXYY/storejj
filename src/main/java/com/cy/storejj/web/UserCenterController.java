@@ -3,13 +3,10 @@ package com.cy.storejj.web;
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.config.WebConfig;
 import com.cy.storejj.exception.JsonException;
-import com.cy.storejj.model.Membership;
-import com.cy.storejj.model.Order;
-import com.cy.storejj.model.Product;
-import com.cy.storejj.model.User;
-import com.cy.storejj.service.MembershipService;
-import com.cy.storejj.service.ProductService;
-import com.cy.storejj.service.UserService;
+import com.cy.storejj.model.*;
+import com.cy.storejj.service.*;
+import com.cy.storejj.utils.CommonOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +31,12 @@ public class UserCenterController extends WebConfig {
     private ProductService productService;
     @Autowired
     private MembershipService membershipService;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private SysDictService sysDictService;
 
     @RequestMapping(value = {"", "/", "/index"})
     public String userCenter(HttpSession session, ModelMap model){
@@ -124,7 +128,13 @@ public class UserCenterController extends WebConfig {
     @ResponseBody
     public JSONObject exchange(Order order, HttpSession session){
         String account = session.getAttribute(userAccount).toString();
-        return null;
+        order.setCreateBy(account);
+        order.setUserAccount(account);
+        try {
+            return orderService.add(order);
+        }catch (JsonException e){
+            return e.toJson();
+        }
     }
 
     @RequestMapping("/logout")
@@ -134,6 +144,52 @@ public class UserCenterController extends WebConfig {
         session.removeAttribute(userId);
         session.removeAttribute(userLevel);
         return "redirect:/userlogin";
+    }
+
+    @RequestMapping(value = "/shopall", method = RequestMethod.GET)
+    public String shop(@RequestParam Map<String, Object> param,
+                       HttpServletRequest request,
+                       ModelMap model) {
+        String currentUrl = request.getRequestURI();
+
+        if (param.get("code") != null && StringUtils.isNotBlank(param.get("code").toString())) {
+            currentUrl = CommonOperation.setUrlParam(currentUrl, "code", param.get("code").toString());
+        } else {
+            param.remove("code");
+        }
+
+        if (param.get("name") != null && StringUtils.isNotBlank(param.get("name").toString())) {
+            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
+        } else {
+            param.remove("name");
+        }
+
+        if(param.get("categoryCode")!=null && StringUtils.isNotBlank(param.get("categoryCode").toString())){
+            currentUrl = CommonOperation.setUrlParam(currentUrl, "categoryCode", param.get("categoryCode").toString());
+        }else {
+            param.remove("categoryCode");
+        }
+        param.put("currentUrl", currentUrl);
+        param.put("isShop", 1); //商城产品
+        param.put("isDelete", 0);
+        int totalCount = productService.getCount(param);
+        param.put("totalCount", totalCount);
+        param.put("pageSize", 5);
+        setPagenation(param);
+
+        List<Product> list = productService.getList(param);
+        model.addAllAttributes(param);
+        model.addAttribute("shopList", list);
+
+        List<Category> categoryList = categoryService.getList(null);
+        model.addAttribute("categoryList", categoryList);
+        //通知
+        List<SysDict> noticeList = sysDictService.getList("NoticeSettings");
+        model.addAttribute("noticeList", noticeList);
+
+        model.addAttribute("pageTitle", "积分商城 - " + systemTitle);
+        model.addAttribute("topFlag", "usercenter");
+        return webHtml + "usercenter_shop";
     }
 
 }

@@ -22,3 +22,24 @@
     padding-bottom: 100px;
     padding-top: 80px;
 }
+
+.right{
+    text-align: right;
+}
+
+.notice{
+    padding:2rem;
+    background-color: #333;
+}
+.notice-content{
+    border-bottom: 1px #888 dashed;
+    margin-bottom: 2rem;
+}
+
+.member-photo img{
+    height:26rem;
+    width: 100%;
+}
+.member-info{
+    min-height: 12rem;
+}

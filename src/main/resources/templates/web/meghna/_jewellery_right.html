@@ -2,16 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" >
 <!-- Widget Section -->
 <div id="right-sidebar" class="col-md-4 col-sm-4" th:fragment="right">
-    <!--
-    <aside class="widget wow fadeInDown">
-        <div class="widget-title">
-            <h3>通知</h3>
-        </div>
-        <div class="widget-content">
-            <p>2019年6月新到一批原石，新会员享受新人专属价格。6月1日至6月3日期间，高级会员可到店享受会所原石鉴赏服务，届时，会所提供午餐、下午，各种零食饮料。</p>
-        </div>
-    </aside>
-     -->
+
     <aside class="widget wow fadeInDown">
         <div class="widget-title">
             <h3>分类</h3>
@@ -39,21 +30,16 @@
     </aside>
     <!-- End Single Widget -->
 
-    <!-- Single Widget -->
-    <aside class="widget wow fadeInDown">
+    <aside class="widget wow fadeInDown notice" th:if="${#lists.isEmpty(noticeList)==false}">
         <div class="widget-title">
-            <h3>订阅</h3>
-            <p>留下您的邮箱，来订阅我的最新动态吧！</p>
+            <h3>通知</h3>
         </div>
-        <div class="widget-content">
-            <form action="">
-                <input type="email" name="email" class="form-control" placeholder="Enter your email" required="">
-                <input type="submit" value="Subscribe" class="btn btn-transparent">
-            </form>
+        <div class="widget-content notice-content" th:each="notice:${noticeList}">
+            <p><b th:text="${notice.text}"></b></p>
+            <p th:text="${notice.desc1}">notcie</p>
+            <p class="right"><i class="fa fa-clock-o"></i> <i th:text="${#dates.format(notice.createTime,'yyyy-MM-dd')}"></i></p>
         </div>
     </aside>
-    <!-- End Single Widget -->
-
 
 </div>
 <!-- End Widget Section -->

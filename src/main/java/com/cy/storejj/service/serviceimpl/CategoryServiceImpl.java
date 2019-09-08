@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
         if(!CommonOperation.checkId(category.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         if(StringUtils.isNotBlank(category.getCode())){
             Category category1 = get(category.getCode());
-            if(!category1.getId().equals(category.getId()))throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
+            if(category1.getId()!=category.getId())throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
         }
         int rs = categoryMapper.updateByPrimaryKeySelective(category);
         if(rs >= 0){

@@ -272,7 +272,7 @@
       is_delete = #{isDelete,jdbcType=INTEGER},
       </if>
       <if test="url != null" >
-        url = #{pic,jdbcType=VARCHAR},
+        url = #{url,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},

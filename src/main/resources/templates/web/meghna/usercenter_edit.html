@@ -44,8 +44,8 @@
                         </div>
 
                         <div id="cf-submit">
-                            <input type="button" id="user-submit" class="btn btn-transparent" value="保 存">
-                            <a class="btn btn-transparent"  href="/usercenter">返 回</a>
+                            <a  id="user-submit" class="btn btn-transparent"><i class="fa fa-save"></i> 保存</a>
+                            <a class="btn btn-transparent"  href="/usercenter"><i class="fa fa-home"></i> 返回个人中心</a>
                         </div>
 
                     </form>
@@ -64,6 +64,7 @@
     <!-- footer -->
     <footer th:replace="/web/meghna/_footer::footer"></footer>
 
+    <a th:replace="/web/meghna/_backhome::backhome"></a>
     <div th:replace="/web/meghna/_scripts::scripts"></div>
     <script>
         $(function () {
@@ -74,11 +75,7 @@
                     dataType: "json",
                     url: "/usercenter/edit/submit",
                     success: function (msg) {
-                        if(msg.retCode == 0){
-                            location.href = "/usercenter";
-                        }else{
                             layer.msg(msg.retMsg);
-                        }
                     }
                 })
             });

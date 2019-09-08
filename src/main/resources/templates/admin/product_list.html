@@ -39,6 +39,7 @@
                 <th>库存</th>
                 <th>商城</th>
                 <th>状态</th>
+                <th>链接</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -66,6 +67,10 @@
                 <td th:if="${product.status==1}" class="text text-primary center">在售</td>
                 <td th:if="${product.status==2}" class="text text-warning center">已预订</td>
 
+                <td th:if="${#strings.isEmpty(product.url)}==false" class="center">
+                    <a th:href="${product.url}"  target="_blank" ><i class="fa fa-link"></i></a>
+                </td>
+                <td th:if="${#strings.isEmpty(product.url)}" class="text text-warning center">暂无链接</td>
                 <td th:attr="data-id=${product.id}" class="center">
                     <a class="btn btn-info btn-outline btn-xs product-image" title="产品原图" th:attr="data-id=${product.id}" >
                         <i class="fa fa-image"></i>

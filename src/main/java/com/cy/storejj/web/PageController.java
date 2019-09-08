@@ -45,6 +45,8 @@ public class PageController extends WebConfig {
     public String index(ModelMap modelMap){
         //店铺
         List<SysDict> storeList = sysDictService.getList("StoreSettings");
+        //服务
+        List<SysDict> serviceList = sysDictService.getList("ServiceSettings");
 
         Map<String, Object> filter = new HashMap<>();
 
@@ -78,6 +80,7 @@ public class PageController extends WebConfig {
         modelMap.addAttribute("product", productList);
         modelMap.addAttribute("article", articleList);
         modelMap.addAttribute("store", storeList);
+        modelMap.addAttribute("service", serviceList);
 
         modelMap.addAttribute("userCount", userCount);
         modelMap.addAttribute("levelCount", levelCount);
@@ -162,44 +165,15 @@ public class PageController extends WebConfig {
         List<Category> categoryList = categoryService.getList(null);
         model.addAttribute("categoryList", categoryList);
 
+        //通知
+        List<SysDict> noticeList = sysDictService.getList("NoticeSettings");
+        model.addAttribute("noticeList", noticeList);
+
         model.addAttribute("pageTitle", "珠宝·翡翠 - "+systemTitle);
         model.addAttribute("topFlag", "product");
         return webHtml +"jewellery";
     }
 
-    @RequestMapping(value = "/shopall", method = RequestMethod.GET)
-    public String shop(@RequestParam Map<String, Object> param,
-                       HttpServletRequest request,
-                       ModelMap model) {
-        String currentUrl = request.getRequestURI();
 
-        if (param.get("code") != null && StringUtils.isNotBlank(param.get("code").toString())) {
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "code", param.get("code").toString());
-        } else {
-            param.remove("code");
-        }
-
-        if (param.get("name") != null && StringUtils.isNotBlank(param.get("name").toString())) {
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
-        } else {
-            param.remove("name");
-        }
-
-        param.put("currentUrl", currentUrl);
-        param.put("isShop", 1); //商城产品
-        param.put("isDelete", 0);
-        int totalCount = productService.getCount(param);
-        param.put("totalCount", totalCount);
-        param.put("pageSize", 5);
-        setPagenation(param);
-
-        List<Product> list = productService.getList(param);
-        model.addAllAttributes(param);
-        model.addAttribute("shopList", list);
-
-        model.addAttribute("pageTitle", "积分商城 - " + systemTitle);
-        model.addAttribute("topFlag", "product");
-        return webHtml + "jewellery";
-    }
 
 }

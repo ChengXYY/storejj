@@ -36,6 +36,12 @@ public class AdminConfig extends CommonConfig{
 
     protected static String membershipModuleTitle = "会员制度-";
 
+    protected static String storeModuleTitle = "店铺配置-";
+
+    protected static String noticeModuleTitle = "通知配置-";
+
+    protected static String serviceModuleTitle = "服务配置-";
+
     protected static String siteMenuTitle = "网页配置-";
 
     protected static String sitepageModuleTitle = "页面管理-";

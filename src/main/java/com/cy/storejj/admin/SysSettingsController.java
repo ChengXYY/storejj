@@ -118,7 +118,7 @@ public class SysSettingsController extends AdminConfig {
         model.addAttribute("list", list);
         model.addAttribute("totalCount", list.size());
 
-        model.addAttribute("pageTitle",listPageTitle+membershipModuleTitle+systemTitle);
+        model.addAttribute("pageTitle",listPageTitle+storeModuleTitle+systemTitle);
         model.addAttribute("TopMenuFlag", "system");
         model.addAttribute("LeftMenuFlag", "store");
         return adminHtml +"store_list";
@@ -171,6 +171,146 @@ public class SysSettingsController extends AdminConfig {
     @RequestMapping(value = "/store/remove", method = RequestMethod.POST)
     @ResponseBody
     public JSONObject storeEdit(@RequestParam("id")Integer id){
+        try {
+            return dictService.remove(id);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
+    //notice
+    @Permission("6700")
+    @RequestMapping("/notice/list")
+    public String noticeList(ModelMap model){
+
+        List<SysDict> list = dictService.getList("NoticeSettings");
+
+        model.addAttribute("list", list);
+        model.addAttribute("totalCount", list.size());
+
+        model.addAttribute("pageTitle",listPageTitle+noticeModuleTitle+systemTitle);
+        model.addAttribute("TopMenuFlag", "system");
+        model.addAttribute("LeftMenuFlag", "notice");
+        return adminHtml +"notice_list";
+    }
+
+    @Permission("6702")
+    @RequestMapping("/notice/add")
+    public String noticeAdd(ModelMap model){
+
+        return adminHtml +"notice_add";
+    }
+
+    @Permission("6702")
+    @RequestMapping("/notice/add/submit")
+    @ResponseBody
+    public JSONObject noticeAdd(SysDict dict){
+        try {
+            dict.setType("NoticeSettings");
+            return dictService.add(dict);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
+    @Permission("6703")
+    @RequestMapping(value = "/notice/edit", method = RequestMethod.GET)
+    public String noticeEdit(@RequestParam("id")Integer id, ModelMap model){
+        try {
+            SysDict dict = dictService.get(id);
+            model.addAttribute("sysDict", dict);
+            return adminHtml +"notice_edit";
+        }catch (JsonException e){
+            model.addAttribute("error", e.toJson());
+            return "/error/common";
+        }
+    }
+
+    @Permission("6703")
+    @RequestMapping("/notice/edit/submit")
+    @ResponseBody
+    public JSONObject noticeEdit(SysDict dict){
+        try {
+            return dictService.edit(dict);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
+    @Permission("6704")
+    @RequestMapping(value = "/notice/remove", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject noticeEdit(@RequestParam("id")Integer id){
+        try {
+            return dictService.remove(id);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
+    //service
+    @Permission("6800")
+    @RequestMapping("/service/list")
+    public String serviceList(ModelMap model){
+
+        List<SysDict> list = dictService.getList("ServiceSettings");
+
+        model.addAttribute("list", list);
+        model.addAttribute("totalCount", list.size());
+
+        model.addAttribute("pageTitle",listPageTitle+serviceModuleTitle+systemTitle);
+        model.addAttribute("TopMenuFlag", "system");
+        model.addAttribute("LeftMenuFlag", "service");
+        return adminHtml +"service_list";
+    }
+
+    @Permission("6802")
+    @RequestMapping("/service/add")
+    public String serviceAdd(ModelMap model){
+
+        return adminHtml +"service_add";
+    }
+
+    @Permission("6802")
+    @RequestMapping("/service/add/submit")
+    @ResponseBody
+    public JSONObject serviceAdd(SysDict dict){
+        try {
+            dict.setType("ServiceSettings");
+            return dictService.add(dict);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
+    @Permission("6803")
+    @RequestMapping(value = "/service/edit", method = RequestMethod.GET)
+    public String serviceEdit(@RequestParam("id")Integer id, ModelMap model){
+        try {
+            SysDict dict = dictService.get(id);
+            model.addAttribute("sysDict", dict);
+            return adminHtml +"service_edit";
+        }catch (JsonException e){
+            model.addAttribute("error", e.toJson());
+            return "/error/common";
+        }
+    }
+
+    @Permission("6803")
+    @RequestMapping("/service/edit/submit")
+    @ResponseBody
+    public JSONObject serviceEdit(SysDict dict){
+        try {
+            return dictService.edit(dict);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
+
+    @Permission("6804")
+    @RequestMapping(value = "/service/remove", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject serviceEdit(@RequestParam("id")Integer id){
         try {
             return dictService.remove(id);
         }catch (JsonException e){
