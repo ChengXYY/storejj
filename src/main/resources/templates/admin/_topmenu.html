@@ -7,6 +7,7 @@
     <li th:if="${#strings.contains(session.ADMIN_AUTH+'','3000')}" th:class="${TopMenuFlag=='product'?'active':''}"><a href="/products">产品管理</a></li>
     <li th:if="${#strings.contains(session.ADMIN_AUTH+'','4000')}" th:class="${TopMenuFlag=='user'?'active':''}"><a href="/user">会员管理</a></li>
     <li th:if="${#strings.contains(session.ADMIN_AUTH+'','5000')}" th:class="${TopMenuFlag=='order'?'active':''}"><a href="/order">订单管理</a></li>
+    <li th:if="${#strings.contains(session.ADMIN_AUTH+'','7000')}" th:class="${TopMenuFlag=='suggesttion'?'active':''}"><a href="/suggestion">用户意见</a></li>
     <li th:if="${#strings.contains(session.ADMIN_AUTH+'','6000')}" th:class="${TopMenuFlag=='system'?'active':''}"><a href="/system">系统设置</a></li>
 </ul>
 </html>

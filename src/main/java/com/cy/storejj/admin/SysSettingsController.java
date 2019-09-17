@@ -317,4 +317,39 @@ public class SysSettingsController extends AdminConfig {
             return e.toJson();
         }
     }
+
+    @Permission("6900")
+    @RequestMapping(value = "/contact/settings")
+    public String contactSettings(ModelMap modelMap){
+        List<SysDict> list = dictService.getList("ContactSettings");
+        SysDict sysDict = new SysDict();
+        if(list.size()>0){
+            sysDict = list.get(0);
+        }
+        modelMap.addAttribute("sysDict", sysDict);
+        modelMap.addAttribute("pageTitle",listPageTitle+serviceModuleTitle+systemTitle);
+        modelMap.addAttribute("TopMenuFlag", "system");
+        modelMap.addAttribute("LeftMenuFlag", "contact");
+        return adminHtml+"contact_settings";
+    }
+
+    @Permission("6901")
+    @RequestMapping(value = "/contact/settings/submit", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject contactSettings(SysDict dict){
+
+        List<SysDict> list = dictService.getList("ContactSettings");
+        try {
+            if(list.size() <1 && dict.getId() == null){
+                dict.setType("ContactSettings");
+                return dictService.add(dict);
+            }
+            if(list.size()>0){
+                dict.setId(list.get(0).getId());
+            }
+            return dictService.edit(dict);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
 }

@@ -125,7 +125,7 @@ public class ArticleController extends AdminConfig {
 
         JSONObject result = new JSONObject();
         try {
-            result = CommonOperation.uploadFile(file);
+            result = uploadFile(file);
             result.put("path", "/getimg?filename="+result.get("realname"));
         }catch (JsonException e){
             result = e.toJson();
@@ -138,7 +138,7 @@ public class ArticleController extends AdminConfig {
     public JSONObject get(@RequestParam(value = "code")String code){
         try {
             Article article = articleService.get(code);
-            return CommonOperation.success(article);
+            return success(article);
         }catch (JsonException e){
             return e.toJson();
         }

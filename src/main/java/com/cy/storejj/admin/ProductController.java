@@ -67,7 +67,7 @@ public class ProductController extends AdminConfig {
         try {
             List<ProductImages> images = productService.getImages(id);
             if(images.size() <1 ){
-                return CommonOperation.fail("暂无图片");
+                return fail("暂无图片");
             }
             List<Map<String, Object>> data = new ArrayList<>();
             images.forEach(r->{
@@ -77,7 +77,7 @@ public class ProductController extends AdminConfig {
                 map.put("pid", r.getId());
                 data.add(map);
             });
-            JSONObject rs = CommonOperation.success();
+            JSONObject rs = success();
             rs.put("data", data);
             return rs;
         }catch (JsonException e){
@@ -187,7 +187,7 @@ public class ProductController extends AdminConfig {
     public JSONObject get(@RequestParam(value = "code")String code){
         try {
             Product product = productService.get(code);
-            return CommonOperation.success(product);
+            return success(product);
         }catch (JsonException e){
             return e.toJson();
         }
@@ -229,10 +229,10 @@ public class ProductController extends AdminConfig {
                            ModelMap model){
         String currentUrl = request.getRequestURI();
         if(param.get("code")!=null && StringUtils.isNotBlank(param.get("code").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "code", param.get("code").toString());
+            currentUrl = setUrlParam(currentUrl, "code", param.get("code").toString());
         }
         if(param.get("name")!=null && StringUtils.isNotBlank(param.get("name").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
+            currentUrl = setUrlParam(currentUrl, "name", param.get("name").toString());
         }
         param.put("currentUrl", currentUrl);
         param.put("isDelete",0);
@@ -273,10 +273,10 @@ public class ProductController extends AdminConfig {
                        ModelMap model){
         String currentUrl = request.getRequestURI();
         if(param.get("code")!=null && StringUtils.isNotBlank(param.get("code").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "code", param.get("code").toString());
+            currentUrl = setUrlParam(currentUrl, "code", param.get("code").toString());
         }
         if(param.get("name")!=null && StringUtils.isNotBlank(param.get("name").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
+            currentUrl = setUrlParam(currentUrl, "name", param.get("name").toString());
         }
         param.put("currentUrl", currentUrl);
 

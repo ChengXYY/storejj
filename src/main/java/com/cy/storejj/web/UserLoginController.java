@@ -31,7 +31,7 @@ public class UserLoginController extends WebConfig {
 
         try {
             userService.login(account,vercode, session);
-            return CommonOperation.success("登录成功！");
+            return success("登录成功！");
         }catch (JsonException e){
             //result.put("code", e.getCode());
             //result.put("msg", e.getMsg());
@@ -44,7 +44,7 @@ public class UserLoginController extends WebConfig {
     public JSONObject sendCode(HttpSession session){
         String code = "1234";
         session.setAttribute(userVercode, code);
-        return CommonOperation.success("短信已发送！");
+        return success("短信已发送！");
     }
 
 }

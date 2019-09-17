@@ -1,6 +1,7 @@
 package com.cy.storejj.web;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cy.storejj.config.WebConfig;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.model.Article;
 import com.cy.storejj.model.Picture;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class DataController {
+public class DataController extends WebConfig {
 
     @Autowired
     private ArticleService articleService;
@@ -27,7 +28,7 @@ public class DataController {
     public JSONObject getArticle(@RequestParam(value = "code", required = true)String code){
         try {
             Article article = articleService.get(code);
-            return CommonOperation.success(article);
+            return success(article);
         }catch (JsonException e){
             return e.toJson();
         }
@@ -39,7 +40,7 @@ public class DataController {
     public JSONObject getPicture(@RequestParam(value = "code", required = true)String code){
         try {
             Picture picture = pictureService.get(code);
-            return CommonOperation.success(picture);
+            return success(picture);
         }catch (JsonException e){
             return e.toJson();
         }

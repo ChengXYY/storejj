@@ -1,7 +1,7 @@
 package com.cy.storejj.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cy.storejj.config.AdminConfig;
+import com.cy.storejj.config.CommonConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -17,8 +17,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CommonOperation extends AdminConfig {
-    public static Map<String, Object> encodeStr(String str){
+public class CommonOperation extends CommonConfig {
+    public Map<String, Object> encodeStr(String str){
         Map<String, Object> rs = new HashMap<String, Object>();
         //get salt
         String salt = UUID.randomUUID().toString();
@@ -29,19 +29,19 @@ public class CommonOperation extends AdminConfig {
         return rs;
     }
 
-    public static String encodeStr(String str, String salt){
+    public String encodeStr(String str, String salt){
         String str1 = DigestUtils.md5DigestAsHex((str+salt).getBytes());
         return str1;
     }
 
-    public static boolean checkId(Integer id){
+    public boolean checkId(Integer id){
         if(id == null) return false;
         if(id.toString().isEmpty()) return false;
         if(id < 1)return false;
         return true;
     }
 
-    public static boolean checkEmail(String email){
+    public boolean checkEmail(String email){
         if(email == null || email.isEmpty())return false;
         String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
         Pattern p;
@@ -55,7 +55,7 @@ public class CommonOperation extends AdminConfig {
     }
 
     //上传文件
-    public static JSONObject uploadFile(MultipartFile file, String myFileName){
+    public JSONObject uploadFile(MultipartFile file, String myFileName){
         JSONObject rs = new JSONObject();
         if(file == null)throw JsonException.newInstance(ErrorCodes.FILE_NOT_EXSIT);
 
@@ -93,12 +93,12 @@ public class CommonOperation extends AdminConfig {
         return rs;
     }
 
-    public static JSONObject uploadFile(MultipartFile file){
+    public JSONObject uploadFile(MultipartFile file){
         return uploadFile(file, null);
     }
 
     //查看图片
-    public static void getImage(String filename,
+    public  void getImage(String filename,
                                 HttpServletRequest request,
                                 HttpServletResponse response)throws IOException {
 
@@ -124,7 +124,7 @@ public class CommonOperation extends AdminConfig {
         }
     }
 
-    public static JSONObject removeFile(String fileName){
+    public  JSONObject removeFile(String fileName){
         JSONObject rs = new JSONObject();
         if(fileName == null || fileName.isEmpty()) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
 
@@ -142,21 +142,21 @@ public class CommonOperation extends AdminConfig {
         }
     }
 
-    public static JSONObject success(Integer id){
+    public JSONObject success(Integer id){
         JSONObject rs = new JSONObject();
         rs.put("retCode", 0);
         rs.put("retMsg", "操作成功");
         rs.put("id", id);
         return  rs;
     }
-    public static JSONObject success(){
+    public JSONObject success(){
         JSONObject rs = new JSONObject();
         rs.put("retCode", 0);
         rs.put("retMsg", "操作成功");
         return  rs;
     }
 
-    public static JSONObject success(Object obj){
+    public JSONObject success(Object obj){
         JSONObject rs = new JSONObject();
         rs.put("retCode", 0);
         rs.put("retMsg", "操作成功");
@@ -166,31 +166,31 @@ public class CommonOperation extends AdminConfig {
         return rs;
     }
 
-    public static JSONObject success(String msg){
+    public JSONObject success(String msg){
         JSONObject rs = new JSONObject();
         rs.put("retCode", 0);
         rs.put("retMsg", msg);
         return  rs;
     }
 
-    public static JSONObject fail(int errCode){
+    public JSONObject fail(int errCode){
         JSONObject rs = new JSONObject();
         rs.put("retCode", errCode);
         rs.put("retMsg", "操作失败");
         return  rs;
     }
 
-    public static JSONObject fail(){
+    public JSONObject fail(){
         return JsonException.newInstance(ErrorCodes.SERVER_IS_WRONG).toJson();
     }
 
-    public static JSONObject fail(String msg){
+    public JSONObject fail(String msg){
         JSONObject rs =  JsonException.newInstance(ErrorCodes.CUSTOM_ERROR).toJson();
         rs.put("retMsg", msg);
         return rs;
     }
 
-    public static JSONObject obj2Json(Object object){
+    public JSONObject obj2Json(Object object){
         JSONObject rs = new JSONObject();
 
         Map<String, Object> data = BeanMap.create(object);
@@ -199,7 +199,7 @@ public class CommonOperation extends AdminConfig {
     }
 
 
-    public static String setUrlParam(String url, String key, String val){
+    public String setUrlParam(String url, String key, String val){
         if (!StringUtils.isNotBlank(url) && !StringUtils.isNotBlank(key)) return url;
         String local = url;
         String paramStr = "";
@@ -234,7 +234,7 @@ public class CommonOperation extends AdminConfig {
     }
 
     //手机号脱敏 13198765432 --> 131****5432
-    public static String maskMobile(String originMobile){
+    public String maskMobile(String originMobile){
         //不能为空
         if(originMobile == null || originMobile.isEmpty() || originMobile.length() <3){
             return originMobile;
@@ -276,7 +276,7 @@ public class CommonOperation extends AdminConfig {
     }
 
     // 邮箱脱敏：dailm@126.com-->dai**@126.com
-    public static String maskEmail(String email){
+    public String maskEmail(String email){
 
         if (StringUtils.isBlank(email)) {
             return email;
@@ -300,7 +300,7 @@ public class CommonOperation extends AdminConfig {
     }
 
     // 姓名脱敏
-    public static String maskName(String name){
+    public String maskName(String name){
         if(StringUtils.isBlank(name))
             return name;
         int length = name.length();
@@ -317,7 +317,7 @@ public class CommonOperation extends AdminConfig {
     }
 
     //生成随机字符串
-    public static String getRandomStr(int length, String pre){
+    public String getRandomStr(int length, String pre){
         if(StringUtils.isBlank(pre)){
             pre = "";
         }
@@ -325,12 +325,12 @@ public class CommonOperation extends AdminConfig {
         return pre + RandomStringUtils.randomAlphanumeric(length);
     }
 
-    public static String getRandomStr(int length){
+    public String getRandomStr(int length){
         return getRandomStr(length, null);
     }
 
     //提取 html img标签的 src值
-    public static List<String> getImgSrc(String content){
+    public List<String> getImgSrc(String content){
         List<String> list = new ArrayList();
         //目前img标签标示有3种表达式
         //<img alt="" src="1.jpg"/> <img alt="" src="1.jpg"></img> <img alt="" src="1.jpg">
@@ -357,10 +357,12 @@ public class CommonOperation extends AdminConfig {
     }
 
     //提取 html 纯文本内容
-    public static String getText(String strHtml) {
+    public String getText(String strHtml) {
         String txtcontent = strHtml.replaceAll("</?[^>]+>", ""); //剔出<html>的标签
         txtcontent = txtcontent.replaceAll("<a>\\s*|\t|\r|\n</a>", "");//去除字符串中的空格,回车,换行符,制表符
         return txtcontent;
     }
+
+
 
 }

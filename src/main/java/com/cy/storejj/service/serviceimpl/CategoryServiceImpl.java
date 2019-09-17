@@ -1,6 +1,7 @@
 package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.CategoryMapper;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl extends AdminConfig implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
@@ -29,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
         if(category1 != null)throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
         int rs = categoryMapper.insertSelective(category);
         if(rs > 0){
-            return CommonOperation.success(category.getId());
+            return success(category.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -37,14 +38,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public JSONObject edit(Category category) {
-        if(!CommonOperation.checkId(category.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(category.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         if(StringUtils.isNotBlank(category.getCode())){
             Category category1 = get(category.getCode());
             if(category1.getId()!=category.getId())throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
         }
         int rs = categoryMapper.updateByPrimaryKeySelective(category);
         if(rs >= 0){
-            return CommonOperation.success(category.getId());
+            return success(category.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -52,14 +53,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public JSONObject remove(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         //删除图片
         Category c = get(id);
-        CommonOperation.removeFile(c.getPic());
+        removeFile(c.getPic());
         int rs = categoryMapper.deleteByPrimaryKey(id);
 
         if(rs > 0){
-            return CommonOperation.success(id);
+            return success(id);
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -86,9 +87,9 @@ public class CategoryServiceImpl implements CategoryService {
         }
         msg = "成功删除："+success+"，失败："+fail+"。"+msg;
         if(fail > 0){
-            return CommonOperation.fail(msg);
+            return fail(msg);
         }else {
-            return CommonOperation.success(msg);
+            return success(msg);
         }
     }
 
@@ -104,7 +105,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category get(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         return categoryMapper.selectByPrimaryKey(id);
     }
 

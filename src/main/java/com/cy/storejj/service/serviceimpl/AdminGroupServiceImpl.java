@@ -1,6 +1,7 @@
 package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.AdminMapper;
@@ -8,8 +9,6 @@ import com.cy.storejj.mapper.AdminGroupMapper;
 import com.cy.storejj.model.Admin;
 import com.cy.storejj.model.AdminGroup;
 import com.cy.storejj.service.AdminGroupService;
-import com.cy.storejj.utils.CommonOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ import java.util.Map;
 
 
 @Service
-public class AdminGroupServiceImpl implements AdminGroupService {
+public class AdminGroupServiceImpl extends AdminConfig implements AdminGroupService {
 
     @Autowired
     private AdminGroupMapper admingroupMapper;
@@ -41,10 +40,10 @@ public class AdminGroupServiceImpl implements AdminGroupService {
 
     @Override
     public JSONObject add(AdminGroup admingroup) {
-        if(admingroup.getName().isEmpty() || !CommonOperation.checkId(admingroup.getSort())) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
+        if(admingroup.getName().isEmpty() || !checkId(admingroup.getSort())) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         int rs = admingroupMapper.insertSelective(admingroup);
         if(rs>0) {
-            return CommonOperation.success(admingroup.getId());
+            return success(admingroup.getId());
         }else
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
     }
@@ -55,7 +54,7 @@ public class AdminGroupServiceImpl implements AdminGroupService {
 
         int rs = admingroupMapper.updateByPrimaryKeySelective(admingroup);
         if(rs > 0){
-            return CommonOperation.success(admingroup.getId());
+            return success(admingroup.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -75,7 +74,7 @@ public class AdminGroupServiceImpl implements AdminGroupService {
         int rs = admingroupMapper.deleteByPrimaryKey(id);
 
         if(rs > 0){
-            return CommonOperation.success(id);
+            return success(id);
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -83,7 +82,7 @@ public class AdminGroupServiceImpl implements AdminGroupService {
 
     @Override
     public AdminGroup get(Integer id) {
-        if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         AdminGroup admingroup = admingroupMapper.selectByPrimaryKey(id);
         if(admingroup == null)throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
         return admingroup;
@@ -91,7 +90,7 @@ public class AdminGroupServiceImpl implements AdminGroupService {
 
     @Override
     public JSONObject changeAuth(Integer id, String[] auths) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         AdminGroup admingroup = get(id);
 
         String authStr = "";
@@ -104,7 +103,7 @@ public class AdminGroupServiceImpl implements AdminGroupService {
         admingroup.setAuth(authStr);
         int rs = admingroupMapper.updateByPrimaryKeySelective(admingroup);
         if(rs > 0){
-            return CommonOperation.success(id);
+            return success(id);
         }else
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
     }

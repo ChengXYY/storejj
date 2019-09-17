@@ -43,7 +43,7 @@ public class OrderController extends AdminConfig {
         currentUrl = handleParam(param, currentUrl);
 
         if(param.get("productCode")!=null && StringUtils.isNotBlank(param.get("productCode").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "productCode", param.get("productCode").toString());
+            currentUrl = setUrlParam(currentUrl, "productCode", param.get("productCode").toString());
             Product product = productService.get(param.get("productCode").toString());
             if(product != null){
                 param.put("productId", product.getId());

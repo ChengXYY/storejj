@@ -47,6 +47,9 @@ public class PageController extends WebConfig {
         List<SysDict> storeList = sysDictService.getList("StoreSettings");
         //服务
         List<SysDict> serviceList = sysDictService.getList("ServiceSettings");
+        //联系方式
+        List<SysDict> contactList = sysDictService.getList("ContactSettings");
+
 
         Map<String, Object> filter = new HashMap<>();
 
@@ -81,6 +84,7 @@ public class PageController extends WebConfig {
         modelMap.addAttribute("article", articleList);
         modelMap.addAttribute("store", storeList);
         modelMap.addAttribute("service", serviceList);
+        modelMap.addAttribute("contact", contactList.get(0));
 
         modelMap.addAttribute("userCount", userCount);
         modelMap.addAttribute("levelCount", levelCount);
@@ -102,7 +106,7 @@ public class PageController extends WebConfig {
 
         String currentUrl = request.getRequestURI();
         if(param.get("name")!=null && StringUtils.isNotBlank(param.get("name").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
+            currentUrl = setUrlParam(currentUrl, "name", param.get("name").toString());
         }else {
             param.remove("name");
         }
@@ -135,19 +139,19 @@ public class PageController extends WebConfig {
         String currentUrl = request.getRequestURI();
 
         if(param.get("code")!=null && StringUtils.isNotBlank(param.get("code").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "code", param.get("code").toString());
+            currentUrl = setUrlParam(currentUrl, "code", param.get("code").toString());
         }else {
             param.remove("code");
         }
 
         if(param.get("name")!=null && StringUtils.isNotBlank(param.get("name").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
+            currentUrl = setUrlParam(currentUrl, "name", param.get("name").toString());
         }else {
             param.remove("name");
         }
 
         if(param.get("categoryCode")!=null && StringUtils.isNotBlank(param.get("categoryCode").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "categoryCode", param.get("categoryCode").toString());
+            currentUrl = setUrlParam(currentUrl, "categoryCode", param.get("categoryCode").toString());
         }else {
             param.remove("categoryCode");
         }

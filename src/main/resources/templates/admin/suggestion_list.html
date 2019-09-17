@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/_include::include"></head>
+<body>
+<header th:include="/admin/_header::header">
+    Your Company Name.
+</header>
+<style>
+    .form-horizontal:nth-of-type(even){
+        bsuggest-right: 1px #ccc dashed;
+    }
+    .form-group > .col-md-9{
+        padding-top: 7px;
+    }
+    .suggest-check{
+        position: absolute;
+        margin-left: 33em;
+        z-index: 999;
+    }
+</style>
+<div th:replace="/admin/_topmenu::topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_suggest_leftmenu::leftmenu"></div>
+    </div>
+    <div class="col-md-10">
+        <div class="toolbar">
+            <form class="right form-inline">
+                <input class="form-control" name="content" placeholder="意见关键词" th:value="${content==null?'':content}"/>
+                <select class="form-control" name="status">
+                    <option >意见状态</option>
+                    <option value="1" th:selected="${status=='1'}">已处理</option>
+                    <option value="0" th:selected="${status=='0'}">未处理</option>
+                </select>
+
+                <input class="form-control" placeholder="开始时间" type="date" name="startTime" th:value="${#strings.isEmpty(startTime)?'':#strings.substring(startTime,0,10)}" />
+                <input class="form-control" placeholder="结束时间" type="date" name="endTime" th:value="${#strings.isEmpty(endTime)?'':#strings.substring(endTime,0,10)}" />
+                <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <h4>
+            <div class="checkbox-inline">
+                <input type="checkbox" class="select-all" />
+                <label>全选</label>
+            </div>
+        </h4>
+        <hr/>
+        <div class="col-md-6 form-horizontal" th:each="suggest:${list}">
+            <div class="checkbox-inline">
+                <input type="checkbox" th:value="${suggest.id}" class="select-item"/>
+                <label></label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">用户姓名：</label>
+                <div class="col-md-9" th:text="${suggest.code}"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">联系电话：</label>
+                <div class="col-md-9" th:text="${suggest.price}"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">电子邮箱：</label>
+                <div class="col-md-9" th:text="${suggest.count}"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">问题：</label>
+                <div class="col-md-9" th:text="${suggest.amount}"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">提问时间：</label>
+                <div class="col-md-9" th:text="${#dates.format(suggest.createTime,'yyyy-MM-dd HH:mm:ss')}"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label">状态：</label>
+                <div class="col-md-9">
+                    <span th:if="${suggest.isCash==1}" class="text text-warning" >已处理</span>
+                    <span th:if="${suggest.isCash==0}" class="text text-primary" >未处理</span>
+                </div>
+            </div>
+            <hr/>
+        </div>
+
+        <page th:replace="/admin/_page::page"></page>
+    </div>
+</div>
+<footer th:replace="/admin/_footer::footer">
+    Your Company Name.
+</footer>
+<script>
+    $(function () {
+
+    });
+</script>
+</body>
+</html>

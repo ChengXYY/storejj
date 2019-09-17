@@ -71,14 +71,14 @@ public class PictureController extends AdminConfig {
             images.forEach(t->{
                 if(t.getSize()!=null && t.getSize() == 0){
                     //删除多余图片
-                    CommonOperation.removeFile(t.getUrl());
+                    removeFile(t.getUrl());
                 }else if(StringUtils.isNotBlank(t.getName()) && StringUtils.isNotBlank(t.getUrl())){
                     //只保留第一张图片
                     if(StringUtils.isBlank(picture.getUrl())){
                         picture.setUrl(t.getUrl());
                     }else {
                         //删除多余图片
-                        CommonOperation.removeFile(t.getUrl());
+                        removeFile(t.getUrl());
                     }
                 }
             });
@@ -177,7 +177,7 @@ public class PictureController extends AdminConfig {
     public JSONObject uploadIamge(@RequestParam(value = "fileupload")MultipartFile file){
 
         try {
-            JSONObject result = CommonOperation.uploadFile(file);
+            JSONObject result = uploadFile(file);
             result.put("url", result.get("realname"));
             result.put("name", result.get("filename"));
             result.remove("realname");
@@ -193,7 +193,7 @@ public class PictureController extends AdminConfig {
     public JSONObject get(@RequestParam(value = "code")String code){
         try {
             Picture pic = pictureService.get(code);
-            return CommonOperation.success(pic);
+            return success(pic);
         }catch (JsonException e){
             return e.toJson();
         }

@@ -937,7 +937,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .social-profile li a i {
-  line-height: 33px;
+  /*line-height: 33px;*/
 }
 
 .social-profile li a:hover {
@@ -1083,7 +1083,9 @@ h1, h2, h3, h4, h5, h6 {
 .con-info {
     margin-bottom: 20px;
 }
-
+.con-info i{
+	width: 22px;
+}
 .con-info i,
 .con-info span {
     float: left;

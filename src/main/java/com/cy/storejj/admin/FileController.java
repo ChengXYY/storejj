@@ -18,7 +18,7 @@ public class FileController extends AdminConfig {
     @ResponseBody
     public JSONObject product(@RequestParam(value = "uploadfile")MultipartFile file){
         try{
-            return CommonOperation.uploadFile(file, null);
+            return uploadFile(file, null);
         }catch (JsonException e){
             return e.toJson();
         }
@@ -26,9 +26,9 @@ public class FileController extends AdminConfig {
 
     @RequestMapping("/file/remove")
     @ResponseBody
-    public JSONObject removeFile(@RequestParam("filename")String fileName){
+    public JSONObject remove(@RequestParam("filename")String fileName){
         try {
-            return CommonOperation.removeFile(fileName);
+            return removeFile(fileName);
         }catch (JsonException e){
             return e.toJson();
         }

@@ -37,14 +37,14 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
             images.forEach(t->{
                 if(t.getSize()!=null && t.getSize() == 0){
                     //删除多余图片
-                    CommonOperation.removeFile(t.getUrl());
+                    removeFile(t.getUrl());
                 }else if(StringUtils.isNotBlank(t.getName()) && StringUtils.isNotBlank(t.getUrl())){
                     t.setProductId(product.getId());
                     productMapper.insertImages(t);
                 }
             });
 
-            return CommonOperation.success(product.getId());
+            return success(product.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -52,7 +52,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
 
     @Override
     public JSONObject edit(Product product) {
-        if(!CommonOperation.checkId(product.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(product.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         //判断重复
         Product p = new Product();
         if(StringUtils.isNotBlank(product.getCode())){
@@ -70,10 +70,10 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
                 images.forEach(t->{
                     if(t.getSize() !=null && t.getSize() == 0){
                         //删除
-                        if(CommonOperation.checkId(t.getId())){
+                        if(checkId(t.getId())){
                             deleteImages(t.getId());
                         }else {
-                            CommonOperation.removeFile(t.getUrl());
+                            removeFile(t.getUrl());
                         }
                     }else if(StringUtils.isNotBlank(t.getUrl()) && t.getId() == null){
                         //增加
@@ -83,7 +83,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
                 });
             }
 
-            return CommonOperation.success(product.getId());
+            return success(product.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -91,11 +91,11 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
 
     @Override
     public JSONObject remove(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         /*
         //先删除图片
         Product p = get(id);
-        CommonOperation.removeFile(p.getPic());
+        removeFile(p.getPic());
 
         int rs = productMapper.deleteByPrimaryKey(id);
         */
@@ -130,9 +130,9 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
         }
         msg = "成功下架："+success+"，失败："+fail+"。"+msg;
         if(fail > 0){
-            return CommonOperation.fail(msg);
+            return fail(msg);
         }else {
-            return CommonOperation.success(msg);
+            return success(msg);
         }
     }
 
@@ -160,9 +160,9 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
         }
         msg = "成功删除："+success+"，失败："+fail+"。"+msg;
         if(fail > 0){
-            return CommonOperation.fail(msg);
+            return fail(msg);
         }else {
-            return CommonOperation.success(msg);
+            return success(msg);
         }
     }
 
@@ -195,9 +195,9 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
         else
             msg = "成功移出："+success+"，失败："+fail+"。"+msg;
         if(fail > 0){
-            return CommonOperation.fail(msg);
+            return fail(msg);
         }else {
-            return CommonOperation.success(msg);
+            return success(msg);
         }
     }
 
@@ -223,7 +223,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
 
     @Override
     public Product get(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
 
         return productMapper.selectByPrimaryKey(id);
     }
@@ -241,7 +241,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
         int rs = productMapper.insertImages(images);
 
         if(rs > 0){
-            return CommonOperation.success(images.getId());
+            return success(images.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -249,20 +249,20 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
 
     @Override
     public JSONObject deleteImages(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
 
         ProductImages image = productMapper.getImage(id);
         if(image == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
         //物理删除图片
         try {
-            CommonOperation.removeFile(image.getUrl());
+            removeFile(image.getUrl());
         }catch (JsonException e){
             System.out.println(e.toJson());
         }
 
         int rs = productMapper.deleteImages(id);
         if(rs >= 0){
-            return CommonOperation.success(id);
+            return success(id);
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -276,7 +276,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
         images.forEach(r->{
             //物理删除图片
             try {
-                CommonOperation.removeFile(r.getUrl());
+                removeFile(r.getUrl());
             }catch (JsonException e){
                 System.out.println(e.toJson());
             }
@@ -284,7 +284,7 @@ public class ProductServiceImpl extends AdminConfig implements ProductService {
 
         int rs = productMapper.deleteImagesByProduct(productId);
         if(rs >= 0){
-            return CommonOperation.success(productId);
+            return success(productId);
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }

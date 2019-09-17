@@ -123,7 +123,7 @@ public class CategoryController extends AdminConfig {
     public JSONObject upload(@RequestParam(value = "fileupload")MultipartFile file){
 
         try {
-            JSONObject result = CommonOperation.uploadFile(file);
+            JSONObject result = uploadFile(file);
             result.put("pic", result.get("realname"));
             return result;
         }catch (JsonException e){

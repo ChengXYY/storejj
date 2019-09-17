@@ -1,6 +1,7 @@
 package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.OrderMapper;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class OrderServiceImpl implements OrderService {
+public class OrderServiceImpl extends AdminConfig implements OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
@@ -34,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
         //参数检查
         if(sell.getCount()== null || sell.getCount()<1
                 || sell.getPrice()== null || sell.getPrice() <0
-                || !CommonOperation.checkId(sell.getProductId())){
+                || !checkId(sell.getProductId())){
             throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         }
         //查找产品信息
@@ -50,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
         int amount = sell.getCount()*sell.getPrice();
         sell.setAmount(amount);
 
-        String code = CommonOperation.getRandomStr(20, "DPZB");
+        String code = getRandomStr(20, "DPZB");
         sell.setCode(code);
 
         String remark = "";
@@ -92,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
             product.setStock(stock);
             productService.edit(product);
 
-            return CommonOperation.success(code);
+            return success(code);
         }else
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
     }
@@ -143,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order get(Integer id) {
-        if(CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         Order order =   orderMapper.selectByPrimaryKey(id);
         String[] remark = order.getRemark().split("#!%");
         order.setAddress(remark[0]);

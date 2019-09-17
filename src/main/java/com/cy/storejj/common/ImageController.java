@@ -24,19 +24,19 @@ public class ImageController extends AdminConfig {
 
 
     @RequestMapping(value = "/getimg", method = RequestMethod.GET)
-    public void getImage(@RequestParam(value = "filename") String filename,
+    public void getImg(@RequestParam(value = "filename") String filename,
                          HttpServletRequest request, HttpServletResponse response)throws IOException {
-        CommonOperation.getImage(filename, request, response);
+        getImage(filename, request, response);
     }
 
     @RequestMapping(value = {"/getpic"}, method = RequestMethod.GET)
-    public void getPicture(@RequestParam(value = "code") String code,
+    public void getPic(@RequestParam(value = "code") String code,
                            HttpServletRequest request, HttpServletResponse response)throws IOException{
         try {
             Picture pic = pictureService.get(code);
             String filename = pic.getUrl();
 
-            CommonOperation.getImage(filename,request, response);
+            getImage(filename,request, response);
         }catch (JsonException e){
             System.out.println(e.toJson());
         }

@@ -48,7 +48,7 @@ public class MembershipServiceImpl extends AdminConfig implements MembershipServ
 
         int rs = membershipMapper.insertSelective(membership);
         if(rs > 0){
-            return CommonOperation.success(membership.getId());
+            return success(membership.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -57,7 +57,7 @@ public class MembershipServiceImpl extends AdminConfig implements MembershipServ
 
     @Override
     public JSONObject edit(Membership membership) {
-        if(!CommonOperation.checkId(membership.getId()))
+        if(!checkId(membership.getId()))
             throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         List<Membership> mList = membershipMapper.selectAll();
 
@@ -82,7 +82,7 @@ public class MembershipServiceImpl extends AdminConfig implements MembershipServ
 
         int rs = membershipMapper.updateByPrimaryKeySelective(membership);
         if(rs > 0){
-            return CommonOperation.success(membership.getId());
+            return success(membership.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -90,11 +90,11 @@ public class MembershipServiceImpl extends AdminConfig implements MembershipServ
 
     @Override
     public JSONObject remove(Integer id) {
-        if(!CommonOperation.checkId(id))
+        if(!checkId(id))
             throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         int rs = membershipMapper.deleteByPrimaryKey(id);
         if(rs > 0){
-            return CommonOperation.success(id);
+            return success(id);
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -102,7 +102,7 @@ public class MembershipServiceImpl extends AdminConfig implements MembershipServ
 
     @Override
     public Membership get(Integer id) {
-        if(!CommonOperation.checkId(id))
+        if(!checkId(id))
             throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         return membershipMapper.selectByPrimaryKey(id);
     }

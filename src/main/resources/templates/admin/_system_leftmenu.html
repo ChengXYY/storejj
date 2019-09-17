@@ -28,7 +28,7 @@
     <li th:class="${LeftMenuFlag=='adminlog'?'list-group-item active':'list-group-item'}"
         th:if="${#strings.contains(session.ADMIN_AUTH+'','6400')}">
         <a class="list-group-item-heading" href="/system/adminlog/list">
-            管理员日志
+            系统日志
         </a>
     </li>
 
@@ -60,6 +60,12 @@
         th:if="${#strings.contains(session.ADMIN_AUTH+'','6800')}">
         <a class="list-group-item-heading" href="/service/list">
             服务配置
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='contact'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','6900')}">
+        <a class="list-group-item-heading" href="/contact/settings">
+            联系方式配置
         </a>
     </li>
 

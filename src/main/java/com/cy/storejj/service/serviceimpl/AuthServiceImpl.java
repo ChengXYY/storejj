@@ -1,6 +1,7 @@
 package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSON;
+import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.mapper.AdminAuthMapper;
 import com.cy.storejj.model.AdminAuth;
 import com.cy.storejj.service.AuthService;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AuthServiceImpl implements AuthService {
+public class AuthServiceImpl extends AdminConfig implements AuthService {
 
     @Autowired
     private AdminAuthMapper adminAuthMapper;

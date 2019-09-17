@@ -214,7 +214,7 @@
 
         function uploadImage(file) {
             setUploading(file);
-            var formData = new FormData($("#uploadForm"));
+            var formData = new FormData($("#uploadForm")[0]);
             formData.append("uploadfile",file);
             $.ajax({
                 type:"post",

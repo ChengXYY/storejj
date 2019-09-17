@@ -43,13 +43,19 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
         if(admin.getName()== null || admin.getName().isEmpty()){
             admin.setName(admin.getAccount());
         }
+        try {
+            get(admin.getAccount());
+            throw JsonException.newInstance(ErrorCodes.ITEM_REPEATED);
+        }catch (JsonException e){
+
+        }
         String pwd = admin.getPassword();
-        Map<String, Object> pwdArr = CommonOperation.encodeStr(pwd);
+        Map<String, Object> pwdArr = encodeStr(pwd);
         admin.setSalt(pwdArr.get("salt").toString());
         admin.setPassword(pwdArr.get("newstr").toString());
         int rs = adminMapper.insertSelective(admin);
         if(rs > 0){
-            return CommonOperation.success(admin.getId());
+            return success(admin.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -61,7 +67,7 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
 
         int rs =  adminMapper.updateByPrimaryKeySelective(admin);
         if(rs >= 0){
-            return CommonOperation.success(admin.getId());
+            return success(admin.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -69,17 +75,17 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
 
     @Override
     public JSONObject remove(Integer id) {
-        if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         int rs =  adminMapper.deleteByPrimaryKey(id);
         if(rs > 0)
-            return CommonOperation.success(id);
+            return success(id);
         else
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
     }
 
     @Override
     public Admin get(Integer id) {
-        if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         Admin admin = adminMapper.selectByPrimaryKey(id);
         if(admin == null)throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
         return admin;
@@ -105,17 +111,17 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
 
     @Override
     public JSONObject resetPassword(Integer id) {
-        if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         Admin admin = get(id);
         if(admin == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
-        Map<String, Object> pwdArr = CommonOperation.encodeStr("123456");
+        Map<String, Object> pwdArr = encodeStr("123456");
         Admin adminNew = new Admin();
         adminNew.setId(id);
         adminNew.setSalt(pwdArr.get("salt").toString());
         adminNew.setPassword(pwdArr.get("newstr").toString());
         JSONObject rs = edit(adminNew);
         if(rs.get("retCode").equals("0"))
-            return CommonOperation.success(id);
+            return success(id);
         else
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
     }
@@ -130,9 +136,9 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
         if(isSystem(account, password, session)) return;
 
         Admin admin = get(account);
-        String varifyPwd = CommonOperation.encodeStr(password, admin.getSalt());
+        String varifyPwd = encodeStr(password, admin.getSalt());
         if(!varifyPwd.equals(admin.getPassword())) throw JsonException.newInstance(ErrorCodes.PASSWORD_IS_WRONG);
-        String sessionStr = CommonOperation.encodeStr(admin.getId().toString(), admin.getAccount());
+        String sessionStr = encodeStr(admin.getId().toString(), admin.getAccount());
         session.setAttribute(adminSession, sessionStr);
         session.setAttribute(adminAccount, admin.getAccount());
         session.setAttribute(adminAuth, admin.getAdminGroup().getAuth());
@@ -142,7 +148,7 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
 
     private Boolean isSystem(String account, String password, HttpSession session){
         if(account.equals(sysAccount) && password.equals(sysPassword)){
-            String sessionStr = CommonOperation.encodeStr("0", account);
+            String sessionStr = encodeStr("0", account);
             session.setAttribute(adminSession, sessionStr);
             session.setAttribute(adminAccount, account);
             String auth = authService.getAuthStr();
@@ -161,9 +167,9 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
         if(!newpwd.equals(repwd))throw JsonException.newInstance(ErrorCodes.PASSWORD_NOT_SAME);
         Admin admin = get(session.getAttribute(adminAccount).toString());
         if(admin == null)throw  JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
-        String varifyPwd = CommonOperation.encodeStr(oldpwd, admin.getSalt());
+        String varifyPwd = encodeStr(oldpwd, admin.getSalt());
         if(!varifyPwd.equals(admin.getPassword())) throw JsonException.newInstance(ErrorCodes.PASSWORD_IS_WRONG);
-        Map<String, Object> pwdArr = CommonOperation.encodeStr(newpwd);
+        Map<String, Object> pwdArr = encodeStr(newpwd);
         Admin adminNew = new Admin();
         adminNew.setId(admin.getId());
         adminNew.setSalt(pwdArr.get("salt").toString());
@@ -196,6 +202,6 @@ public class AdminServiceImpl extends AdminConfig implements AdminService {
             admin.setGroupId(0);
             rs += adminMapper.updateByPrimaryKeySelective(admin);
         }
-        return CommonOperation.success("成功操作记录数："+rs);
+        return success("成功操作记录数："+rs);
     }
 }

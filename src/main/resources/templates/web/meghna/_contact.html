@@ -14,26 +14,30 @@
             <!-- Contact Details -->
             <div class="contact-info col-md-6 wow fadeInUp" data-wow-duration="500ms">
                 <h3>联系方式</h3>
-                <p>您可以通过以下任意一种方式联系我们，我们会保护您的隐私。同时，您也可以在右边的表中向我们传达您的意见和建议。</p>
+                <p th:text="${contact.desc3}"></p>
                 <div class="contact-details">
                     <div class="con-info clearfix">
                         <i class="fa fa-home fa-lg"></i>
-                        <span>北京市海淀区中关村大街59号</span>
+                        <span>地址：</span>
+                        <span th:text="${contact.desc1}"></span>
                     </div>
 
                     <div class="con-info clearfix">
                         <i class="fa fa-phone fa-lg"></i>
-                        <span>联系电话: +86 13012345678</span>
+                        <span>联系电话：</span>
+                        <span th:text="${contact.desc2}"></span>
                     </div>
 
                     <div class="con-info clearfix">
-                        <i class="fa fa-fax fa-lg"></i>
-                        <span>微信号： JJsAunt</span>
+                        <i class="fa fa-wechat fa-lg"></i>
+                        <span>微信公众号：</span>
+                        <span th:text="${contact.text}"></span>
                     </div>
 
                     <div class="con-info clearfix">
                         <i class="fa fa-envelope fa-lg"></i>
-                        <span>电子邮箱: store@jjsaunt.com</span>
+                        <span>电子邮箱：</span>
+                        <span th:text="${contact.value}"></span>
                     </div>
                 </div>
             </div>
@@ -41,7 +45,7 @@
 
             <!-- Contact Form -->
             <div class="contact-form col-md-6 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
-                <form id="contact-form" method="post" action="sendmail.php" role="form">
+                <form id="contact-form" method="post" action="/user/suggestion" role="form">
 
                     <div class="form-group">
                         <input type="text" placeholder="您的名字" class="form-control" name="name" id="name">
@@ -52,11 +56,11 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" placeholder="您想提的问题" class="form-control" name="subject" id="subject">
+                        <input type="text" placeholder="您的电话" class="form-control" name="mobile" id="subject">
                     </div>
 
                     <div class="form-group">
-                        <textarea rows="6" placeholder="您的问题描述" class="form-control" name="message" id="message"></textarea>
+                        <textarea rows="6" placeholder="您的问题描述" class="form-control" name="content" id="message"></textarea>
                     </div>
 
                     <div id="mail-success" class="success">

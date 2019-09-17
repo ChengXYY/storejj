@@ -30,7 +30,7 @@ public class PictureServiceImpl extends AdminConfig implements PictureService {
         if(pic!=null) throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
         int rs = pictureMapper.insertSelective(picture);
         if(rs > 0){
-            return CommonOperation.success(picture.getId());
+            return success(picture.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -38,14 +38,14 @@ public class PictureServiceImpl extends AdminConfig implements PictureService {
 
     @Override
     public JSONObject edit(Picture picture) {
-        if(!CommonOperation.checkId(picture.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(picture.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         if(picture.getCode().isEmpty())throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         //判断重复
         Picture pic = get(picture.getCode());
         if(pic!=null && pic.getId()!=picture.getId()) throw JsonException.newInstance(ErrorCodes.CODE_REPEATED);
         int rs = pictureMapper.updateByPrimaryKeySelective(picture);
         if(rs > 0){
-            return CommonOperation.success(picture.getId());
+            return success(picture.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -53,12 +53,12 @@ public class PictureServiceImpl extends AdminConfig implements PictureService {
 
     @Override
     public JSONObject remove(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         //获取picture
         Picture pic = get(id);
         if(pic == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
         try {
-            CommonOperation.removeFile(pic.getUrl());
+            removeFile(pic.getUrl());
         }catch (JsonException e){
             System.out.println(e.toJson());
         }
@@ -66,7 +66,7 @@ public class PictureServiceImpl extends AdminConfig implements PictureService {
         int rs = pictureMapper.deleteByPrimaryKey(id);
 
         if(rs > 0){
-            return CommonOperation.success(id);
+            return success(id);
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -93,9 +93,9 @@ public class PictureServiceImpl extends AdminConfig implements PictureService {
         }
         msg = "成功删除："+success+"，失败："+fail+"。"+msg;
         if(fail > 0){
-            return CommonOperation.fail(msg);
+            return fail(msg);
         }else {
-            return CommonOperation.success(msg);
+            return success(msg);
         }
 
     }
@@ -112,7 +112,7 @@ public class PictureServiceImpl extends AdminConfig implements PictureService {
 
     @Override
     public Picture get(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
 
         return pictureMapper.selectByPrimaryKey(id);
     }

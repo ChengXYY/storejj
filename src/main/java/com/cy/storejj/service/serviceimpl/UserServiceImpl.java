@@ -2,7 +2,7 @@ package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.config.AdminConfig;
-import com.cy.storejj.config.WebConfig;
+
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.UserMapper;
@@ -10,7 +10,6 @@ import com.cy.storejj.model.Membership;
 import com.cy.storejj.model.User;
 import com.cy.storejj.service.MembershipService;
 import com.cy.storejj.service.UserService;
-import com.cy.storejj.utils.CommonOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ import java.util.Map;
 
 
 @Service
-public class UserServiceImpl extends WebConfig implements UserService{
+public class UserServiceImpl extends AdminConfig implements UserService{
     @Autowired
     private UserMapper userMapper;
 
@@ -37,7 +36,7 @@ public class UserServiceImpl extends WebConfig implements UserService{
 
         int rs = userMapper.insertSelective(user);
         if(rs > 0){
-            return CommonOperation.success(user.getId());
+            return success(user.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -45,10 +44,10 @@ public class UserServiceImpl extends WebConfig implements UserService{
 
     @Override
     public JSONObject edit(User user) {
-        if(!CommonOperation.checkId(user.getId()))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(user.getId()))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
 
         if(StringUtils.isNotBlank(user.getPassword())){
-            Map<String, Object> pass = CommonOperation.encodeStr(user.getPassword());
+            Map<String, Object> pass = encodeStr(user.getPassword());
             user.setPassword(pass.get("newstr").toString());
             user.setSalt(pass.get("salt").toString());
         }
@@ -59,7 +58,7 @@ public class UserServiceImpl extends WebConfig implements UserService{
         }
         int rs = userMapper.updateByPrimaryKeySelective(user);
         if(rs >= 0){
-            return CommonOperation.success(user.getId());
+            return success(user.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -82,11 +81,11 @@ public class UserServiceImpl extends WebConfig implements UserService{
 
     @Override
     public JSONObject remove(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         int rs = userMapper.deleteByPrimaryKey(id);
 
         if(rs > 0){
-            return CommonOperation.success(id);
+            return success(id);
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -94,7 +93,7 @@ public class UserServiceImpl extends WebConfig implements UserService{
 
     @Override
     public User get(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         return userMapper.selectByPrimaryKey(id);
     }
 
@@ -112,17 +111,17 @@ public class UserServiceImpl extends WebConfig implements UserService{
         if(userList.size()>0){
             for(int i=0; i< userList.size(); i++){
                 if(StringUtils.isNotBlank(userList.get(i).getMobile())){
-                    String mobile = CommonOperation.maskMobile(userList.get(i).getMobile());
+                    String mobile = maskMobile(userList.get(i).getMobile());
                     userList.get(i).setMobile(mobile);
                 }
 
                 if(StringUtils.isNotBlank(userList.get(i).getEmail())){
-                    String email = CommonOperation.maskEmail(userList.get(i).getEmail());
+                    String email = maskEmail(userList.get(i).getEmail());
                     userList.get(i).setEmail(email);
                 }
 
                 if(StringUtils.isNotBlank(userList.get(i).getName())){
-                    String name = CommonOperation.maskName(userList.get(i).getName());
+                    String name = maskName(userList.get(i).getName());
                     userList.get(i).setName(name);
                 }
             }
@@ -142,17 +141,16 @@ public class UserServiceImpl extends WebConfig implements UserService{
 
     @Override
     public JSONObject login(String account, String vercode, HttpSession session) {
-        if(session.getAttribute(userSession) != null) return CommonOperation.success("已登录");
+        if(session.getAttribute(userSession) != null) return success("已登录");
         //验证码
         if(session.getAttribute(userVercode) == null || session.getAttribute(userVercode).toString().isEmpty() || !session.getAttribute(userVercode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
 
         User user = get(account);
-        if(user == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
 
         session.setAttribute(userAccount, user.getAccount());
         session.setAttribute(userLevel, user.getLevel());
         session.setAttribute(userId, user.getId());
-        return CommonOperation.success("登录成功！");
+        return success("登录成功！");
     }
 
     @Override
@@ -169,10 +167,12 @@ public class UserServiceImpl extends WebConfig implements UserService{
         if(session.getAttribute(userVercode).toString().isEmpty()) throw JsonException.newInstance(ErrorCodes.VERCODE_NOT_EMPTY);
         if(!session.getAttribute(userVercode).toString().equals(vercode)) throw JsonException.newInstance(ErrorCodes.VERCODE_IS_WRONG);
 
-        User u = get(account);
-        if(u != null)
+        try{
+            get(account);
             throw JsonException.newInstance(ErrorCodes.ITEM_REPEATED);
+        }catch (JsonException e){
 
+        }
 
         String userCode = "DP"+System.currentTimeMillis();
 
@@ -186,7 +186,7 @@ public class UserServiceImpl extends WebConfig implements UserService{
 
         int rs = userMapper.insertSelective(user);
         if(rs > 0){
-            return CommonOperation.success(user.getId());
+            return success(user.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -204,7 +204,7 @@ public class UserServiceImpl extends WebConfig implements UserService{
                 edit(r);
             }
         });
-        return CommonOperation.success("刷新完成！");
+        return success("刷新完成！");
     }
 
 

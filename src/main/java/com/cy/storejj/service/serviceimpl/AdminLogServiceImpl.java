@@ -2,7 +2,7 @@ package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.config.AdminConfig;
-import com.cy.storejj.config.WebConfig;
+
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.AdminLogMapper;
@@ -41,7 +41,7 @@ public class AdminLogServiceImpl extends AdminConfig implements AdminLogService 
         log.setCreateBy(account);
         int rs =  adminlogMapper.insertSelective(log);
         if (rs >0)
-            return CommonOperation.success();
+            return success();
         else
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
     }

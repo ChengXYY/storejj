@@ -43,7 +43,7 @@ public class LoginController extends AdminConfig {
 
         try {
             adminService.login(account, password, vercode, session);
-            return CommonOperation.success();
+            return success();
         }catch (JsonException e){
             //result.put("code", e.getCode());
             //result.put("msg", e.getMsg());

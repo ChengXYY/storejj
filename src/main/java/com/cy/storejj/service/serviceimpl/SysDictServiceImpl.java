@@ -1,6 +1,7 @@
 package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.SysDictMapper;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SysDictServiceImpl implements SysDictService {
+public class SysDictServiceImpl extends AdminConfig implements SysDictService {
     @Autowired
     private SysDictMapper sysDictMapper;
 
@@ -23,7 +24,7 @@ public class SysDictServiceImpl implements SysDictService {
         if(StringUtils.isBlank(dict.getType())) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         int rs =  sysDictMapper.insertSelective(dict);
         if(rs > 0){
-            return CommonOperation.success(dict.getId());
+            return success(dict.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -31,10 +32,10 @@ public class SysDictServiceImpl implements SysDictService {
 
     @Override
     public JSONObject edit(SysDict dict) {
-        if(!CommonOperation.checkId(dict.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(dict.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         int rs = sysDictMapper.updateByPrimaryKeySelective(dict);
         if(rs >= 0){
-            return CommonOperation.success(dict.getId());
+            return success(dict.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -42,10 +43,10 @@ public class SysDictServiceImpl implements SysDictService {
 
     @Override
     public JSONObject remove(Integer id) {
-        if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         int rs = sysDictMapper.deleteByPrimaryKey(id);
         if(rs >= 0){
-            return CommonOperation.success(id);
+            return success(id);
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -53,7 +54,7 @@ public class SysDictServiceImpl implements SysDictService {
 
     @Override
     public SysDict get(Integer id) {
-        if(!CommonOperation.checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id)) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         SysDict dict = sysDictMapper.selectByPrimaryKey(id);
         if(dict == null)throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
         return dict;

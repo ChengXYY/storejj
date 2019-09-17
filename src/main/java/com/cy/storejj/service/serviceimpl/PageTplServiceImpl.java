@@ -1,6 +1,7 @@
 package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.PageTplMapper;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 
 @Service
-public class PageTplServiceImpl implements PageTplService {
+public class PageTplServiceImpl extends AdminConfig implements PageTplService {
 
     @Autowired
     private PageTplMapper pagetplMapper;
@@ -25,7 +26,7 @@ public class PageTplServiceImpl implements PageTplService {
         if(pagetpl.getName() == null || pagetpl.getName().isEmpty())throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         int rs = pagetplMapper.insertSelective(pagetpl);
         if(rs > 0){
-            return CommonOperation.success(pagetpl.getId());
+            return success(pagetpl.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -38,7 +39,7 @@ public class PageTplServiceImpl implements PageTplService {
 
         int rs = pagetplMapper.updateByPrimaryKeySelective(pagetpl);
         if(rs > 0){
-            return CommonOperation.success(pagetpl.getId());
+            return success(pagetpl.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -46,10 +47,10 @@ public class PageTplServiceImpl implements PageTplService {
 
     @Override
     public JSONObject remove(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         int rs = pagetplMapper.deleteByPrimaryKey(id);
         if(rs > 0){
-            return CommonOperation.success(id);
+            return success(id);
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -76,9 +77,9 @@ public class PageTplServiceImpl implements PageTplService {
         }
         msg = "成功删除："+success+"，失败："+fail+"。"+msg;
         if(fail > 0){
-            return CommonOperation.fail(msg);
+            return fail(msg);
         }else {
-            return CommonOperation.success(msg);
+            return success(msg);
         }
     }
 
@@ -94,10 +95,10 @@ public class PageTplServiceImpl implements PageTplService {
 
     @Override
     public JSONObject get(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         PageTpl page = pagetplMapper.selectByPrimaryKey(id);
         if(page == null) throw JsonException.newInstance(ErrorCodes.ITEM_NOT_EXIST);
-        return CommonOperation.success(page);
+        return success(page);
     }
 
     @Override

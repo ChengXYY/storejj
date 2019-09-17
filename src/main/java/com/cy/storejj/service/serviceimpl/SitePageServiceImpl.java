@@ -1,6 +1,7 @@
 package com.cy.storejj.service.serviceimpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cy.storejj.config.AdminConfig;
 import com.cy.storejj.exception.ErrorCodes;
 import com.cy.storejj.exception.JsonException;
 import com.cy.storejj.mapper.SitePageMapper;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 
 @Service
-public class SitePageServiceImpl implements SitePageService {
+public class SitePageServiceImpl extends AdminConfig implements SitePageService {
 
     @Autowired
     private SitePageMapper sitepageMapper;
@@ -26,7 +27,7 @@ public class SitePageServiceImpl implements SitePageService {
 
     @Override
     public JSONObject add(SitePage sitepage) {
-        if((!CommonOperation.checkId(sitepage.getTplId()) && (sitepage.getContent()!=null || !sitepage.getContent().isEmpty()))
+        if((!checkId(sitepage.getTplId()) && (sitepage.getContent()!=null || !sitepage.getContent().isEmpty()))
                 || sitepage.getCode().isEmpty()) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         if(sitepage.getTplId() > 0){
             pagetplService.get(sitepage.getTplId());
@@ -37,7 +38,7 @@ public class SitePageServiceImpl implements SitePageService {
 
         int rs = sitepageMapper.insertSelective(sitepage);
         if(rs > 0){
-            return CommonOperation.success(sitepage.getId());
+            return success(sitepage.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -45,7 +46,7 @@ public class SitePageServiceImpl implements SitePageService {
 
     @Override
     public JSONObject edit(SitePage sitepage) {
-        if(!CommonOperation.checkId(sitepage.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(sitepage.getId())) throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         if((sitepage.getTplId() == 0 && (sitepage.getContent()!=null || !sitepage.getContent().isEmpty()))
             || sitepage.getCode().isEmpty()) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
         if(sitepage.getTplId() > 0){
@@ -58,7 +59,7 @@ public class SitePageServiceImpl implements SitePageService {
         int rs = sitepageMapper.updateByPrimaryKeySelective(sitepage);
 
         if(rs > 0){
-            return CommonOperation.success(sitepage.getId());
+            return success(sitepage.getId());
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -66,11 +67,11 @@ public class SitePageServiceImpl implements SitePageService {
 
     @Override
     public JSONObject remove(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
         int rs = sitepageMapper.deleteByPrimaryKey(id);
 
         if(rs > 0){
-            return CommonOperation.success(id);
+            return success(id);
         }else {
             throw JsonException.newInstance(ErrorCodes.DATA_OP_FAILED);
         }
@@ -97,9 +98,9 @@ public class SitePageServiceImpl implements SitePageService {
         }
         msg = "成功删除："+success+"，失败："+fail+"。"+msg;
         if(fail > 0){
-            return CommonOperation.fail(msg);
+            return fail(msg);
         }else {
-            return CommonOperation.success(msg);
+            return success(msg);
         }
     }
 
@@ -115,7 +116,7 @@ public class SitePageServiceImpl implements SitePageService {
 
     @Override
     public SitePage get(Integer id) {
-        if(!CommonOperation.checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
+        if(!checkId(id))throw JsonException.newInstance(ErrorCodes.ID_NOT_LEGAL);
 
         return sitepageMapper.selectByPrimaryKey(id);
     }

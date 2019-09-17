@@ -1,22 +1,31 @@
 package com.cy.storejj.config;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.Map;
 
 public class CommonConfig {
 
-    protected static String baseSavePath = "E:/www/upload/";
+    @Value("${system.upload.path}")
+    protected String baseSavePath;
 
-    protected static Integer pageSize = 15;
+    @Value("${system.pagesize}")
+    protected Integer pageSize = 15;
 
-    protected static String userAccount = "USER_ACCOUNT";
+    @Value("${system.session.user.account}")
+    protected String userAccount;
 
-    protected static String userId = "USER_ID";
+    @Value("${system.session.user.id}")
+    protected String userId = "USER_ID";
 
-    protected static String userLevel = "USER_LEVEL";
+    @Value("${system.session.user.level}")
+    protected String userLevel;
 
-    protected static String userSession = "USER_SESSION";
+    @Value("${system.session.user.session}")
+    protected String userSession;
 
-    protected static String userVercode = "USER_VERCODE";
+    @Value("${system.session.user.vercode}")
+    protected String userVercode;
 
     protected Map<String, Object> setPagenation(Map<String, Object> params){
         Map<String, Object> param = params;

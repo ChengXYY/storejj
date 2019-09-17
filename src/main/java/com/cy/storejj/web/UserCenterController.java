@@ -153,19 +153,19 @@ public class UserCenterController extends WebConfig {
         String currentUrl = request.getRequestURI();
 
         if (param.get("code") != null && StringUtils.isNotBlank(param.get("code").toString())) {
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "code", param.get("code").toString());
+            currentUrl = setUrlParam(currentUrl, "code", param.get("code").toString());
         } else {
             param.remove("code");
         }
 
         if (param.get("name") != null && StringUtils.isNotBlank(param.get("name").toString())) {
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "name", param.get("name").toString());
+            currentUrl = setUrlParam(currentUrl, "name", param.get("name").toString());
         } else {
             param.remove("name");
         }
 
         if(param.get("categoryCode")!=null && StringUtils.isNotBlank(param.get("categoryCode").toString())){
-            currentUrl = CommonOperation.setUrlParam(currentUrl, "categoryCode", param.get("categoryCode").toString());
+            currentUrl = setUrlParam(currentUrl, "categoryCode", param.get("categoryCode").toString());
         }else {
             param.remove("categoryCode");
         }

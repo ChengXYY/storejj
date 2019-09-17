@@ -63,7 +63,7 @@ public class UserController extends AdminConfig {
     public JSONObject getCode(HttpSession session){
         String code = "1234";
         session.setAttribute(userVercode, code);
-        return CommonOperation.success();
+        return success();
     }
     //
 
@@ -104,7 +104,7 @@ public class UserController extends AdminConfig {
     @RequestMapping(value = "/edit/{type}", method = RequestMethod.POST)
     public JSONObject edit(User user, @PathVariable("type")String type, HttpSession session){
         if(!checkEditParam(type, user)){
-            return CommonOperation.fail("编辑内容不合法");
+            return fail("编辑内容不合法");
         }
 
         try {
@@ -177,14 +177,14 @@ public class UserController extends AdminConfig {
         try {
             User user = userService.get(account);
             //脱敏处理
-            String name = CommonOperation.maskName(user.getName());
-            String email = CommonOperation.maskEmail(user.getEmail());
-            String mobile = CommonOperation.maskMobile(user.getMobile());
+            String name = maskName(user.getName());
+            String email = maskEmail(user.getEmail());
+            String mobile = maskMobile(user.getMobile());
             user.setEmail(email);
             user.setMobile(mobile);
             user.setName(name);
             user.setId(null);
-            return CommonOperation.success(user);
+            return success(user);
         }catch (JsonException e){
             return e.toJson();
         }
@@ -218,20 +218,20 @@ public class UserController extends AdminConfig {
             User user = userService.get(account);
             //参数检查
             if(points<1){
-                return CommonOperation.fail("积分必须为正数");
+                return fail("积分必须为正数");
             }
             int oldPoints = user.getPoints();
             if(type == 0){
                 //消费积分
                 points = oldPoints-points;
                 if(points<0){
-                    return CommonOperation.fail("积分不足");
+                    return fail("积分不足");
                 }
             }else if(type == 1){
                 //累积积分
                 points = oldPoints+points;
             }else {
-                return CommonOperation.fail();
+                return fail();
             }
 
             User newUser = new User();
@@ -254,20 +254,20 @@ public class UserController extends AdminConfig {
             User user = userService.get(account);
             //参数检查
             if(level<1){
-                return CommonOperation.fail("等级必须为正数");
+                return fail("等级必须为正数");
             }
             int oldLevel = user.getLevel();
             if(type == 0){
                 //降低等级
                 level = oldLevel-level;
                 if(level<0){
-                    return CommonOperation.fail("等级已为0");
+                    return fail("等级已为0");
                 }
             }else if(type == 1){
                 //提升等级
                 level = oldLevel+level;
             }else {
-                return CommonOperation.fail();
+                return fail();
             }
 
             User newUser = new User();
