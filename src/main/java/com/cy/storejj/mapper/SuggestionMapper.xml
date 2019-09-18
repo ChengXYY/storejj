@@ -83,7 +83,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
-  <insert id="insertSelective" parameterType="com.cy.storejj.model.Suggestion" >
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.Suggestion" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into suggestion
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

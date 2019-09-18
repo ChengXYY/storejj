@@ -363,6 +363,4 @@ public class CommonOperation extends CommonConfig {
         return txtcontent;
     }
 
-
-
 }

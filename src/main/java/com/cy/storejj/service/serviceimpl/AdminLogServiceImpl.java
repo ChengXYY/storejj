@@ -27,7 +27,7 @@ public class AdminLogServiceImpl extends AdminConfig implements AdminLogService 
     @Override
     public JSONObject add(HttpSession session, String content) {
         if(content.isEmpty())throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
-        String account = "";
+        String account = "Unknow";
         if(session.getAttribute(adminAccount)!=null){
             account = session.getAttribute(adminAccount).toString();
         }

@@ -33,8 +33,7 @@ public class SuggestionController extends AdminConfig {
         currentUrl = handleParam(param, currentUrl);
 
         param.put("currentUrl", currentUrl);
-        //    param.put("isShop", 0);
-        param.put("isDelete",0);
+
         int totalCount = suggestionService.getCount(param);
         param.put("totalCount", totalCount);
         setPagenation(param);

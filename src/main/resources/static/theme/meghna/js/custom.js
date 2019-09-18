@@ -230,17 +230,13 @@ jQuery(function ($) { "use strict";
 		} else {
 			$('#name').css("border-color", "#666");
 		}
-		if (email.length == 0 || email.indexOf('@') == '-1') {
-			var error = true;
-			$('#email').css("border-color", "#D8000C");
-		} else {
-			$('#email').css("border-color", "#666");
-		}
-		if (subject.length == 0) {
+		if (subject.length == 0 && (email.length == 0 || email.indexOf('@') == '-1')) {
 			var error = true;
 			$('#subject').css("border-color", "#D8000C");
+            $('#email').css("border-color", "#D8000C");
 		} else {
 			$('#subject').css("border-color", "#666");
+            $('#email').css("border-color", "#666");
 		}
 		if (message.length == 0) {
 			var error = true;
@@ -255,13 +251,13 @@ jQuery(function ($) { "use strict";
 			//and change the button text to Sending...
 			$('#contact-submit').attr({
 				'disabled': 'false',
-				'value': 'Sending...'
+				'value': '发送中...'
 			});
 
 			/* using the jquery's post(ajax) function and a lifesaver
 			function serialize() which gets all the data from the form
-			we submit it to send_email.php */
-			$.post("#", $("#contact-form").serialize(), function (result) {
+			we submit it to
+			$.post("/suggestion/submit", $("#contact-form").serialize(), function (result) {
 				//and after the ajax request ends we check the text returned
 				if (result == 'sent') {
 					//if the mail is sent remove the submit paragraph
@@ -275,6 +271,23 @@ jQuery(function ($) { "use strict";
 					$('#contact-submit').removeAttr('disabled').attr('value', 'Send The Message');
 				}
 			});
+			*/
+			$.ajax({
+				type:"post",
+				data: $("#contact-form").serialize(),
+				dataType:"json",
+				url:"/suggestion/submit",
+				success:function (msg) {
+					if(msg.retCode ==0){
+                        $('#cf-submit').remove();
+                        //and show the mail success div with fadeIn
+                        $('#mail-success').fadeIn(500);
+					}else{
+                        $('#mail-fail').fadeIn(500);
+                        $('#contact-submit').removeAttr('disabled').attr('value', '提 交');
+					}
+                }
+			})
 		}
 	});
 

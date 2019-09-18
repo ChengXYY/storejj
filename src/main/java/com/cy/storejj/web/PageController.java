@@ -2,10 +2,8 @@ package com.cy.storejj.web;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cy.storejj.config.WebConfig;
-import com.cy.storejj.model.Article;
-import com.cy.storejj.model.Category;
-import com.cy.storejj.model.Product;
-import com.cy.storejj.model.SysDict;
+import com.cy.storejj.exception.JsonException;
+import com.cy.storejj.model.*;
 import com.cy.storejj.service.*;
 import com.cy.storejj.utils.CommonOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -39,6 +38,9 @@ public class PageController extends WebConfig {
     private UserService userService;
     @Autowired
     private MembershipService membershipService;
+
+    @Autowired
+    private SuggestionService suggestionService;
 
     // 首页
     @RequestMapping(value = {"/", "", "/index", "/index/"})
@@ -178,6 +180,14 @@ public class PageController extends WebConfig {
         return webHtml +"jewellery";
     }
 
-
+    @ResponseBody
+    @RequestMapping(value = "/suggestion/submit", method = RequestMethod.POST)
+    public JSONObject suggest(Suggestion suggestion){
+        try{
+            return suggestionService.add(suggestion);
+        }catch (JsonException e){
+            return e.toJson();
+        }
+    }
 
 }
