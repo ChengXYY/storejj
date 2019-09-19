@@ -102,17 +102,14 @@ public class OrderServiceImpl extends AdminConfig implements OrderService {
     public JSONObject edit(Order sell) {
         String remark = "";
         if(StringUtils.isNotBlank(sell.getAddress())){
-            remark = sell.getAddress();
+            remark = sell.getAddress()+ "#!%";
         }
-        remark += "#!%";
         if(StringUtils.isNotBlank(sell.getReceiver())){
-            remark += sell.getReceiver();
+            remark += sell.getReceiver()+ "#!%";
         }
-        remark += "#!%";
         if(StringUtils.isNotBlank(sell.getMobile())){
-            remark += sell.getMobile();
+            remark += sell.getMobile()+ "#!%";
         }
-        remark += "#!%";
         if(StringUtils.isNotBlank(sell.getEms())){
             remark += sell.getEms();
         }
@@ -159,10 +156,12 @@ public class OrderServiceImpl extends AdminConfig implements OrderService {
         List<Order> orderList = orderMapper.selectByFilter(filter);
         for(int i=0; i<orderList.size(); i++){
             String[] remark = orderList.get(i).getRemark().split("#!%");
-            orderList.get(i).setAddress(remark[0]);
-            orderList.get(i).setReceiver(remark[2]);
-            orderList.get(i).setMobile(remark[3]);
-            orderList.get(i).setEms(remark[4]);
+            if(remark!=null && remark.length > 4){
+                orderList.get(i).setAddress(remark[0]);
+                orderList.get(i).setReceiver(remark[2]);
+                orderList.get(i).setMobile(remark[3]);
+                orderList.get(i).setEms(remark[4]);
+            }
         }
         return orderList;
     }

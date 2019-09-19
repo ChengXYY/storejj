@@ -48,8 +48,7 @@ INSERT INTO `picture` (`code`)VALUES ('index-bg06');
 INSERT INTO `picture` (`code`)VALUES ('qrcode01');
 INSERT INTO `picture` (`code`)VALUES ('usercenter');
 INSERT INTO `picture` (`code`)VALUES ('userorder');
-INSERT INTO `picture` (`code`)VALUES ('store01');
-INSERT INTO `picture` (`code`)VALUES ('store02');
-INSERT INTO `picture` (`code`)VALUES ('store03');
+INSERT INTO `picture` (`code`)VALUES ('news');
+INSERT INTO `picture` (`code`)VALUES ('jewellery');
 
 SET FOREIGN_KEY_CHECKS = 1;
