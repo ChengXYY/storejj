@@ -283,6 +283,7 @@ jQuery(function ($) { "use strict";
                         //and show the mail success div with fadeIn
                         $('#mail-success').fadeIn(500);
 					}else{
+                        $('#mail-fail').text(msg.retMsg);
                         $('#mail-fail').fadeIn(500);
                         $('#contact-submit').removeAttr('disabled').attr('value', '提 交');
 					}

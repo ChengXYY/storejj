@@ -7,6 +7,7 @@
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
@@ -14,7 +15,7 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    id, user_name, email, mobile,content, status, create_time, update_by, update_time
+    id, user_name, email, mobile,content, status, create_by, create_time, update_by, update_time
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -29,20 +30,21 @@
     <include refid="Base_Column_List" />
     from suggestion
     <where>
-      <if test="userName!=null">
-        and user_name like CONCAT('%',#{userName},'%')
-      </if>
-      <if test="mobile!=null">
-        and mobile like CONCAT('%',#{mobile},'%')
-      </if>
-      <if test="email!=null">
-        and email like CONCAT('%',#{email},'%')
-      </if>
       <if test="content!=null">
-        and content like CONCAT('%',#{content},'%')
+        and (content like CONCAT('%',#{content},'%')
+        or user_name like CONCAT('%',#{content},'%')
+        or mobile like CONCAT('%',#{content},'%')
+        or email like CONCAT('%',#{content},'%')
+        or create_by like CONCAT('%',#{content},'%'))
       </if>
       <if test="status!=null">
         and status = #{status}
+      </if>
+      <if test="startTime!=null">
+        and create_time <![CDATA[ >= ]]> #{startTime}
+      </if>
+      <if test="endTime!=null">
+        and create_time <![CDATA[ <= ]]> #{endTime}
       </if>
     </where>
     <if test="orderby!=null">
@@ -60,20 +62,21 @@
     count(id) as ct
     from suggestion
     <where>
-      <if test="userName!=null">
-        and user_name like CONCAT('%',#{userName},'%')
-      </if>
-      <if test="mobile!=null">
-        and mobile like CONCAT('%',#{mobile},'%')
-      </if>
-      <if test="email!=null">
-        and email like CONCAT('%',#{email},'%')
-      </if>
       <if test="content!=null">
-        and content like CONCAT('%',#{content},'%')
+        and (content like CONCAT('%',#{content},'%')
+              or user_name like CONCAT('%',#{content},'%')
+              or mobile like CONCAT('%',#{content},'%')
+              or email like CONCAT('%',#{content},'%')
+              or create_by like CONCAT('%',#{content},'%'))
       </if>
       <if test="status!=null">
         and status = #{status}
+      </if>
+      <if test="startTime!=null">
+        and create_time <![CDATA[ >= ]]> #{startTime}
+      </if>
+      <if test="endTime!=null">
+        and create_time <![CDATA[ <= ]]> #{endTime}
       </if>
     </where>
   </select>
@@ -101,14 +104,11 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
       <if test="createTime != null" >
         create_time,
-      </if>
-      <if test="updateBy != null" >
-        update_by,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
       </if>
       <if test="content != null" >
         content,
@@ -130,14 +130,11 @@
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
       </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null" >
-        #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
@@ -158,9 +155,6 @@
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateBy != null" >
         update_by = #{updateBy,jdbcType=VARCHAR},

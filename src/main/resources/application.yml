@@ -52,7 +52,40 @@ mybatis:
 
 debug: false
 
+#自定义变量
 system:
   account: System
-  password: systemSys
+  password: 666
+
+  html:
+    admin: /admin/
+    web: /web/meghna/
+
+  upload:
+    path: C:/www/upload/
+
+  pagesize: 15
+
+  session:
+    admin:
+      account: ADMIN_ACCOUNT
+      id: ADMIN_ID
+      group: ADMIN_GROUP
+      session: ADMIN_SESSION
+      auth: ADMIN_AUTH
+      vercode: ADMIN_VERCODE
+    user:
+      account: USER_ACCOUNT
+      id: USER_ID
+      session: USER_SESSION
+      vercode: USER_VERCODE
+      level: USER_LEVEL
+
+
+web:
+  title: 大平艺术
+
+
+
+
 

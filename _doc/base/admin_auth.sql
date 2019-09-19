@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 17/09/2019 17:59:20
+ Date: 19/09/2019 11:13:47
 */
 
 SET NAMES utf8mb4;
@@ -140,5 +140,3 @@ INSERT INTO `admin_auth` VALUES (110, '6901', '编辑联系方式', '6900', NULL
 INSERT INTO `admin_auth` VALUES (112, '7000', '用户意见', '9999', NULL, '2019-09-17 16:57:25');
 INSERT INTO `admin_auth` VALUES (113, '7100', '意见查看', '7000', NULL, '2019-09-17 17:00:16');
 INSERT INTO `admin_auth` VALUES (114, '7200', '意见处理', '7000', NULL, '2019-09-17 17:01:12');
-
-SET FOREIGN_KEY_CHECKS = 1;

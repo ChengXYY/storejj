@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,16 @@ public class SuggestionServiceImpl extends AdminConfig implements SuggestionServ
                 || (StringUtils.isBlank(suggestion.getMobile())
                 && (StringUtils.isBlank(suggestion.getEmail()) || !checkEmail(suggestion.getEmail())))
                 || StringUtils.isBlank(suggestion.getContent())) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
+        //一个小时以内不允许多次提交
+        Date now = new Date();
+        Date oneHour = new Date(now.getTime()-3600000);
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("startTime", oneHour);
+        int count = getCount(filter);
+        if(count >0){
+            throw JsonException.newInstance(ErrorCodes.SUBMIT_FAST);
+        }
+
         int rs = suggestionMapper.insertSelective(suggestion);
         if(rs > 0){
             return success(suggestion.getId());

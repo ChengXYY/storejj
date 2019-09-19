@@ -1,6 +1,7 @@
 package com.cy.storejj.model;
 
-import java.util.Date;
+
+import java.sql.Timestamp;
 
 public class Suggestion {
     private Integer id;
@@ -11,13 +12,15 @@ public class Suggestion {
 
     private String mobile;
 
-    private Byte status;
+    private Integer status;
 
-    private Date createTime;
+    private String createBy;
+
+    private Timestamp createTime;
 
     private String updateBy;
 
-    private Date updateTime;
+    private Timestamp updateTime;
 
     private String content;
 
@@ -53,19 +56,27 @@ public class Suggestion {
         this.mobile = mobile == null ? null : mobile.trim();
     }
 
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public Date getCreateTime() {
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
@@ -77,11 +88,11 @@ public class Suggestion {
         this.updateBy = updateBy == null ? null : updateBy.trim();
     }
 
-    public Date getUpdateTime() {
+    public Timestamp getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
     }
 

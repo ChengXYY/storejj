@@ -37,32 +37,32 @@
             </form>
         </div>
         <h4>
-            <div class="checkbox-inline">
+            <div class="checkbox-inline ">
                 <input type="checkbox" class="select-all" />
                 <label>全选</label>
             </div>
         </h4>
         <hr/>
         <div class="col-md-6 form-horizontal" th:each="suggest:${list}">
-            <div class="checkbox-inline">
+            <div class="checkbox-inline suggest-check">
                 <input type="checkbox" th:value="${suggest.id}" class="select-item"/>
                 <label></label>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">用户姓名：</label>
-                <div class="col-md-9" th:text="${suggest.code}"></div>
+                <div class="col-md-9" th:text="${suggest.userName}"></div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">联系电话：</label>
-                <div class="col-md-9" th:text="${suggest.price}"></div>
+                <div class="col-md-9" th:text="${suggest.mobile}"></div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">电子邮箱：</label>
-                <div class="col-md-9" th:text="${suggest.count}"></div>
+                <div class="col-md-9" th:text="${suggest.email}"></div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">问题：</label>
-                <div class="col-md-9" th:text="${suggest.amount}"></div>
+                <div class="col-md-9" th:text="${suggest.content}"></div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">提问时间：</label>
@@ -71,10 +71,12 @@
             <div class="form-group">
                 <label class="col-md-3 control-label">状态：</label>
                 <div class="col-md-9">
-                    <span th:if="${suggest.isCash==1}" class="text text-warning" >已处理</span>
-                    <span th:if="${suggest.isCash==0}" class="text text-primary" >未处理</span>
+                    <span th:if="${suggest.status==1}" class="text text-success" >已处理【<b th:text="${suggest.updateBy}"></b>】</span>
+                    <span th:if="${suggest.status==0}" class="text text-danger" >未处理</span>
+                    <span th:if="${suggest.status==0}" ><a th:attr="data-id=${suggest.id}" class="btn btn-primary btn-outline btn-xs edit-status" href="javascript:"><i class="fa fa-pencil-square"></i> 处理</a></span>
                 </div>
             </div>
+
             <hr/>
         </div>
 
@@ -88,7 +90,23 @@
 </footer>
 <script>
     $(function () {
-
+        $(".edit-status").click(function () {
+           var id = $(this).data("id");
+           $.ajax({
+               type:"post",
+               data: {
+                   id:id
+               },
+               dataType: "json",
+               url: "/suggestion/handle",
+               success: function (msg) {
+                   if(msg.retCode == 0){
+                       location.reload();
+                   }
+                   layer.msg(msg.retCode);
+               }
+           })
+        });
     });
 </script>
 </body>

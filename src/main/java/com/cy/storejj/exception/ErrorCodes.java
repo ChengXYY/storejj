@@ -42,6 +42,7 @@ public enum ErrorCodes {
     SYS_ACCOUNT(80007, "系统管理员账户，密码不能修改"),
     ACCOUNT_NOT_EMPTY(80008, "账户不能为空"),
     MOBILE_NOT_EMPTY(80009, "手机号不能为空"),
+    SUBMIT_FAST(80010, "提交过于频繁"),
 
     SERVER_IS_WRONG(90001, "服务端错误"),
     HTTP_IS_WRONG(90002, "http服务错误"),

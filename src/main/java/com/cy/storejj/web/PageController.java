@@ -182,8 +182,10 @@ public class PageController extends WebConfig {
 
     @ResponseBody
     @RequestMapping(value = "/suggestion/submit", method = RequestMethod.POST)
-    public JSONObject suggest(Suggestion suggestion){
+    public JSONObject suggest(Suggestion suggestion, HttpServletRequest request){
         try{
+            String ip = getIpAddress(request);
+            suggestion.setCreateBy(ip);
             return suggestionService.add(suggestion);
         }catch (JsonException e){
             return e.toJson();
