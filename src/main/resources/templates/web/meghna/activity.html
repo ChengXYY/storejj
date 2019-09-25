@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:replace="/web/meghna/_include::include"></head>
+<style>
+    .content-block img{
+        width:100%;
+    }
+</style>
+<style th:utext="${sitepage.css}"></style>
+<body class="blog-page">
+	    <!--
+	    Start Preloader
+	    ==================================== -->
+        <div th:replace="/web/meghna/_loading::loading"></div>
+        <!--
+        End Preloader
+        ==================================== -->
+        
+        <!-- 
+        Fixed Navigation
+        ==================================== -->
+        <header th:replace="/web/meghna/_topmenu_page::topmenu"></header>
+        <!--
+        End Fixed Navigation
+        ==================================== -->
+        
+        
+        <!-- Start Blog Banner
+        ==================================== -->
+        <section >
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center" th:utext="${sitepage.content}">
+
+
+                    </div>     <!-- End col-lg-12 -->
+                </div>	    <!-- End row -->
+            </div>       <!-- End container -->
+        </section>
+
+
+        <!-- footer -->
+        <footer th:replace="/web/meghna/_footer::footer"></footer>
+
+        <a th:replace="/web/meghna/_scrollup::scrollup"></a>
+
+        <div th:replace="/web/meghna/_scripts::scripts"></div>
+<script>
+    $(function () {
+        $(".content-block").each(function () {
+            var type = $(this).data("type");
+            var code = $(this).attr("code");
+            var blockId = $(this).attr("block-id");
+            switch (type){
+                case "text":
+                    getArticle(code, blockId);
+                    break;
+                case "picture":
+                    getPicture(code, blockId);
+                    break;
+            }
+
+        });
+    });
+
+    function getArticle(code, blockid) {
+        var obj = $(".content-block[block-id='"+blockid+"']");
+        $.ajax({
+            type:"post",
+            data:{
+                code:code
+            },
+            dataType:"json",
+            url:"/getArticle",
+            success:function (data) {
+                if(data.retCode == 0){
+                    obj.html(data.content);
+                    obj.attr("title", data.title);
+                }  else {
+                    obj.html("<h3 class='text text-muted center'>"+data.retMsg+"</h3>");
+                }
+            }
+        });
+    }
+
+    function getPicture(code, blockid) {
+        var obj = $(".content-block[block-id='"+blockid+"']");
+        obj.html("<img class='image' src='/getpic?code="+code+"' />");
+
+    }
+</script>
+
+</body>
+</html>

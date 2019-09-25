@@ -7,15 +7,21 @@
 </header>
 <style>
     .form-horizontal:nth-of-type(even){
-        bsuggest-right: 1px #ccc dashed;
+        border-right: 1px #ccc dashed;
     }
     .form-group > .col-md-9{
         padding-top: 7px;
     }
     .suggest-check{
         position: absolute;
-        margin-left: 33em;
+        margin-left: 45em;
         z-index: 999;
+    }
+    .suggest-content{
+        height: 10em;
+        background-color: #eee;
+        padding: 5px;
+        overflow-y:  scroll;
     }
 </style>
 <div th:replace="/admin/_topmenu::topmenu"></div>
@@ -62,7 +68,7 @@
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">问题：</label>
-                <div class="col-md-9" th:text="${suggest.content}"></div>
+                <div class="col-md-9 suggest-content" th:text="${suggest.content}" ></div>
             </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">提问时间：</label>

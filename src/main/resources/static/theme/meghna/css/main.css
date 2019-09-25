@@ -1536,7 +1536,7 @@ aside.widget {
 
 blockquote {
     border-left: 5px solid #6cb670;
-    font-style: italic;
+  /*  font-style: italic;*/
     line-height: 22px;
     margin: 20px 0;
 }

@@ -134,6 +134,11 @@ public class ArticleServiceImpl extends AdminConfig implements ArticleService {
     public Article get(String code) {
         if(code == null || code.isEmpty())throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
 
-        return articleMapper.selectByCode(code);
+        Article article =  articleMapper.selectByCode(code);
+        if(article!=null){
+            List<String> imgSrc = getImgSrc(article.getContent());
+            article.setImageUrl(imgSrc);
+        }
+        return article;
     }
 }

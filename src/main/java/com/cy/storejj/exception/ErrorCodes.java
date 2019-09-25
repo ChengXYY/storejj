@@ -43,6 +43,7 @@ public enum ErrorCodes {
     ACCOUNT_NOT_EMPTY(80008, "账户不能为空"),
     MOBILE_NOT_EMPTY(80009, "手机号不能为空"),
     SUBMIT_FAST(80010, "提交过于频繁"),
+    STRING_TOO_LONG(80011, "内容过长"),
 
     SERVER_IS_WRONG(90001, "服务端错误"),
     HTTP_IS_WRONG(90002, "http服务错误"),

@@ -11,10 +11,7 @@ import org.hibernate.validator.constraints.EAN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -38,6 +35,8 @@ public class PageController extends WebConfig {
     private UserService userService;
     @Autowired
     private MembershipService membershipService;
+    @Autowired
+    private SitePageService sitePageService;
 
     @Autowired
     private SuggestionService suggestionService;
@@ -125,12 +124,16 @@ public class PageController extends WebConfig {
     }
 
     //新闻详情
-    @RequestMapping("/story/detail")
-    public String story(ModelMap modelMap){
+    @RequestMapping(value = "/story/detail", method = RequestMethod.GET)
+    public String story(@RequestParam("code")String code, ModelMap modelMap){
 
-        modelMap.addAttribute("pageTitle", "新闻·故事 - "+systemTitle);
-        modelMap.addAttribute("topFlag", "blog");
-        return webHtml+"story_detail";
+            Article article = articleService.get(code);
+
+            modelMap.addAttribute("article", article);
+            modelMap.addAttribute("pageTitle", "新闻·故事 - "+systemTitle);
+            modelMap.addAttribute("topFlag", "blog");
+            return webHtml+"story_detail";
+
     }
 
     //商品页
@@ -190,6 +193,15 @@ public class PageController extends WebConfig {
         }catch (JsonException e){
             return e.toJson();
         }
+    }
+
+    @RequestMapping(value = "/page/{code}", method = RequestMethod.GET)
+    public String pageTpl(@PathVariable("code")String code, ModelMap modelMap){
+        SitePage sitePage = sitePageService.get(code);
+        modelMap.addAttribute("sitepage", sitePage);
+        modelMap.addAttribute("pageTitle", sitePage.getTitle());
+        modelMap.addAttribute("topFlag", "blog");
+        return webHtml+"activity";
     }
 
 }

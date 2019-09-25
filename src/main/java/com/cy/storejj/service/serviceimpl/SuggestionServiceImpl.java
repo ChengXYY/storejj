@@ -27,6 +27,7 @@ public class SuggestionServiceImpl extends AdminConfig implements SuggestionServ
                 || (StringUtils.isBlank(suggestion.getMobile())
                 && (StringUtils.isBlank(suggestion.getEmail()) || !checkEmail(suggestion.getEmail())))
                 || StringUtils.isBlank(suggestion.getContent())) throw JsonException.newInstance(ErrorCodes.PARAM_NOT_EMPTY);
+        if(suggestion.getContent().length() > 2000) throw JsonException.newInstance(ErrorCodes.STRING_TOO_LONG);
         //一个小时以内不允许多次提交
         Date now = new Date();
         Date oneHour = new Date(now.getTime()-3600000);
