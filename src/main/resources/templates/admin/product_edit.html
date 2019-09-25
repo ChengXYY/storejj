@@ -20,7 +20,7 @@
             <div class="form-group col-md-6">
                 <label class="col-md-4 control-label">名称：</label>
                 <div class="col-md-8">
-                    <input type="hidden" name="id" th:value="${product.id}" />
+                    <input type="hidden" name="id" th:value="${product.id}" readonly/>
                     <input class="form-control" type="text" name="name" th:value="${product.name}"/>
                 </div>
             </div>

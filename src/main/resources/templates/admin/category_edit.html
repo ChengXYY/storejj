@@ -18,8 +18,8 @@
         <div class="form-group col-md-6">
             <label class="control-label col-md-4">分类编号</label>
             <div class="col-md-8">
-                <input name="id" type="hidden" th:value="${category.id}">
-                <input th:value="${category.code}" class="form-control" placeholder="英文字母、数字、符号" type="text" name="code"/>
+                <input name="id" type="hidden" th:value="${category.id}" readonly>
+                <input readonly th:value="${category.code}" class="form-control" placeholder="英文字母、数字、符号" type="text" name="code"/>
             </div>
         </div>
         <div class="form-group col-md-6">

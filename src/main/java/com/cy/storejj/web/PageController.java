@@ -102,7 +102,7 @@ public class PageController extends WebConfig {
     public String stories(@RequestParam Map<String, Object> param,
                           HttpServletRequest request,
                           ModelMap model){
-        model.addAttribute("pageTitle", "新闻·故事 - "+systemTitle);
+        model.addAttribute("pageTitle", "新闻·活动 - "+systemTitle);
         model.addAttribute("topFlag", "blog");
 
         String currentUrl = request.getRequestURI();
@@ -130,7 +130,7 @@ public class PageController extends WebConfig {
             Article article = articleService.get(code);
 
             modelMap.addAttribute("article", article);
-            modelMap.addAttribute("pageTitle", "新闻·故事 - "+systemTitle);
+            modelMap.addAttribute("pageTitle", "新闻·活动 - "+systemTitle);
             modelMap.addAttribute("topFlag", "blog");
             return webHtml+"story_detail";
 

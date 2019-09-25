@@ -26,7 +26,7 @@ function getArticle(code, blockid) {
         url:"/getArticle",
         success:function (data) {
             if(data.retCode == 0){
-                obj.html(data.content);
+                obj.html("<h3>"+data.title+"</h3>"+data.content);
                 obj.attr("title", data.title);
             }  else {
                 obj.html("<h3 class='text text-muted center'>"+data.retMsg+"</h3>");

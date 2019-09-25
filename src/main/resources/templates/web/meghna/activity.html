@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" class="no-js">
 <head th:replace="/web/meghna/_include::include"></head>
 <style>
-    .content-block img{
-        width:100%;
+    div[data-type="picture"]{
+        overflow: hidden;
     }
 </style>
 <style th:utext="${sitepage.css}"></style>
@@ -30,7 +30,7 @@
         <section >
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 text-center" th:utext="${sitepage.content}">
+                    <div class="col-lg-12" th:utext="${sitepage.content}">
 
 
                     </div>     <!-- End col-lg-12 -->
@@ -74,7 +74,7 @@
             url:"/getArticle",
             success:function (data) {
                 if(data.retCode == 0){
-                    obj.html(data.content);
+                    obj.html("<h3 class='center'>"+data.title+"</h3>"+data.content);
                     obj.attr("title", data.title);
                 }  else {
                     obj.html("<h3 class='text text-muted center'>"+data.retMsg+"</h3>");
