@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 19/09/2019 11:13:47
+ Date: 26/09/2019 17:39:11
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `admin_auth`  (
   `create_by` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 115 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 117 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of admin_auth
@@ -140,3 +140,6 @@ INSERT INTO `admin_auth` VALUES (110, '6901', '编辑联系方式', '6900', NULL
 INSERT INTO `admin_auth` VALUES (112, '7000', '用户意见', '9999', NULL, '2019-09-17 16:57:25');
 INSERT INTO `admin_auth` VALUES (113, '7100', '意见查看', '7000', NULL, '2019-09-17 17:00:16');
 INSERT INTO `admin_auth` VALUES (114, '7200', '意见处理', '7000', NULL, '2019-09-17 17:01:12');
+INSERT INTO `admin_auth` VALUES (116, '6505', '会员制度-会员等级刷新', '6500', NULL, '2019-09-26 15:33:37');
+
+SET FOREIGN_KEY_CHECKS = 1;

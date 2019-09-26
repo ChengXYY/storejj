@@ -17,7 +17,7 @@
                     <i class="fa fa-plus"></i> 添加会员等级
                 </a>
             </div>
-            <div class="col-md-6 right">
+            <div class="col-md-6 right" th:if="${#strings.contains(session.ADMIN_AUTH+'','6505')}" >
 
                 <a class="btn btn-success btn-outline" id="userLevelRefresh" title="用户等级刷新"><i class="fa fa-refresh"></i></a>
             </div>
@@ -72,16 +72,14 @@
                var index = layer.load(0, {shade: false});
                $.ajax({
                    type:"post",
-                   data:{},
+                   data:{
+                     type:1
+                   },
                    dataType:"json",
                    url:"/user/refresh",
                    success:function (data) {
                        layer.close(index);
-                       if(data.retCode==0){
-                           location.reload();
-                       }else{
-                           layer.msg(data.retMsg);
-                       }
+                       layer.msg(data.retMsg);
                    }
                });
            }, function(){});

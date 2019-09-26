@@ -98,9 +98,10 @@ public class SysSettingsController extends AdminConfig {
             return e.toJson();
         }
     }
+
     @Permission("6505")
     @ResponseBody
-    @RequestMapping("/user/refresh")
+    @RequestMapping(value = "/user/refresh", method = RequestMethod.POST)
     public JSONObject refresh(){
         try{
             return userService.levelRefresh();

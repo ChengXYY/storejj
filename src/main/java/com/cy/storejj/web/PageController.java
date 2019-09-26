@@ -105,6 +105,11 @@ public class PageController extends WebConfig {
         model.addAttribute("pageTitle", "新闻·活动 - "+systemTitle);
         model.addAttribute("topFlag", "blog");
 
+
+        //通知
+        List<SysDict> noticeList = sysDictService.getList("NoticeSettings");
+        model.addAttribute("noticeList", noticeList);
+
         String currentUrl = request.getRequestURI();
         if(param.get("name")!=null && StringUtils.isNotBlank(param.get("name").toString())){
             currentUrl = setUrlParam(currentUrl, "name", param.get("name").toString());

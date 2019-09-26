@@ -45,7 +45,10 @@ public class AdminPermissionCheck extends AdminConfig {
         try {
             final String methodAccess = signature.getMethod().getAnnotation(Permission.class).value();
             if (!StringUtils.isBlank(methodAccess) && !session.getAttribute(adminAuth).toString().contains(methodAccess)){
-                return "/error/403";
+                if(signature.getReturnType().equals("String"))
+                    return "/error/403";
+                else
+                    return fail("暂无权限");
             }
         }catch (NullPointerException e){
             System.out.println(e.getMessage());
@@ -55,7 +58,10 @@ public class AdminPermissionCheck extends AdminConfig {
         try {
             final String classAccess = joinPoint.getTarget().getClass().getAnnotation(Permission.class).value();
             if (!StringUtils.isBlank(classAccess) && !session.getAttribute(adminAuth).toString().contains(classAccess)){
-                return "/error/403";
+                if(signature.getReturnType().equals("String"))
+                    return "/error/403";
+                else
+                    return fail("暂无权限");
             }
         }catch (NullPointerException e){
             System.out.println(e.getMessage());
