@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : 127.0.0.1
  Source Server Type    : MySQL
- Source Server Version : 50720
+ Source Server Version : 50728
  Source Host           : localhost:3306
  Source Schema         : storejj
 
  Target Server Type    : MySQL
- Target Server Version : 50720
+ Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 26/09/2019 17:39:11
+ Date: 07/11/2019 18:10:24
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `admin_auth`  (
   `create_by` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 117 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 128 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of admin_auth
@@ -141,5 +141,14 @@ INSERT INTO `admin_auth` VALUES (112, '7000', '用户意见', '9999', NULL, '201
 INSERT INTO `admin_auth` VALUES (113, '7100', '意见查看', '7000', NULL, '2019-09-17 17:00:16');
 INSERT INTO `admin_auth` VALUES (114, '7200', '意见处理', '7000', NULL, '2019-09-17 17:01:12');
 INSERT INTO `admin_auth` VALUES (116, '6505', '会员制度-会员等级刷新', '6500', NULL, '2019-09-26 15:33:37');
-
-SET FOREIGN_KEY_CHECKS = 1;
+INSERT INTO `admin_auth` VALUES (117, '8000', '问卷调查', '9999', NULL, '2019-10-29 17:45:47');
+INSERT INTO `admin_auth` VALUES (118, '8100', '问卷', '8000', NULL, '2019-10-29 17:46:09');
+INSERT INTO `admin_auth` VALUES (119, '8200', '问题库', '8000', NULL, '2019-10-29 17:46:18');
+INSERT INTO `admin_auth` VALUES (120, '8101', '问卷-搜索', '8100', NULL, '2019-11-01 09:33:54');
+INSERT INTO `admin_auth` VALUES (121, '8102', '问卷-新增', '8100', NULL, '2019-11-01 09:34:10');
+INSERT INTO `admin_auth` VALUES (122, '8201', '问题库-搜索', '8200', NULL, '2019-11-01 09:34:23');
+INSERT INTO `admin_auth` VALUES (123, '8202', '问题库-新增', '8200', NULL, '2019-11-01 09:34:38');
+INSERT INTO `admin_auth` VALUES (124, '8103', '问卷-编辑', '8100', NULL, '2019-11-02 16:44:26');
+INSERT INTO `admin_auth` VALUES (125, '8104', '问卷-删除', '8100', NULL, '2019-11-02 16:44:40');
+INSERT INTO `admin_auth` VALUES (126, '8203', '问题库-编辑', '8200', NULL, '2019-11-02 16:45:06');
+INSERT INTO `admin_auth` VALUES (127, '8204', '问题库-删除', '8200', NULL, '2019-11-02 16:45:17');

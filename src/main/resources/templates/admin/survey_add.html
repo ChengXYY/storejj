@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/_include::include"></head>
+<body>
+<script type="text/javascript" th:src="@{~/js/bootstrap.js}"></script>
+<header th:include="/admin/_header::header">
+    Your Company Name.
+</header>
+<div th:replace="/admin/_topmenu::topmenu"></div>
+<style>
+    .transfer-button{
+        position: absolute;
+        z-index: 9999;
+        left: 48.5%;
+        top: 200px;
+    }
+    .transfer-button>a{
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    .transfer-box{
+        height: 500px;
+        border:0.05em #bcdaff solid;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+</style>
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_survey_leftmenu::leftmenu"></div>
+    </div>
+    <form class="form-horizontal col-md-10" id="myForm" style="margin-bottom: 50px">
+        <h3 class="text-primary">基础信息</h3>
+        <hr/>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-4">问卷编码</label>
+            <div class="col-md-8">
+                <input class="form-control" placeholder="输入问卷编码" type="text" name="code"/>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-4">问卷标题</label>
+            <div class="col-md-8">
+                <input class="form-control" placeholder="输入问卷标题" type="text" name="name"/>
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-4">开始时间</label>
+            <div class="col-md-8">
+                <input type="datetime-local" class="form-control" name="startTime" />
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-4">结束时间</label>
+            <div class="col-md-8">
+                <input type="datetime-local" class="form-control" name="endTime" />
+            </div>
+        </div>
+        <div class="form-group col-md-12" >
+            <div class="transfer-button ">
+                <a class="btn btn-primary to-right"><i class="fa fa-angle-double-right"></i></a>
+                <a class="btn btn-danger to-left"><i class="fa fa-angle-double-left"></i></a>
+            </div>
+
+            <div class="transfer-box col-md-6" >
+                <h3 class="text-success">问题库          </h3>
+                <div class="form-inline">
+                    <div class="checkbox-inline col-md-4">
+                        <input type="checkbox" class="select-all">
+                        <label>全选</label>
+                    </div>
+                    <div class="right col-md-8">
+                        <input class="form-control">
+                        <a class="btn btn-outline btn-warning"><i class="fa fa-search"></i></a>
+                    </div>
+
+                </div>
+                <table id="question-base" >
+                    <tbody>
+                    <tr>
+                        <td width="40px">
+                            <div  class="checkbox-inline">
+                                <input type="checkbox"  data-id="1" class="select-item"/>
+                                <label></label>
+                            </div>
+                        </td>
+                        <td>question111111</td>
+                    </tr>
+
+                    <tr>
+                        <td width="40px">
+                            <div  class="checkbox-inline">
+                                <input type="checkbox"  data-id="2" class="select-item"/>
+                                <label></label>
+                            </div>
+                        </td>
+                        <td>我是小甜甜</td>
+                    </tr>
+
+                    <tr>
+                        <td width="40px">
+                            <div  class="checkbox-inline">
+                                <input type="checkbox" data-id="3"  class="select-item"/>
+                                <label></label>
+                            </div>
+                        </td>
+                        <td>3333333333333</td>
+                    </tr>
+
+                    <tr>
+                        <td width="40px">
+                            <div  class="checkbox-inline">
+                                <input type="checkbox" data-id="4" />
+                                <label></label>
+                            </div>
+                        </td>
+                        <td>44444444444444</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="transfer-box col-md-6" >
+                <h3 class="text-primary">问卷</h3>
+                <table id="question-list">
+                    <tbody>
+                        <tr>
+                            <td width="40px">
+                                <div  class="checkbox-inline">
+                                    <input type="checkbox" />
+                                    <label></label>
+                                </div>
+                            </td>
+                            <td>question</td>
+                        </tr>
+                        <tr>
+                            <td width="40px">
+                                <div class="checkbox-inline" >
+                                    <input type="checkbox" />
+                                    <label></label>
+                                </div>
+                            </td>
+                            <td>question222</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group center col-md-12">
+            <br/>
+            <a class="btn btn-warning" href="javascript:" id="submit-form">保 存</a>
+            <a href="javascript:history.back()" class="btn btn-default">返 回</a>
+        </div>
+    </form>
+</div>
+
+<footer th:replace="/admin/_footer::footer">
+    Your Company Name.
+</footer>
+
+<script type="text/javascript" th:src="@{~/js/jquery-ui.min.js}"></script>
+<script>
+    $(function () {
+        $("#question-list tbody").sortable().disableSelection();
+
+        $("body").on("click", ".to-right", function () {
+            var html = "";
+            $("#question-base input[type='checkbox']:checked").not(":disabled").each(function () {
+                var obj = $(this).parent().parent().parent();
+                html += obj.prop("outerHTML");
+                $(this).attr("disabled", "disabled");
+                obj.css("backgroundColor","#ddd");
+            });
+            $("#question-list tbody").append(html);
+        });
+
+        $("body").on("click", ".to-left", function () {
+            var ids = "";
+            $("#question-list input[type='checkbox']:checked").each(function () {
+                ids += $(this).data("id")+",";
+                var obj = $(this).parent().parent().parent();
+                obj.remove();
+            });
+
+            if(ids.length > 1){
+                $("#question-base input[type='checkbox']:disabled").each(function () {
+                    var id = $(this).data("id")+"";
+                    if(ids.indexOf(id) > -1){
+                        var obj = $(this).parent().parent().parent();
+                        obj.css("backgroundColor","#fff");
+                        $(this).removeAttr("disabled");
+                        $(this).removeProp("checked");
+                    }
+                })
+            }
+        });
+
+
+    });
+</script>
+</body>
+</html>

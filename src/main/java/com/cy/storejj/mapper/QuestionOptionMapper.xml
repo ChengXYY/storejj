@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cy.storejj.mapper.QuestionOptionMapper" >
+  <resultMap id="BaseResultMap" type="com.cy.storejj.model.QuestionOption" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="question_id" property="questionId" jdbcType="INTEGER" />
+    <result column="is_text" property="isText" jdbcType="INTEGER" />
+    <result column="is_right" property="isRight" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, question_id, is_text, is_right, score, content,sort
+  </sql>
+
+  <!-- select -->
+  <select id="selectByQuestionId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from survey_option
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </select>
+
+  <select id="countByQuestionId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    select
+    count(1)
+    from survey_option
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </select>
+
+  <!-- delete -->
+  <delete id="deleteByQuestionId" parameterType="java.lang.Integer">
+    delete from survey_option
+    where question_id = #{questionId}
+  </delete>
+  <!-- update -->
+  <!-- insert -->
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.QuestionOption" >
+    insert into survey_option
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="questionId != null" >
+        question_id,
+      </if>
+      <if test="isText != null" >
+        is_text,
+      </if>
+      <if test="isRight != null" >
+        is_right,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="questionId != null" >
+        #{questionId,jdbcType=INTEGER},
+      </if>
+      <if test="isText != null" >
+        #{isText,jdbcType=INTEGER},
+      </if>
+      <if test="isRight != null" >
+        #{isRight,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

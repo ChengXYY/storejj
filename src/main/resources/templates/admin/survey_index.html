@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/_include::include"></head>
+<body>
+<header th:include="/admin/_header::header">
+    Your Company Name.
+</header>
+<div th:replace="/admin/_topmenu::topmenu"></div>
+<div class="container fluid">
+    <div class="col-md-2">
+        <div th:replace="/admin/_survey_leftmenu::leftmenu"></div>
+    </div>
+    <div class="col-md-10">
+        <div class="col-md-4">
+            <div class="bs-callout bs-callout-danger">
+                <h4><i class="fa fa-file-text-o"></i> 问卷数</h4>
+                <h1 class="bolder" th:text="${surveyCount}"></h1>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="bs-callout bs-callout-warning">
+                <h4><i class="fa fa-question-circle-o"></i> 问题库</h4>
+                <h1 class="bolder" th:text="${questionCount}"></h1>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="/admin/_footer::footer">
+    Your Company Name.
+</footer>
+</body>
+</html>

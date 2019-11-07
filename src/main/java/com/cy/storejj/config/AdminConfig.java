@@ -79,6 +79,10 @@ public class AdminConfig extends CommonOperation{
 
     protected static String suggestionMenuTitle = "用户意见-";
 
+    protected static String surveyMenuTitle = "问卷-";
+
+    protected static String questionMenuTitle = "问题库-";
+
 
     protected static String indexModuleTitle = "首页-";
 

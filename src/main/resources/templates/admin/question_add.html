@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/_include::include"></head>
+<body style="padding: 0 1rem;">
+<style>
+    .question-option label{
+        line-height: 34px;
+        font-size: 20px;
+        font-weight: bold;
+        float: left;
+        margin-right: 10px;
+    }
+
+    .question-option input[type="text"]{
+        width:450px;
+    }
+
+    .question-option  .btn-success{
+        position:relative;
+        margin-left: 500px;
+        margin-bottom: 10px;
+    }
+    .question-option .btn-danger{
+        position: absolute;
+        margin-left: 460px;
+        margin-top: -30px;
+    }
+    .input-inline{
+        position: relative;
+        width: 80px;
+        margin-left: 400px;
+        margin-top: -35px;
+    }
+
+</style>
+<div class="container">
+    <form class="form-horizontal" id="myForm">
+        <div class="form-group">
+            <label>问题编号：<span class="text-danger">*</span>
+                <a class="btn btn-warning btn-xs"><i class="fa fa-refresh"></i>随机生成</a>
+            </label>
+            <input type="text" class="form-control" id="code" value="" />
+        </div>
+        <div class="form-group">
+            <label>分值：</label>
+            <input type="number" class="form-control" id="score" value="0" min="0" />
+        </div>
+        <div class="form-group">
+            <label>问题内容：<span class="text-danger">*</span></label>
+            <textarea class="form-control" rows="5" id="content"></textarea>
+        </div>
+        <div class="form-group">
+            <label>答案必填：</label>
+            <div>
+                <div class="radio-inline">
+                    <input type="radio" name="isNecessary" value="1" />
+                    <label>是</label>
+                </div>
+                <div class="radio-inline">
+                    <input type="radio" name="isNecessary" value="2" checked />
+                    <label>否</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>问题类型：<span class="text-danger">*</span></label>
+            <select class="form-control" id="option-type">
+                <option value="1" selected>填空题</option>
+                <option value="2" >单选题</option>
+                <option value="3" >多选题</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>问题选项：</label>
+            <div id="option-list">
+                <div class="question-option" data-option="1">
+                    <label class="fa fa-pencil"></label>
+                    <input class="form-control" readonly  type="text" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group right">
+            <input type="button" id="submit-save" class="btn btn-warning btn-outline" value="确认" />
+        </div>
+    </form>
+</div>
+
+<div id="questionTpl" style="display: none">
+    <!-- option-block  -->
+    <div class="question-option" data-option="1">
+        <label class="fa fa-pencil"></label>
+        <input class="form-control" readonly type="text" />
+    </div>
+
+    <div class="question-option" data-option="2">
+        <a class="btn btn-outline btn-success btn-xs add-radio" ><i class="fa fa-plus"></i></a>
+        <div class="option-radio form-inline">
+            <label class="fa fa-dot-circle-o"></label>
+            <input class="form-control option-text" type="text" value="" placeholder="输入选项内容" >
+            <a class="btn btn-danger btn-xs close-option"><i class="fa fa-trash-o"></i></a>
+            <div class="checkbox-inline">
+                <input type="checkbox" value="1" name="isRight"/>
+                <label></label>正确选项
+            </div>
+            <div class="checkbox-inline">
+                <input type="checkbox" value="1" name="isText"/>
+                <label></label>需要填入文字
+            </div>
+            <div class="input-inline">
+                <input type="number" min="0" class="form-control" value="0"  name="option-score"/>
+            </div>
+            <hr/>
+        </div>
+    </div>
+
+    <div class="question-option" data-option="3">
+        <a class="btn btn-outline btn-success btn-xs add-checkbox"><i class="fa fa-plus"></i></a>
+        <div class="option-checkbox form-inline">
+            <label class="fa fa-check-square-o"></label>
+            <input class="form-control option-text" type="text" value="" placeholder="输入选项内容">
+            <a class="btn btn-danger btn-xs close-option"><i class="fa fa-trash-o"></i></a>
+            <div class="checkbox-inline">
+                <input type="checkbox" value="1" name="isRight"/>
+                <label></label>正确选项
+            </div>
+            <div class="checkbox-inline">
+                <input type="checkbox" value="1" name="isText"/>
+                <label></label>需要填入文字
+            </div>
+            <div class="input-inline">
+                <input type="number" min="0" class="form-control" value="0" name="option-score" />
+            </div>
+            <hr/>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript" th:src="@{~/js/jquery-ui.min.js}"></script>
+<script type="text/javascript" th:src="@{~/js/question.js}"></script>
+<script>
+    $(function () {
+        $("#submit-save").click(function () {
+            //获取数据
+            var code = $("#code").val();
+            var score = $("#score").val();
+            var content = $("#content").val();
+            var isNecessary = $("input[name='isNecessary']:checked").val();
+            var type = $("#option-type option:selected").val();
+            var optionList = [];
+            switch (type){
+                case "2":
+                    //单选题
+                    optionList = getOptionList(2);
+                    break;
+                case "3":
+                    //多选题
+                    optionList = getOptionList(3);
+                    break;
+            }
+            
+            $.ajax({
+                type:"post",
+                data:{
+                    code:code,
+                    score:score,
+                    content:content,
+                    isNecessary:isNecessary,
+                    type:type,
+                    options:optionList
+                },
+                dataType:"json",
+                url:"/survey/question/add/submit",
+                success:function (msg) {
+                    if(msg.retCode == 0){
+                        location.reload();
+                    }else {
+                        layer.msg(msg.retMsg);
+                    }
+                }
+            })
+        });
+        
+        function getOptionList(type) {
+            var options = [];
+            var sort = 1;
+            var obj = $("#option-list > .question-option > .option-radio");
+            if(type == 3){
+                obj = $("#option-list > .question-option > .option-checkbox");
+            }
+            obj.each(function () {
+                var opContent = $(this).find("input[class='option-text']").val();
+                var isRight = 0, isText = 0;
+                if($(this).find("input[name='isRight']").prop("checked")==true){
+                    isRight = 1;
+                }
+                if($(this).find("input[name='isText']").prop("checked")==true){
+                    isText = 1;
+                }
+                var opScore = $(this).find("input[name='option-score']").val();
+                var optionItem = {
+                    content:opContent,
+                    isRight:isRight,
+                    isText:isText,
+                    score:opScore,
+                    sort:sort
+                }
+                options.push(optionItem);
+                sort++;
+            });
+            return options;
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="template" >
+<!-- option-block  -->
+<div class="question-option" data-option="1">
+    <label class="fa fa-pencil"></label>
+    <input class="form-control" readonly type="text" />
+</div>
+
+<div class="question-option" data-option="2">
+    <a class="btn btn-outline btn-success btn-xs"><i class="fa fa-plus"></i></a>
+    <div class="option-radio form-inline">
+        <label class="fa fa-dot-circle-o"></label>
+        <input class="form-control" type="text" value="" placeholder="输入选项内容">
+        <div class="checkbox-inline">
+            <input type="checkbox" value="1" name="isRight"/>
+            <label></label>正确选项
+        </div>
+        <div class="checkbox-inline">
+            <input type="checkbox" value="1" name="isText"/>
+            <label></label>需要填入文字
+        </div>
+        <hr/>
+    </div>
+
+</div>
+
+<div class="question-option" data-option="3">
+    <a class="btn btn-outline btn-success btn-xs"><i class="fa fa-plus"></i></a>
+    <div class="option-checkbox form-inline">
+        <label class="fa fa-check-square-o"></label>
+        <input class="form-control" type="text" value="" placeholder="输入选项内容">
+        <div class="checkbox-inline">
+            <input type="checkbox" value="1" name="isRight"/>
+            <label></label>正确选项
+        </div>
+        <div class="checkbox-inline">
+            <input type="checkbox" value="1" name="isText"/>
+            <label></label>需要填入文字
+        </div>
+    </div>
+    <hr/>
+</div>
+
+<!-- option item -->
+<div class="option-radio form-inline">
+    <label class="fa fa-dot-circle-o"></label>
+    <input class="form-control" type="text" value="" placeholder="输入选项内容">
+    <div class="checkbox-inline">
+        <input type="checkbox" value="1" name="isRight"/>
+        <label></label>正确选项
+    </div>
+    <div class="checkbox-inline">
+        <input type="checkbox" value="1" name="isText"/>
+        <label></label>需要填入文字
+    </div>
+    <hr/>
+</div>
+
+<div class="option-checkbox form-inline">
+    <label class="fa fa-check-square-o"></label>
+    <input class="form-control" type="text" value="" placeholder="输入选项内容">
+    <div class="checkbox-inline">
+        <input type="checkbox" value="1" name="isRight"/>
+        <label></label>正确选项
+    </div>
+    <div class="checkbox-inline">
+        <input type="checkbox" value="1" name="isText"/>
+        <label></label>需要填入文字
+    </div>
+</div>
+</html>

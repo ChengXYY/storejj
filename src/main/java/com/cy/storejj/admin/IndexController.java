@@ -47,6 +47,9 @@ public class IndexController extends AdminConfig {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private SurveyService surveyService;
+
 
     @Permission("9999")
     @RequestMapping(value = {"/admin/index", "/admin/", "/admin"})
@@ -141,6 +144,22 @@ public class IndexController extends AdminConfig {
         modelMap.addAttribute("TopMenuFlag", "system");
         modelMap.addAttribute("pageTitle",systemMenuTitle+systemTitle);
         return adminHtml +"system_index";
+    }
+
+    //问卷调查
+    @Permission("8000")
+    @RequestMapping(value = {"/survey", "/survey/index", "/survey/"})
+    public String survey(ModelMap modelMap){
+        Map<String, Object> filter = new HashMap<>();
+        int surveyCount = surveyService.getSurveyCount(filter);
+        int questionCount = surveyService.getQuestionCount(filter);
+        filter.put("isShop", 1);
+        int shopCount = productService.getCount(filter);
+        modelMap.addAttribute("surveyCount", surveyCount);
+        modelMap.addAttribute("questionCount", questionCount);
+        modelMap.addAttribute("TopMenuFlag", "survey");
+        modelMap.addAttribute("pageTitle",surveyMenuTitle+systemTitle);
+        return adminHtml +"survey_index";
     }
 
 }

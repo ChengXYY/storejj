@@ -13,7 +13,7 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1/storejj" userId="root" password="root">
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1/storejj?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=true&amp;useTimezone=true&amp;serverTimezone=GMT%2B8" userId="root" password="root">
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -32,8 +32,8 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 匹配数据库中的所有表（% 去掉schema="", tableName="user" 即匹配user表）, columnRenamingRule去除字段前缀 -->
-        <table tableName="suggestion"
-               domainObjectName="Suggestion"
+        <table tableName="survey_option"
+               domainObjectName="QuestionOption"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

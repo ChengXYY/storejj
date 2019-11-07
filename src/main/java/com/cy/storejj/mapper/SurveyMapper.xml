@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cy.storejj.mapper.SurveyMapper" >
+  <resultMap id="BaseResultMap" type="com.cy.storejj.model.Survey" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="intro" property="intro" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, name, intro, start_time, end_time, create_time, create_by, update_time, update_by
+  </sql>
+  <!-- select -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from survey_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from survey_info
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByFilter" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from survey_info
+    <where>
+      <if test="code!=null">
+        and code like CONCAT('%',#{code},'%')
+      </if>
+      <if test="name!=null">
+        and name like CONCAT('%',#{name},'%')
+      </if>
+      <if test="startTime!=null">
+        and start_time <![CDATA[ >= ]]> #{startTime}
+      </if>
+      <if test="endTime!=null">
+        and end_time <![CDATA[ <= ]]> #{endTime}
+      </if>
+    </where>
+    <if test="orderby!=null">
+      order by ${orderby}
+    </if>
+    <if test="orderby == null" >
+      order by create_time desc
+    </if>
+    <if test="pageNum !=null and pageSize !=null">
+      limit #{pageNum}, #{pageSize}
+    </if>
+  </select>
+
+  <select id="countByFilter" resultType="java.lang.Integer" parameterType="map">
+    select
+    count(1)
+    from survey_info
+    <where>
+      <if test="code!=null">
+        and code like CONCAT('%',#{code},'%')
+      </if>
+      <if test="name!=null">
+        and name like CONCAT('%',#{name},'%')
+      </if>
+      <if test="startTime!=null">
+        and start_time <![CDATA[ >= ]]> #{startTime}
+      </if>
+      <if test="endTime!=null">
+        and end_time <![CDATA[ <= ]]> #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByQuestionId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from
+    survey_info s
+    left join survey_sq sq on sq.survey_id = s.id
+    where sq.question_id = #{questionId}
+  </select>
+
+  <select id="countByQuestionId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1)
+    from
+    survey_info s
+    left join survey_sq sq on sq.survey_id = s.id
+    where sq.question_id = #{questionId}
+
+  </select>
+
+  <!-- delete -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from survey_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!-- update -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.cy.storejj.model.Survey" >
+    update survey_info
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null" >
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- insert -->
+  <insert id="insertSelective" parameterType="com.cy.storejj.model.Survey" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into survey_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="intro != null" >
+        intro,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null" >
+        #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="bindSurvey" parameterType="java.lang.Integer">
+    insert into survey_sq
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="surveyId != null" >
+        survey_id,
+      </if>
+      <if test="questionId != null" >
+        question_id,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="surveyId != null" >
+        #{surveyId,jdbcType=INTEGER},
+      </if>
+      <if test="questionId != null" >
+        #{questionId,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<ul th:fragment="leftmenu" class="list-group">
+    <li class="list-group-item item-title">
+        <a class="list-group-item-heading">
+            <i class="fa fa-arrow-circle-right"></i>
+            问卷调查
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='survey'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','8100')}">
+        <a class="list-group-item-heading" href="/survey/list">
+            问卷
+        </a>
+    </li>
+    <li th:class="${LeftMenuFlag=='question'?'list-group-item active':'list-group-item'}"
+        th:if="${#strings.contains(session.ADMIN_AUTH+'','8200')}">
+        <a class="list-group-item-heading" href="/survey/question/list">
+            问题库
+        </a>
+    </li>
+
+</ul>
+</html>

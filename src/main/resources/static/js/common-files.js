@@ -27,12 +27,21 @@ $(function () {
 
 
     /* Radio CheckBox */
+    /*
     $(".radio-inline > label").click(function () {
         $(this).prev("input[type='radio']").click();
     });
     $(".checkbox-inline > label").click(function () {
         $(this).prev("input[type='checkbox']").click();
-    })
+    });
+    */
+    $("body").on("click", "input[type='radio']+label", function () {
+        $(this).prev("input[type='radio']").click();
+    });
+    $("body").on("click", "input[type='checkbox']+label", function () {
+        $(this).prev("input[type='checkbox']").click();
+    });
+
 
     $(".show-image").click(function () {
         var obj = $(this);
